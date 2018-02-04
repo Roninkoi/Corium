@@ -9,8 +9,8 @@
 #include "mesh.h"
 #include <thread>
 #include <mutex>
-#include <mingw.thread.h>
-#include <mingw.mutex.h>
+//#include <mingw.thread.h>
+//#include <mingw.mutex.h>
 
 class PhysSys {
 public:
