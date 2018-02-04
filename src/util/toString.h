@@ -1,0 +1,18 @@
+//
+// Created by Roni A. Koitermaa on 18.12.2015.
+//
+
+#ifndef CORIUM_TOSTRING_H
+#define CORIUM_TOSTRING_H
+
+#include <string>
+#include <sstream>
+
+template<typename T>
+std::string to_string(const T &n) {
+        std::ostringstream stm;
+        stm << n;
+        return stm.str();
+}
+
+#endif //CORIUM_TOSTRING_H

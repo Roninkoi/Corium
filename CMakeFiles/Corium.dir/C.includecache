@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/rak/Dropbox/Dev/Gamedev/CRM_1_4/CMakeFiles/3.10.1/CompilerIdC/CMakeCCompilerId.c
+
+/home/rak/Dropbox/Dev/Gamedev/CRM_1_4/CMakeFiles/3.9.1/CompilerIdC/CMakeCCompilerId.c
+
+/home/rak/Dropbox/Dev/Gamedev/CRM_1_4/CMakeFiles/3.9.6/CompilerIdC/CMakeCCompilerId.c
+
+/home/rak/Dropbox/Dev/Gamedev/CRM_1_4/CMakeFiles/feature_tests.c
+

@@ -1,0 +1,9 @@
+# Blender v2.79 (sub 0) OBJ File: ''
+# www.blender.org
+mtllib hurricos.093.mtl
+o hurricos.093_tex_72.310
+v -4.685771 0.519121 -3.522427
+v -4.695029 0.815363 -3.513169
+v -4.685771 0.222880 -3.522427
+l 1 3
+l 1 2

@@ -1,0 +1,27 @@
+//GLFW_ICON ICON "..gfx/misc/CRM_logo.ico"
+id ICON "../gfx/misc/CRM_logo.ico"
+
+1 VERSIONINFO
+FILEVERSION     1,0,0,0
+PRODUCTVERSION  1,0,0,0
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "080904E4"
+    BEGIN
+      VALUE "CompanyName", "Ronin748"
+      VALUE "FileDescription", "CRM"
+      VALUE "FileVersion", "1.0"
+      VALUE "InternalName", "Corium"
+      VALUE "LegalCopyright", "Ronin748"
+      VALUE "OriginalFilename", "CRM.exe"
+      VALUE "ProductName", "Corium"
+      VALUE "ProductVersion", "1.4"
+    END
+  END
+
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x809, 1252
+  END
+END
