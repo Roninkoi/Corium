@@ -6,6 +6,8 @@
 Corium engine (CRM) v1.4, written in C++ using OpenGL,
 GLEW, GLFW, SOIL, GLM, pthreads
 
+Builds for Linux (Fedora 27) and Windows
+
 Requires OpenGL 3.1, CPU with 4 cores optimal
 
 === FEATURES ===
@@ -24,6 +26,8 @@ Requires OpenGL 3.1, CPU with 4 cores optimal
 - CRMLANG scripting
 
 - on-the-fly configuration
+
+- cross-platform
 
 - chunky pixels
 
