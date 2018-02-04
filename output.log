@@ -1,0 +1,93 @@
+==========================================================
+------------- CORIUM ENGINE v1.4 BY RONIN748 -------------
+------------------ 2018-02-04.18:08:01 -------------------
+==========================================================
+
+max vertices: 33000
+max indices: 33001
+batch size: 33000
+max tex size: 34040
+OpenGL version: 3.1.0 NVIDIA 384.98
+GL_RENDERER: GeForce GTX 770/PCIe/SSE2
+0(19) : warning C7533: global variable gl_FragColor is deprecated after version 120
+
+Linking program
+Fragment info
+-------------
+0(19) : warning C7533: global variable gl_FragColor is deprecated after version 120
+
+0(232) : warning C7533: global variable gl_FragColor is deprecated after version 120
+
+Linking program
+Fragment info
+-------------
+0(232) : warning C7533: global variable gl_FragColor is deprecated after version 120
+
+Compiling shader : gfx/shader/pointShadowDepth.vert
+Compiling shader : gfx/shader/pointShadowDepth.gs
+Compiling shader : gfx/shader/pointShadowDepth.frag
+0(4) : warning C7547: extension GL_ARB_geometry_shader4 not supported in profile gp5vp
+
+0(4) : warning C7547: extension GL_ARB_geometry_shader4 not supported in profile gp5fp
+
+Linking program
+Vertex info
+-----------
+0(4) : warning C7547: extension GL_ARB_geometry_shader4 not supported in profile gp5vp
+
+Fragment info
+-------------
+0(4) : warning C7547: extension GL_ARB_geometry_shader4 not supported in profile gp5fp
+
+SCREEN WIDTH: 512 SCREEN HEIGHT: 300
+st 9
+sd t 10
+FBO id: 9
+0(12) : warning C7533: global variable gl_FragColor is deprecated after version 120
+
+Linking program
+Fragment info
+-------------
+0(12) : warning C7533: global variable gl_FragColor is deprecated after version 120
+
+Vsync disabled!
+loading map maps/hurricos/hurricos.cm...
+running script maps/hurricos/hurricos.cl...
+Running map scripts...
+loading maps/hurricos/hurricos.cfg...
+FPS: 1, rt: 0 ms, draws: 0, batches: 0, tt: -nan ms
+lights: 8
+Player pos: 40, 11, -30
+FPS: 388, rt: 0.464626 ms, draws: 56, batches: 4, tt: 1.67412 ms
+lights: 3
+Player pos: 40, 15.5583, -30
+FPS: 394, rt: 0.444556 ms, draws: 56, batches: 4, tt: 1.74414 ms
+lights: 3
+Player pos: 40, 10.3528, -30
+key 68 pressed!
+FPS: 380, rt: 0.424324 ms, draws: 65, batches: 4, tt: 1.61389 ms
+lights: 3
+Player pos: 45.641, 10.3508, -36.6312
+key 65 pressed!
+key 87 pressed!
+FPS: 355, rt: 0.404549 ms, draws: 42, batches: 4, tt: 1.61581 ms
+lights: 3
+Player pos: 47.4696, 10.3616, -44.1086
+key 89 pressed!
+FPS: 360, rt: 0.403275 ms, draws: 55, batches: 4, tt: 0.379911 ms
+lights: 3
+Player pos: 39.958, 18.1946, -35.5104
+FPS: 416, rt: 0.462623 ms, draws: 59, batches: 5, tt: 0.155786 ms
+lights: 3
+Player pos: 19.6171, 18.1946, -37.8901
+FPS: 405, rt: 0.46722 ms, draws: 59, batches: 5, tt: 0.126109 ms
+lights: 3
+Player pos: 19.6036, 18.1946, -37.8939
+key 67 pressed!
+key 68 pressed!
+FPS: 420, rt: 0.466771 ms, draws: 63, batches: 5, tt: 0.180764 ms
+lights: 3
+Player pos: 33.4782, 18.1946, -34.0407
+FPS: 428, rt: 0.457042 ms, draws: 63, batches: 5, tt: 0.1372 ms
+lights: 3
+Player pos: 33.4784, 18.1946, -34.0407

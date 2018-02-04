@@ -1,0 +1,25 @@
+_CORIUM_MAP;
+
+_NAME "Hurricos";
+
+_RUN "maps/hurricos/hurricos.cl";
+
+_FAR_PLANE 300.0f;
+_FOG_COL (1.0f, 0.2f, 0.3f);
+_FOG_COL (0.6f, 0.7f, 1.0f);
+
+_PLAYER_START (40.0f, 11.0f, -30.0f) (0.0f, -1.6f, 0.0f);
+_CAM_START (40.0f, 30.0f, -30.0f);
+
+_GRAVITY (0.0f, -0.008f, 0.0f);
+
+_AMB 0.6f;
+_LGHT 0.5f;
+
+_SKY "gfx/models/sky2.obj" "gfx/bluesky.png" 100.0f 1.5f;
+
+_RENDER_DIST 0.5f;
+
+_LIGHT (0.0,50.5,0.0) (1.0f,0.79f,0.62341f)
+_LIGHT (22.0f,27.5f,-52.0f) (1.0f,0.79f,0.62341f)
+_LIGHT (-119.0,26.5,-71.0) (1.0f,0.29f,0.82341f)
