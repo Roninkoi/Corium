@@ -8,6 +8,25 @@ GLEW, GLFW, SOIL, GLM, pthreads
 
 Requires OpenGL 3.1, CPU with 4 cores optimal
 
+=== FEATURES ===
+
+- fully dynamic high-performance forward renderer
+
+- real-time point lights and shadow mapping
+    - no baked lighting
+
+- per-vertex animation
+
+- dynamic multi-threaded physics
+    - tri-tri isect and bounding spheres
+    - no AABB trees
+
+- CRMLANG scripting
+
+- on-the-fly configuration
+
+- chunky pixels
+
 === CONTROLS ===
 
 Press space or button 2 to start the game!
