@@ -12,7 +12,7 @@ Requires OpenGL 3.1, CPU with 4 cores optimal
 
 === FEATURES ===
 
-- fully dynamic high-performance forward renderer
+- fully dynamic high-performance forward 3D renderer
 
 - real-time point lights and shadow mapping
     - no baked lighting
