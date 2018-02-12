@@ -8,32 +8,26 @@
 
 Game::Game()
 {
-        time = timer.now().time_since_epoch();
-
-        fps_time = time;
-
         text_buffer.resize(15);
 }
 
 void Game::main()
 {
-        int millis = 0;
+        auto time = getTime();
+        auto fps_time = getTime();
 
         while (running) {
                 ++frame_ticks;
 
-                millis = (int) std::chrono::duration_cast<std::chrono::milliseconds>
-                                 (timer.now().time_since_epoch() - fps_time).count();
-
-                if (millis >= 1000) {
-                        fps_time = timer.now().time_since_epoch();
+                if (getTime() - fps_time >= 1000) {
+                        fps_time = getTime();
                         fps = frame_ticks;
 
                         std::string fpsString = "FPS: " + to_string(fps) + ", rt: "
-                                                + to_string((renderTime * 0.001f) / (float) frame_ticks) + " ms, draws: " +
+                                                + to_string((renderTime) / (float) frame_ticks) + " ms, draws: " +
                                                 to_string(renderer.drawsPerCycle) + ", batches: " +
                                                 to_string(renderer.batchesPerCycle) + ", tt: " +
-                                                to_string((tickTime * 0.001f) / (float) game_ticks) +
+                                                to_string((tickTime) / (float) game_ticks) +
                                                 " ms";
                         print(fpsString + "\n");
                         print("lights: " + to_string(renderer.max_lights) + "\n");
@@ -48,33 +42,38 @@ void Game::main()
                         game_ticks = 0;
                 }
 
-                millis = (int) std::chrono::duration_cast<std::chrono::microseconds>
-                                 (timer.now().time_since_epoch() - time).count();
-
-                if (millis >= 16000) {
-                        time = timer.now().time_since_epoch();
-
-                        auto tickTimeStart = timer.now().time_since_epoch();
-
-                        // GAME LOGIC
-                        tick();
-
-                        tickTime += (float)(std::chrono::duration_cast<std::chrono::microseconds>
-                                                    (timer.now().time_since_epoch() - tickTimeStart).count());
-                }
-
-                auto renderTimeStart = timer.now().time_since_epoch();
+                auto renderTimeStart = getTime();
 
                 // GAME RENDERING
                 gameRender();
 
-                renderTime += (float)(std::chrono::duration_cast<std::chrono::microseconds>
-                                              (timer.now().time_since_epoch() - renderTimeStart).count());
+                renderTime += getTime() - renderTimeStart;
+
+                if (getTime() - time >= 15) {
+                        time = getTime();
+
+                        auto tickTimeStart = getTime();
+
+                        // GAME LOGIC
+                        tick();
+
+                        tickTime += getTime() - tickTimeStart;
+                }
 
                 //UPDATE WINDOW
                 wndw.update(&running);
         }
         gameQuit();
+}
+
+int Game::getTime()
+{
+        long long int et = std::chrono::duration_cast<std::chrono::milliseconds>
+                                   (timer.now().time_since_epoch() - start_time).count();
+
+        int returns = (int)et;
+
+        return returns;
 }
 
 void Game::refresh()
@@ -157,14 +156,11 @@ void Game::start()
         glfwSetWindowIcon(wndw.window, 1, icons);
 
         // loading screen
-        scr.drawLoadingScreen(&renderer);
-        renderer.flushBatchFBO();
-        wndw.update(&running);
+        loadingScreen();
 
         map.load(&renderer);
 
-        while (std::chrono::duration_cast<std::chrono::milliseconds>
-                       (timer.now().time_since_epoch() - start_time).count() < 2000) {
+        while (getTime() < 2000) {
                 wndw.update(NULL);
         }
 

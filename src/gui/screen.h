@@ -50,6 +50,8 @@ void tick() {
 Quad q1;
 Quad q2;
 
+Quad crmlogo;
+
 void drawConsole()
 {
         if (console) {
@@ -97,8 +99,8 @@ void drawStartScreen(Renderer *renderer) {
 }
 
 void loadScreen() {
+        scrRndr.init();
         gui.loadGUI();
-        scrRndr.initRenderer();
 
         charQuad.loadSprite("gfx/gui.png", glm::vec4(0.0f, 0.0f, 1.0f, -1.0f));
         charQuad.phys.pos.z = -1.2f;
@@ -115,6 +117,7 @@ void loadScreen() {
         q1.loadSprite("gfx/test2.png", glm::vec4(0.0f, 0.0f, 100.0f, -100.0f));
         q2.loadSprite("gfx/test2.png", glm::vec4(0.0f, 0.0f, 100.0f, -100.0f));
 
+        crmlogo.loadSprite("gfx/misc/CRM_logo.png", glm::vec4(0.0f, 0.0f, 450.0f, -450.0f));
 }
 
 void drawLoadingScreen(Renderer* renderer) {
@@ -132,8 +135,6 @@ void drawLoadingScreen(Renderer* renderer) {
         loadingQuad.phys.pos.z -= 0.5f;
         drawText("Corium engine 1.4 Ronin748 2017", loadingQuad);
 
-        Quad crmlogo;
-        crmlogo.loadSprite("gfx/misc/CRM_logo.png", glm::vec4(0.0f, 0.0f, 450.0f, -450.0f));
         crmlogo.phys.pos = glm::vec3(-0.5f, -0.5f, -1.0f);
         crmlogo.phys.update();
         crmlogo.update();

@@ -14,19 +14,25 @@ std::string path = "";
 
 int w = 0, h = 0;
 
-GLuint tex = 0;
+GLuint tex = -1;
 
 GLuint loadTexture(std::string path);
+
+void deleteTexture()
+{
+        if (tex != -1)
+                glDeleteTextures(1, &tex);
+}
 
 Texture()
 {
         path = "";
 }
 /*
-    ~Texture()
-    {
-        //glDeleteTextures(1, &tex);
-    }*/
+   ~Texture()
+   {
+        deleteTexture();
+   }*/
 };
 
 #endif //CORIUM_TEXTURE_H

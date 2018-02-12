@@ -19,6 +19,23 @@ void Game::rendererUpdate()
         renderer.drawsPerCycle = 0;
 }
 
+void Game::rendererReset()
+{
+        renderer.destroyRenderer();
+        renderer.init();
+        scr.scrRndr.destroyRenderer();
+        scr.scrRndr.init();
+        scr.scrRndr.update(&renderer);
+}
+
+void Game::loadingScreen()
+{
+        scr.scrRndr.update(&renderer);
+        scr.drawLoadingScreen(&renderer);
+        renderer.flushBatchFBO();
+        wndw.update(&running);
+}
+
 void Game::gameRender() {
         if (startScreen) {
                 thisCamera->pos = thisCamera->camStart;
@@ -59,11 +76,5 @@ void Game::gameRender() {
         renderer.batchesPerCycle += scr.scrRndr.batchnum;
         renderer.drawsPerCycle += scr.scrRndr.drawnum;
 
-        // count the number of lights that are ON, adjust renderer value
-        int lOn = 0;
-        for (int l = 0; l < renderer.MAX_LIGHTS; ++l) {
-                if (glm::length(renderer.lights[l].col) > 0.0f)
-                        ++lOn;
-        }
-        renderer.max_lights = lOn;
+        renderer.max_lights = map.lightNum;
 }

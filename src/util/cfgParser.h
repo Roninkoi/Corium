@@ -37,10 +37,10 @@ void loadSettings(std::string path, Game *game)
                         game->renderer.SHADOW_WIDTH = (GLuint) (512.0f * SHADOW_RES);
                         game->renderer.SHADOW_HEIGHT = (GLuint) (512.0f * SHADOW_RES);
                 }
-                if (expr(words, i, 2, "_SHADOW_DYN")) {
+                if (expr(words, i, 2, "_SHADOWS")) {
                         int SHADOW = (int) atoi(words[i + 1].c_str());
 
-                        game->map.shadowDyn = (bool)SHADOW;
+                        game->map.shadowsEnabled = (bool)SHADOW;
                 }
                 if (expr(words, i, 2, "_WINDOW_SCALE")) {
                         game->wndw.scale = (float) atof(words[i + 1].c_str());
