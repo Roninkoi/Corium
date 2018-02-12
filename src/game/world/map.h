@@ -44,9 +44,7 @@ bool physicsEnabled = true;
 bool physadded = false;
 
 bool shadowRender = false;
-bool shadowDyn = true;
-
-bool reloading = false;
+bool shadowsEnabled = true;
 
 std::vector<Texture> textures;
 
@@ -94,8 +92,9 @@ void update()
         clearLights(renderer);
         findLights();
 
-        if (shadowDyn)
+        if (shadowsEnabled) {
                 shadowRender = true;
+        }
 
         thisPlayer->tick();
 
@@ -127,13 +126,22 @@ void start(Renderer *renderer, Audio *aud, bool *running)
 void reload(Renderer *renderer)
 {
         physSys.finish();
+
         objs.clear();
         environs.clear();
+        for (int i = 0; i < textures.size(); ++i)
+                textures[i].deleteTexture();
         textures.clear();
+
         clearLights(renderer);
-        reloading = true;
+
         mapParser();
+
+        //thisPlayer->restartPlayer();
+
         addPhysObjects();
+
+        baked = false;
 }
 
 void addObj(std::string s, std::string p, std::string t, glm::vec3 pos,
@@ -216,8 +224,6 @@ void addPhysObjects()
         }
 }
 
-std::vector<int> foundLights;
-
 void clearLights(Renderer *renderer)
 {
         for (int l = 0; l < renderer->MAX_LIGHTS; ++l) {
@@ -225,14 +231,17 @@ void clearLights(Renderer *renderer)
         }
 }
 
+int lightNum = 0;
+
+std::vector<int> closestLights;
+
 void findLights()
 {
-        std::vector<int> closestLights(renderer->MAX_LIGHTS);
+        closestLights.resize(renderer->MAX_LIGHTS);
         std::fill(closestLights.begin(), closestLights.end(), -1);
 
-        int l = 0;
+        lightNum = 0;
         bool found = true;
-        bool changed = false;
 
         for (int i = 0; i < renderer->MAX_LIGHTS && found; ++i) {
                 float closestDist = renderer->far_plane; // lights within zfar
@@ -256,13 +265,15 @@ void findLights()
                         }
                 }
                 if (found) {
-                        renderer->lights[i].pos = lights[closestJ].pos;
-                        renderer->lights[i].col = lights[closestJ].col;
+                        if (shadowsEnabled) {
+                                renderer->lights[i].pos = lights[closestJ].pos;
+                                renderer->lights[i].col = lights[closestJ].col;
+                        }
+                        else {
+                                renderer->lights[i] = lights[closestJ];
+                        }
                         closestLights[i] = closestJ;
-                }
-                if (closestLights[i] != foundLights[i]) {
-                        shadowRender = true;
-                        foundLights[i] = closestJ;
+                        ++lightNum;
                 }
         }
 }
@@ -276,8 +287,6 @@ void load(Renderer *renderer)
 
         thisPlayer->camera = camera;
 
-        foundLights.resize(renderer->MAX_LIGHTS);
-        std::fill(foundLights.begin(), foundLights.end(), 0);
         clearLights(renderer);
 
         mapParser();
@@ -285,7 +294,12 @@ void load(Renderer *renderer)
         thisPlayer->restartPlayer();
 
         addPhysObjects();
+
+        baked = false;
 }
+
+bool baked = false;
+void bakeShadows();
 
 void restart()
 {

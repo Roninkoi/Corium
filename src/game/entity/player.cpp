@@ -179,8 +179,6 @@ void Player::collide(PhysSys *ps)
         mesh.objMatrix = physMesh.objMatrix;
         mesh.update();
 
-        //clipMesh = mesh; // no worries! :D
-
         //clipMesh.phys.pos.y -= 1.0f;
         clipMesh.objMatrix = glm::mat4(1.0f);
         clipMesh.objMatrix = glm::translate(clipMesh.objMatrix, phys.pos);
@@ -189,8 +187,6 @@ void Player::collide(PhysSys *ps)
         clipMesh.objMatrix = glm::scale(clipMesh.objMatrix, glm::vec3(0.5f, 3.0f, 0.5f));
 
         clipMesh.update();
-
-        //gamePrint("bs pm " + to_string(physMesh.boundingSphereRadius) + " cm " + to_string(clipMesh.boundingSphereRadius));
 
         if (glm::length(ps->field) > 0.0f && onGround) {
                 // friction
@@ -255,7 +251,7 @@ void Player::collide(PhysSys *ps)
 
         float c = std::max(0.0f, std::min(0.95f, glm::length(phys.v)));
         if (glm::length(renderPos - phys.pos) > 0.05f)
-                renderPos = phys.pos * (0.05f + c) + renderPos * (0.95f - c); // smoothing based on |v|
+                renderPos = phys.pos * (0.05f + c) + renderPos * (0.95f - c);
 
         if (glm::length(phys.v) > 0.05f) playerLastMov = -phys.v * 0.07f + playerLastMov * 0.93f;
 }
@@ -266,9 +262,9 @@ void Player::tick()
                 health = 0.0f;
         }
         if (flying) {
-                phys.v.y *= 0.4f; // slowing factor
-                phys.v.x *= 0.5f; // slowing factor
-                phys.v.z *= 0.5f; // slowing factor
+                phys.v.y *= 0.4f;
+                phys.v.x *= 0.5f;
+                phys.v.z *= 0.5f;
                 renderPos = phys.pos;
                 health = 1000.0f;
         }

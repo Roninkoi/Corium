@@ -34,10 +34,6 @@ void initGS(const char *vertPath, const char *fragPath, const char *gsPath, bool
 
 void destroyShader()
 {
-        glUseProgram(program);
-        glDeleteProgram(VertexShaderID);
-        glDeleteProgram(GeometryShaderID);
-        glDeleteProgram(FragmentShaderID);
         glDeleteProgram(program);
 }
 

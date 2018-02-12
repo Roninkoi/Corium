@@ -55,8 +55,6 @@ inline bool Map::inRange(glm::vec3 bsc, float bsr)
 
 void Map::drawShadows(Renderer *renderer)
 {
-        renderer->clearShadows();
-
         for (int i = 0; i < environs.size(); ++i) {
                 if (environs[i].rendered && environs[i].shadows && inRange(&environs[i])) {
                         environs[i].drawShadows(renderer);
@@ -65,12 +63,12 @@ void Map::drawShadows(Renderer *renderer)
 
         for (int i = 0; i < objs.size(); ++i) {
                 if (objs[i].rendered && objs[i].shadows && inRange(&objs[i]) &&
-                    (shadowDyn || objs[i].phys.isStatic)) {
+                    (shadowsEnabled || objs[i].phys.isStatic)) {
                         objs[i].drawShadows(renderer);
                 }
         }
 
-        if (shadowDyn) {
+        if (shadowsEnabled) {
                 thisPlayer->drawShadows(renderer);
         }
 
@@ -92,6 +90,7 @@ void Map::drawObjs(Renderer *renderer)
         thisPlayer->draw(renderer);
 
         renderer->flushBatch();
+
         if (sky.rendered) {
                 renderer->disableShadows = true;
                 renderer->far_plane *= skyplane;
@@ -104,14 +103,43 @@ void Map::drawObjs(Renderer *renderer)
         }
 }
 
+void Map::bakeShadows()
+{
+        renderer->max_lights = 1;
+
+        for (int i = 0; i < lights.size(); ++i) {
+                lights[i].initShadows();
+
+                renderer->lights[0] = lights[i];
+
+                renderer->clearShadows();
+
+                drawShadows(renderer);
+
+                lights[i] = renderer->lights[0];
+        }
+
+        renderer->max_lights = renderer->MAX_LIGHTS;
+}
+
 void Map::draw(Renderer *renderer)
 {
         this->renderer = renderer;
 
         //gamePrint("sr "+to_string(shadowRender));
-        if (shadowRender) {
-                shadowRender = false;
-                drawShadows(renderer);
+        if (shadowsEnabled) {
+                if (shadowRender) {
+                        renderer->clearShadows();
+
+                        shadowRender = false;
+                        drawShadows(renderer);
+                }
+        }
+        else {
+                if (!baked) {
+                        bakeShadows();
+                        baked = true;
+                }
         }
         //drawShadows(renderer);
         renderer->flushUpdate();
@@ -129,7 +157,6 @@ void Map::mapParser()
         for (int i = 0; i < words.size() && *running; ++i) {
                 mapCmd(words, i, this);
         }
-        reloading = false;
 }
 
 void Map::tickPhysics()

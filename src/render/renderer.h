@@ -11,18 +11,20 @@
 
 const int BATCH_SIZE = GL_MAX_ELEMENTS_VERTICES;
 
-struct Light {
-        glm::vec3 pos;
-        glm::vec3 col = glm::vec3(0.0f, 0.0f, 0.0f); // if col == (0, 0, 0) light is off
+class Light {
+public:
+glm::vec3 pos = glm::vec3(0.0f, 0.0f, 0.0f);
+glm::vec3 col = glm::vec3(0.0f, 0.0f, 0.0f);         // if col == (0, 0, 0) light is off
 
-        GLuint depthMapFBO;
-        GLuint depthCubemap;
+GLuint depthMapFBO = -1;
+GLuint depthCubemap;
 
-        GLuint w = 512;
-        GLuint h = 512;
+GLuint w = 512;
+GLuint h = 512;
 
-        void initShadows(GLuint new_w, GLuint new_h)
-        {
+void initShadows(GLuint new_w = 512, GLuint new_h = 512)
+{
+        if (depthMapFBO == -1) {
                 w = new_w;
                 h = new_h;
 
@@ -45,17 +47,35 @@ struct Light {
 
                 glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthCubemap, 0);
 
-                glDrawBuffer(GL_NONE);
-                glReadBuffer(GL_NONE);
+                //glDrawBuffer(GL_NONE);
+                //glReadBuffer(GL_NONE);
                 if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                         std::cout << "Framebuffer not complete!" << std::endl;
                 glBindFramebuffer(GL_FRAMEBUFFER, 0);
         }
+}
 
-        Light()
-        {
+void clearWith(float d)
+{
+        glBindBuffer(GL_FRAMEBUFFER, depthMapFBO);
 
-        }
+        glClearDepth(d);
+
+        glClear(GL_DEPTH_BUFFER_BIT);
+
+        glClearDepth(1.0f);         // set back to 1
+}
+
+~Light()
+{
+        glDeleteTextures(1, &depthCubemap);
+        glDeleteBuffers(1, &depthMapFBO);
+}
+
+Light()
+{
+
+}
 };
 
 class Renderer {

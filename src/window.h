@@ -77,7 +77,7 @@ void resize(int new_w, int new_h)
 
 void update(bool *running)
 {
-        glfwSwapInterval(swapInterval);
+        glfwSwapInterval((int)swapInterval);
 
         glfwSwapBuffers(window);
         glfwPollEvents();

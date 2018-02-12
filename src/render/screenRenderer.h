@@ -229,7 +229,7 @@ public:
         buffer_indices = 0;
     }
 
-    void initRenderer() {
+    void init() {
         screenShader.init("gfx/shader/screenShader.vert", "gfx/shader/screenShader.frag", loadShaders);
 
         glUseProgram(screenShader.program);
@@ -254,6 +254,18 @@ public:
 
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+
+    void destroyRenderer()
+    {
+        screenShader.destroyShader();
+
+        glDeleteVertexArrays(1, &vertexArrayID);
+
+        glDeleteBuffers(1, &vertexBuffer);
+        glDeleteBuffers(1, &texBuffer);
+        glDeleteBuffers(1, &colBuffer);
+        glDeleteBuffers(1, &indexBuffer);
     }
 };
 

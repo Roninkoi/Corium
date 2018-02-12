@@ -45,13 +45,11 @@ int fps = 0;
 int frame_ticks = 0;
 int game_ticks = 0;
 
-std::chrono::system_clock::duration start_time;
-std::chrono::system_clock::duration fps_time;
-std::chrono::system_clock::duration time;
-std::chrono::high_resolution_clock timer;
-
 float renderTime = 0.0f;
 float tickTime = 0.0f;
+
+std::chrono::high_resolution_clock timer;
+std::chrono::system_clock::duration start_time;
 
 bool multithreading = true;
 bool loadShaders = true;
@@ -73,10 +71,13 @@ void refresh();
 void main();
 void gameRender();
 void rendererUpdate();
+void rendererReset();
 
 void gameInput();
 
 void loadGameCfg();
+
+int getTime();
 
 void tick();
 
@@ -85,6 +86,8 @@ std::vector<std::string> text_buffer;
 void print(std::string s);
 
 void fullScr();
+
+void loadingScreen();
 
 void gameQuit();
 

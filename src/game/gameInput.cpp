@@ -262,21 +262,14 @@ void Game::gameInput() {
 
         if (input.keyDown[GLFW_KEY_I]) {
                 loadGameCfg();
-                scr.scrRndr.update(&renderer);
-                scr.drawLoadingScreen(&renderer);
-                renderer.renderFBO();
-                wndw.update(&running);
+                loadingScreen();
                 map.reload(&renderer);
         }
 
         if (input.keyDown[GLFW_KEY_U]) { // MASSIVE MEMORY LEAK!
                 if (restartpressed) {
                         restartpressed = false;
-                        renderer.destroyRenderer();
-                        renderer.init();
-                        scr.scrRndr.screenShader.destroyShader();
-                        scr.scrRndr.update(&renderer);
-                        scr.scrRndr.initRenderer();
+                        rendererReset();
                 }
         }
         if (input.keyDown[GLFW_KEY_O]) {
