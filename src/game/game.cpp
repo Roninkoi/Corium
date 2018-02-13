@@ -152,7 +152,7 @@ void Game::start()
         rendererUpdate();
 
         GLFWimage icons[1];
-        icons[0].pixels = SOIL_load_image("gfx/misc/CRM_logo.png", &icons[0].width, &icons[0].height, 0, SOIL_LOAD_RGBA);
+        icons[0].pixels = loadGLTex("gfx/misc/CRM_logo.png", &icons[0].width, &icons[0].height);
         glfwSetWindowIcon(wndw.window, 1, icons);
 
         // loading screen

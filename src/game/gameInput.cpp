@@ -18,8 +18,6 @@ bool console = true;
 
 int meshNo = 0;
 
-bool screenshotpressed = false;
-
 void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
         dist += yoffset / 10.0f;
 }
@@ -284,16 +282,6 @@ void Game::gameInput() {
         }
         else {
                 restartpressed = true;
-        }
-        if (input.keyDown[GLFW_KEY_B]) {
-                if (screenshotpressed) {
-                        screenshotpressed = false;
-                        renderer.save = true;
-                        //map.gen.generate();
-                }
-        }
-        else {
-                screenshotpressed = true;
         }
         if (input.keyDown[GLFW_KEY_J]) {
                 renderer.xSpacing += 0.001f;

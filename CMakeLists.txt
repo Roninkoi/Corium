@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 3.2)
 project(Corium)
 
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11") #release doesnt work with this -pthread -lpthread -Wl,--no-as-needed -ffast-math -O2(for opt) -march=i686
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -pthread")
 # -Wl,-rpath='$ORIGIN/lib/',-z,origin
 
 ###############
 # FIND OPENGL #
 ###############
+
 find_package(OpenGL REQUIRED)
 include_directories(${OpenGL_INCLUDE_DIRS})
 link_directories(${OpenGL_LIBRARY_DIRS})
@@ -16,11 +16,11 @@ if(NOT OPENGL_FOUND)
     message(ERROR " OPENGL not found!")
 endif(NOT OPENGL_FOUND)
 
-# Set some Win32 Specific Settings
+# Set Win32 settings
 IF(WIN32)
 SET(GUI_TYPE WIN32)
 ENDIF(WIN32)
-# Set some Apple MacOS Specific settings
+# Set MacOS settings
 IF (APPLE)
 SET(GUI_TYPE MACOSX_BUNDLE)
 ENDIF (APPLE)
@@ -37,6 +37,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 ################
 # SOURCE FILES #
 ################
+
 set(SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
 file(GLOB_RECURSE SOURCES
@@ -46,7 +47,6 @@ file(GLOB_RECURSE SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
 )
 
-#${GUI_TYPE} # hide console
 add_executable(
 Corium ${SOURCE_FILES} ${SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/src/resource.rc
 )
@@ -55,31 +55,28 @@ Corium ${SOURCE_FILES} ${SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/src/resource.rc
 # LINK #
 ########
 
-if (WIN32)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib/include)
 
+if (WIN32)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib/win/include)
 
-set_target_properties(Corium PROPERTIES LINK_FLAGS -Wl,-subsystem,windows) #hide console
+set_target_properties(Corium PROPERTIES LINK_FLAGS -Wl,-subsystem,windows) # hide console
 
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib/win/lib)
 
 target_link_libraries(Corium ${CMAKE_CURRENT_SOURCE_DIR}/glew32.dll)
 
-#target_link_libraries(Corium -lmingw32 -lSDL2main -lSDL2 -mwindows) # sdl winmain 16 thing
-
-target_link_libraries(Corium ${CMAKE_CURRENT_SOURCE_DIR}/lib/win/lib/libSOIL.a
+target_link_libraries(Corium
 ${CMAKE_CURRENT_SOURCE_DIR}/lib/win/lib/libglew32.a
 ${CMAKE_CURRENT_SOURCE_DIR}/lib/win/lib/libglfw3.a
 ${CMAKE_CURRENT_SOURCE_DIR}/lib/win/lib/libopengl32.a
 )
-
 else ()
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib/linux/include)
 
 set_target_properties(Corium PROPERTIES LINK_FLAGS -Wl,-rpath=$ORIGIN/lib,-z,origin)
 
- target_link_libraries(Corium SOIL GLEW glfw GL)
-
+target_link_libraries(Corium GLEW glfw GL)
 endif ()
 
-target_link_libraries(Corium "-Wl,--allow-multiple-definition") # hack, solve multiple definitions later
+target_link_libraries(Corium "-Wl,--allow-multiple-definition") # solve later

@@ -6,7 +6,8 @@
 #define CORIUM_TEXTURE_H
 
 #include "crm.h"
-#include <SOIL/SOIL.h>
+//#include <png.h>
+//#include <SOIL/SOIL.h>
 
 class Texture {
 public:
@@ -34,5 +35,7 @@ Texture()
         deleteTexture();
    }*/
 };
+
+unsigned char* loadGLTex(std::string p, int* w, int* h);
 
 #endif //CORIUM_TEXTURE_H

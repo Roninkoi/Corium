@@ -89,8 +89,6 @@ GLuint colBuffer;
 
 int vertices = 0;
 
-bool save = false;
-
 Texture tex;
 
 GLuint SCREEN_WIDTH = 512, SCREEN_HEIGHT = 300;
@@ -101,7 +99,7 @@ glm::vec3 clr_col = glm::vec3(0.0f, 0.0f, 0.0f);
 
 bool rts = false;     // render to screen
 
-bool disableShadows = false;     // disable shadows for a draw
+bool disableShadows = false;     // disable shadows => col * ds
 
 float amb = 0.5f;
 float lght = 0.5f;

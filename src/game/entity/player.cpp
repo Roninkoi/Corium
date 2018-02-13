@@ -179,7 +179,6 @@ void Player::collide(PhysSys *ps)
         mesh.objMatrix = physMesh.objMatrix;
         mesh.update();
 
-        //clipMesh.phys.pos.y -= 1.0f;
         clipMesh.objMatrix = glm::mat4(1.0f);
         clipMesh.objMatrix = glm::translate(clipMesh.objMatrix, phys.pos);
         clipMesh.objMatrix = glm::translate(clipMesh.objMatrix,
