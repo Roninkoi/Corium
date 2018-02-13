@@ -9,7 +9,7 @@
 #include <quad.h>
 #include <render/renderer.h>
 #include <game/entity/player.h>
-#include <util/random_range.h>
+#include <util/randomRange.h>
 #include <physSys.h>
 #include <math.h>
 #include <game/obj/obj.h>

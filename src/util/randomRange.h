@@ -5,7 +5,6 @@
 #ifndef CORIUM_RANDOM_H
 #define CORIUM_RANDOM_H
 
-#include <iostream>
 #include <random>
 
 inline int random_range(int min, int max)

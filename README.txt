@@ -1,12 +1,14 @@
 ==========================================================
 ------------------- CORIUM ENGINE v1.4 -------------------
------------------- Ronin748  29.12.2017 ------------------
+------------------ Ronin748  13.02.2018 ------------------
 ==========================================================
 
 Corium engine (CRM) v1.4, written in C++ using OpenGL,
-GLEW, GLFW, SOIL, GLM, pthreads
+GLEW, GLFW, GLM, stb_image, pthreads
 
 Builds for Linux (Fedora 27) and Windows
+
+Requires GLEW and GLFW to run
 
 Requires OpenGL 3.1, CPU with 4 cores optimal
 

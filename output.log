@@ -1,6 +1,6 @@
 ==========================================================
 ------------- CORIUM ENGINE v1.4 BY RONIN748 -------------
------------------- 2018-02-12.22:54:13 -------------------
+------------------ 2018-02-13.19:00:44 -------------------
 ==========================================================
 
 max vertices: 33000
@@ -55,25 +55,6 @@ loading map maps/hurricos/hurricos.cm...
 running script maps/hurricos/hurricos.cl...
 Running map scripts...
 loading maps/hurricos/hurricos.cfg...
-FPS: 844, rt: 0.834123 ms, draws: 69, batches: 4, tt: 3.22222 ms
+FPS: 459, rt: 0.429194 ms, draws: 68, batches: 4, tt: 1.68333 ms
 lights: 3
-Player pos: 40, 10.5061, -30
-FPS: 996, rt: 0.710843 ms, draws: 72, batches: 4, tt: 2.26866 ms
-lights: 3
-Player pos: 40, 10.3425, -30
-key 32 pressed!
-FPS: 892, rt: 0.821749 ms, draws: 215, batches: 5, tt: 2.24242 ms
-lights: 3
-Player pos: 40, 15.7043, -30
-FPS: 880, rt: 0.847727 ms, draws: 215, batches: 5, tt: 2.22388 ms
-lights: 3
-Player pos: 38.8196, 10.3337, -28.0229
-key 68 pressed!
-key 87 pressed!
-FPS: 713, rt: 1.07153 ms, draws: 225, batches: 5, tt: 2.30303 ms
-lights: 3
-Player pos: 19.8264, 10.3478, -23.5261
-key 65 pressed!
-FPS: 694, rt: 1.06772 ms, draws: 237, batches: 5, tt: 2.48485 ms
-lights: 3
-Player pos: 32.3251, 10.3494, -24.1563
+Player pos: 40, 10.5301, -30

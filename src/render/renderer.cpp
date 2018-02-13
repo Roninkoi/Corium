@@ -675,35 +675,4 @@ void Renderer::renderFBO()
         buffer_vertices = 0;
 
         uMatrix = glm::mat4(1.0f);
-
-        if (save) {
-                save = false;
-                glBindFramebuffer(GL_FRAMEBUFFER, screenFBO);
-                SCREEN_WIDTH = 256 * 2 * SCREEN_SCALE;
-                SCREEN_HEIGHT = 150 * 2 * SCREEN_SCALE;
-                int w = SCREEN_WIDTH;
-                int h = SCREEN_HEIGHT;
-                std::vector<unsigned char> buf(w * h * 3);
-
-                std::copy(buf.rbegin(), buf.rend(), buf.rbegin());
-
-                glPixelStorei(GL_PACK_ALIGNMENT, 1);
-                glReadPixels(0, 0, w, h, GL_RGB, GL_UNSIGNED_BYTE, &buf[0]);
-
-                std::vector<unsigned char>copybuf;
-
-                for (int i = h-1; i >= 0; i -= 1) {
-                        for (int j = 0; j < w*3; ++j)
-                                copybuf.push_back(buf[j+i*w*3]);
-                }
-
-                int err = SOIL_save_image
-                          (
-                        &to_string("screen"+to_string(screenshots)+".bmp")[0],
-                        SOIL_SAVE_TYPE_BMP,
-                        w, h, 3,
-                        &copybuf[0]
-                          );
-                ++screenshots;
-        }
 }
