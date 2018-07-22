@@ -4,7 +4,7 @@
 
 | Linux (GCC)  | Windows (MinGW) |
 |-------------------------|-----------------|
-| ![Build status](https://github.com/Ronin748/repo-badges/blob/master/svg/build-passing.svg) | ![Build Status](https://github.com/Ronin748/repo-badges/blob/master/svg/build-passing.svg) |
+| ![Build status](https://github.com/Ronin748/repo-badges/blob/master/svg/build-failing.svg) | ![Build Status](https://github.com/Ronin748/repo-badges/blob/master/svg/build-failing.svg) |
 
 Corium engine (CRM) v1.4, written in C++ using OpenGL,
 GLEW, GLFW, GLM, stb_image, pthreads
