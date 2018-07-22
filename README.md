@@ -9,7 +9,7 @@ Requires GLEW and GLFW to run
 
 Requires OpenGL 3.1, CPU with 4 cores optimal
 
-##=== FEATURES ===
+## === FEATURES ===
 
 - fully dynamic high-performance forward 3D renderer
 
@@ -27,7 +27,7 @@ Requires OpenGL 3.1, CPU with 4 cores optimal
 
 - chunky pixels
 
-##=== CONTROLS ===
+## === CONTROLS ===
 
 Press space or button 2 to start the game!
 
