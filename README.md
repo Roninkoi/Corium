@@ -1,5 +1,7 @@
 # Corium Engine v1.4
 
+![crm](https://raw.githubusercontent.com/Ronin748/Corium/master/gfx/misc/CRM_logo.png)
+
 | Linux (GCC)  | Windows (MinGW) |
 |-------------------------|-----------------|
 | ![Build status](https://ci.appveyor.com/api/projects/status/809xi9ukwo7sgsip?svg=true) | ![Build Status](https://ci.appveyor.com/api/projects/status/809xi9ukwo7sgsip?svg=true) |
