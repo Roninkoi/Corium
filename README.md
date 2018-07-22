@@ -2,9 +2,7 @@
 
 | Linux (GCC)  | Windows (MinGW) |
 |-------------------------|-----------------|
-| [![Build status](https://ci.appveyor.com/api/projects/status/809xi9ukwo7sgsip?svg=true)]
-| [![Build Status](https://ci.appveyor.com/api/projects/status/809xi9ukwo7sgsip?svg=true)]
-|
+| [![Build status](https://ci.appveyor.com/api/projects/status/809xi9ukwo7sgsip?svg=true)] | [![Build Status](https://ci.appveyor.com/api/projects/status/809xi9ukwo7sgsip?svg=true)] |
 
 Corium engine (CRM) v1.4, written in C++ using OpenGL,
 GLEW, GLFW, GLM, stb_image, pthreads
