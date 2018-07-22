@@ -31,8 +31,9 @@ Requires OpenGL 3.1, CPU with 4 cores optimal
 
 Press space or button 2 to start the game!
 
-Keyboard:
+### Keyboard:
 
+```
 WASD ----------- Move
 
 Mouse/Arrows --- Rotate camera
@@ -60,9 +61,11 @@ M -------------- Mute music
 F11 ------------ Toggle fullscreen
 
 F2 ------------- Show console
+```
 
-Gamepad:
+### Gamepad:
 
+```
 Left stick ---- Move
 
 Right stick --- Rotate camera
@@ -72,4 +75,4 @@ Button 1 ------ Charge
 Button 2 ------ Jump
 
 Button 3 ------ Flame
-
+```
