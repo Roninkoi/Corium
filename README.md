@@ -1,6 +1,6 @@
 # Corium Engine v1.4
 
-![crm](https://raw.githubusercontent.com/Ronin748/Corium/master/gfx/misc/CRM_logo.ico)
+![crm](https://raw.githubusercontent.com/Ronin748/Corium/master/gfx/misc/CRM_logo.png =200x200)
 
 | Linux (GCC)  | Windows (MinGW) |
 |-------------------------|-----------------|
