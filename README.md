@@ -6,7 +6,11 @@
 |-------------------------|-----------------|
 | ![Build status](https://github.com/Ronin748/repo-badges/blob/master/svg/build-failing.svg) | ![Build Status](https://github.com/Ronin748/repo-badges/blob/master/svg/build-failing.svg) |
 
+<<<<<<< HEAD
 Corium engine (CRM) v1.4.1, written in C++ using OpenGL,
+=======
+Corium engine (CRM) v1.4, written in C++ using OpenGL,
+>>>>>>> ad92e30a4f9800ef401ae895599d6170c2ce2248
 GLEW, GLFW, GLM, stb_image, pthreads
 
 Builds for Linux (Fedora 27) and Windows
