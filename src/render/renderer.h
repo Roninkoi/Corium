@@ -46,9 +46,16 @@ void initShadows(GLuint new_w = 512, GLuint new_h = 512)
                 glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 
                 glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthCubemap, 0);
+                /*glFramebufferTexture3D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,GL_TEXTURE_CUBE_MAP_NEGATIVE_X, depthCubemap, 0, 0);
+                   glFramebufferTexture3D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, depthCubemap, 0, 0);
+                   glFramebufferTexture3D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, depthCubemap, 0, 0);
 
-                //glDrawBuffer(GL_NONE);
-                //glReadBuffer(GL_NONE);
+                   glFramebufferTexture3D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,GL_TEXTURE_CUBE_MAP_POSITIVE_X, depthCubemap, 0, 0);
+                   glFramebufferTexture3D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,GL_TEXTURE_CUBE_MAP_POSITIVE_Y, depthCubemap, 0, 0);
+                   glFramebufferTexture3D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,GL_TEXTURE_CUBE_MAP_POSITIVE_Z, depthCubemap, 0, 0);*/
+
+                glDrawBuffer(GL_NONE);
+                glReadBuffer(GL_NONE);
                 if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
                         std::cout << "Framebuffer not complete!" << std::endl;
                 glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -68,8 +75,8 @@ void clearWith(float d)
 
 ~Light()
 {
-        glDeleteTextures(1, &depthCubemap);
-        glDeleteBuffers(1, &depthMapFBO);
+        //glDeleteTextures(1, &depthCubemap);
+        //glDeleteBuffers(1, &depthMapFBO);
 }
 
 Light()
@@ -97,15 +104,15 @@ float SCREEN_SCALE = 1.0f;
 float far_plane = 200.0f;
 glm::vec3 clr_col = glm::vec3(0.0f, 0.0f, 0.0f);
 
-bool rts = false;     // render to screen
+int rfbo = 0;     // render fbo, 0 internal, 1 screen
 
-bool disableShadows = false;     // disable shadows => col * ds
+bool shadows = true;     // enable shadows => col * ds
 
 float amb = 0.5f;
 float lght = 0.5f;
 float render_dist = 0.5f;
 
-bool dithering_enabled = true;
+bool dithering = true;
 
 bool drawLines = false;
 
@@ -196,6 +203,8 @@ void flushShadows();
 void drawShadowMap();
 void addShadows(std::vector<float> *vertexData, std::vector<int> *indexData);
 void clearShadows();
+
+void drawLine(glm::vec3 l0, glm::vec3 l1);
 
 void init();
 

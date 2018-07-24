@@ -5,11 +5,20 @@
 #include "player.h"
 #include <util/objParser.h>
 
+// do this using quaternions
+bool camMoved = false;
+float camTicks = 0.0f;
 void Player::getPlayerCam()
 {
-        bool camMoved = false;
-        if (glm::length(phys.rot_v) > 0.0f)
+        camTicks += 1.0f;
+        if (glm::length(phys.rot_v) > 0.0f) {
                 camMoved = true;
+                camTicks = 0.0f;
+        }
+        if (camTicks > 180.0f) { // 3 seconds
+                camMoved = false;
+                camTicks = 0.0f;
+        }
 
         if (camera->camai && !flying) {
                 if (camMoved) {
@@ -21,8 +30,10 @@ void Player::getPlayerCam()
                         if (fabs(lma - camera->rot.y) > M_PI) // discontinuity
                                 camera->rot.y += 2 * M_PI * ((lma - camera->rot.y) / fabs(lma - camera->rot.y));
 
-                        camera->rot.y = camera->rot.y * 0.95f + 0.05f * lma;
-
+                        if (fabs(camera->rot.y-lma)-0.6f < M_PI*0.5f) {
+                                float r = cos(std::max(0.0f, fabs(camera->rot.y-lma)-0.6f))*0.05f;
+                                camera->rot.y = camera->rot.y * (1.0f-r) + (r) * lma;
+                        }
                         phys.rot.y = camera->rot.y;
                         phys.rot.x = camera->rot.x;
                 }
@@ -32,7 +43,7 @@ void Player::getPlayerCam()
         else {
                 camera->rot = phys.rot;
         }
-        camera->pos = -renderPos;
+        camera->pos = camera->pos*0.7f -renderPos*0.3f;
 }
 
 void Player::getInput(Input *input)
@@ -126,20 +137,16 @@ void Player::getInput(Input *input)
         playerMov -= phys.v;
 }
 
-Texture test;
-
 void Player::loadPlayer()
 {
         loadMesh("gfx/models/ico.obj", "gfx/models/icos.obj");
         clipMesh = loadObj("gfx/models/ico.obj");
 
-        test.loadTexture("gfx/test2.png");
-
         playerAnims.clearAnims();
-        playerAnims.loadTemplate("gfx/models/anim/dragon_3.obj", "gfx/dragon.png");
-        playerAnims.addAnim("gfx/models/anim/dragon_", 5, 0.09f, {0});
-        playerAnims.addAnim("gfx/models/anim/dragonflame", 3, 0.05f, {0, 1, 2});
-        playerAnims.addAnim("gfx/models/anim/dragon_4.obj", 0, 0.05f, {0});
+        playerAnims.loadTemplate("gfx/models/anim/dragon/dragon_3.obj", "gfx/dragon.png");
+        playerAnims.addAnim("gfx/models/anim/dragon/dragon_", 5, 0.09f, {0});
+        playerAnims.addAnim("gfx/models/anim/dragon/dragonflame", 3, 0.05f, {0, 1, 2});
+        playerAnims.addAnim("gfx/models/anim/dragon/dragon_4.obj", 0, 0.05f, {0});
 }
 
 void Player::restartPlayer()
@@ -166,12 +173,9 @@ void Player::drawShadows(Renderer *renderer)
 
 void Player::collide(PhysSys *ps)
 {
-        // pm r 1.46
-        // cm r 2.33
-
         physMesh.objMatrix = glm::mat4(1.0f);
         physMesh.objMatrix = glm::translate(physMesh.objMatrix, phys.pos);
-        physMesh.objMatrix = glm::translate(physMesh.objMatrix, glm::vec3(0.0f, -1.5f, 0.0f));
+        physMesh.objMatrix = glm::translate(physMesh.objMatrix, glm::vec3(0.0f, -1.5f+0.5f, 0.0f));
         physMesh.objMatrix = glm::rotate(physMesh.objMatrix, lastmovangle, glm::vec3(0.0f, 1.0f, 0.0f));
         physMesh.objMatrix = glm::scale(physMesh.objMatrix, glm::vec3(1.2f));
 
@@ -186,6 +190,9 @@ void Player::collide(PhysSys *ps)
         clipMesh.objMatrix = glm::scale(clipMesh.objMatrix, glm::vec3(0.5f, 3.0f, 0.5f));
 
         clipMesh.update();
+
+        // pm r 1.46
+        // cm r 2.33
 
         if (glm::length(ps->field) > 0.0f && onGround) {
                 // friction
@@ -222,7 +229,10 @@ void Player::collide(PhysSys *ps)
                                         glm::vec3 normalVec = glm::normalize(physMesh.collision_normal);
                                         glm::mat3 vecProj = getVecProjMatrix(normalVec);
 
-                                        glm::vec3 newForce = normalVec * (glm::length((phys.v - playerMov) * vecProj) + bouncyness)*phys.m;
+                                        glm::vec3 newForce = normalVec * (glm::length((phys.v- playerMov) * vecProj))*phys.m;
+                                        glm::vec3 pc = normalVec * (glm::length((phys.v - playerMov)));
+                                        if (nnv(pc))
+                                                phys.pos += pc;
 
                                         if (!(newForce != newForce)) {
                                                 phys.forces += newForce;
@@ -234,12 +244,22 @@ void Player::collide(PhysSys *ps)
                                         glm::vec3 normalVec = glm::normalize(physMesh.collision_normal);
                                         glm::mat3 vecProj = getVecProjMatrix(normalVec);
 
-                                        glm::vec3 newForce = (normalVec) *(glm::length(((phys.v - playerMov)*phys.m + (ps->objects[i]->phys.v)*ps->objects[i]->phys.m) * vecProj) + bouncyness);
+                                        glm::vec3 newForce = (normalVec)*(glm::length(((phys.v + phys.a - playerMov)*phys.m + (ps->objects[i]->phys.v + ps->objects[i]->phys.a)*ps->objects[i]->phys.m) * vecProj));
+
+                                        newForce *= 0.6f;
 
                                         if (!(newForce != newForce)) {
-                                                if (sprinting) ps->objects[i]->phys.forces += -newForce;
-                                                else ps->objects[i]->phys.forces += -newForce * 0.5f;
-                                                phys.forces += newForce;
+                                                phys.forces += newForce + 1.0f*normalVec*glm::length(ps->field)*phys.m;
+
+                                                if (sprinting) newForce = newForce * 1.0f;
+                                                else newForce = newForce * 0.5f;
+
+                                                ps->objects[i]->phys.forces += -newForce;
+                                                glm::vec3 pc = normalVec * (glm::length((phys.v - playerMov)));
+                                                if (nnv(pc))
+                                                        phys.pos += pc;
+                                                phys.v += normalVec*PHYS_EPSILON;
+                                                ps->objects[i]->phys.v += -normalVec*PHYS_EPSILON;
                                         }
                                 }
                         }
@@ -255,6 +275,7 @@ void Player::collide(PhysSys *ps)
         if (glm::length(phys.v) > 0.05f) playerLastMov = -phys.v * 0.07f + playerLastMov * 0.93f;
 }
 
+// do player rot diff using quaternions
 void Player::tick()
 {
         if (health < 0.0f) {
@@ -281,7 +302,7 @@ void Player::tick()
                 lastmovangle = -lastmovangle;
         }
 
-        playerAnims.phys.rot.y = lastmovangle;
+        playerAnims.phys.setRot(glm::vec3(0.0f, lastmovangle, 0.0f));
 
         playerAnims.phys.pos.y -= 2.5f;
 

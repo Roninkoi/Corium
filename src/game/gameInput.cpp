@@ -108,11 +108,12 @@ void Game::gameInput() {
         }
         if (input.keyDown[GLFW_KEY_V] && !thrown) {
                 map.physSys.finish();
+                map.objs[grabbed].phys.rot_v = glm::vec3(0.0f);
                 map.objs[grabbed].phys.pos = glm::vec3(thisPlayer->renderPos.x + dist * sin(-thisPlayer->phys.rot.y + M_PI),
                                                        thisPlayer->renderPos.y + dist * sin(thisPlayer->phys.rot.x + M_PI),
                                                        thisPlayer->renderPos.z + dist * cos(-thisPlayer->phys.rot.y + M_PI));
                 map.objs[grabbed].phys.rot.y = -thisPlayer->phys.rot.y;
-                map.objs[grabbed].phys.v = thisPlayer->phys.v - thisPlayer->phys.rot_v;
+                map.objs[grabbed].phys.v = thisPlayer->phys.v - thisPlayer->phys.rot_v + map.gravity;
 
                 //map.objs[grabbed].mesh.phys.update();
                 //map.objs[grabbed].mesh.update();
@@ -128,7 +129,7 @@ void Game::gameInput() {
                 jb2 = jb[0];
                 jb3 = jb[2];
         }
-        if (glfwGetKey(wndw.window, GLFW_KEY_LEFT_SHIFT) || jb2) {
+        if (glfwGetKey(wndw.window, GLFW_KEY_LEFT_SHIFT) || glfwGetKey(wndw.window, GLFW_KEY_RIGHT_SHIFT) || jb2) {
                 thisPlayer->spd = 4.5f * 0.5f * 0.5f * 2.2f;
                 if (thisPlayer->moving) thisPlayer->sprinting = true;
         }
@@ -136,7 +137,7 @@ void Game::gameInput() {
                 thisPlayer->spd = 4.5f * 0.5f * 0.5f;
                 thisPlayer->sprinting = false;
         }
-        if (jb3 || glfwGetKey(wndw.window, GLFW_KEY_LEFT_ALT)) {
+        if (jb3 || glfwGetKey(wndw.window, GLFW_KEY_LEFT_CONTROL) || glfwGetKey(wndw.window, GLFW_KEY_RIGHT_CONTROL)) {
                 thisPlayer->flaming = true;
         }
         else {
@@ -150,11 +151,15 @@ void Game::gameInput() {
                                                                thisPlayer->renderPos.y + dist * sin(thisPlayer->phys.rot.x + M_PI),
                                                                thisPlayer->renderPos.z + dist * cos(-thisPlayer->phys.rot.y + M_PI));
                         map.objs[grabbed].phys.rot.y = -thisPlayer->phys.rot.y;
-                        map.objs[grabbed].phys.v = glm::vec3(dist * sin(-thisPlayer->phys.rot.y + M_PI),
+                        /*map.objs[grabbed].phys.v = glm::vec3(dist * sin(-thisPlayer->phys.rot.y + M_PI),
                                                              dist * sin(thisPlayer->phys.rot.x + M_PI),
-                                                             dist * cos(-thisPlayer->phys.rot.y + M_PI))*0.1f;
+                                                             dist * cos(-thisPlayer->phys.rot.y + M_PI))*/;
 
                         map.objs[grabbed].phys.v = map.gravity;
+                        map.objs[grabbed].phys.v +=
+                                glm::vec3(sin(-thisPlayer->phys.rot.y + M_PI),
+                                          sin(thisPlayer->phys.rot.x + M_PI),
+                                          cos(-thisPlayer->phys.rot.y + M_PI));
                         map.objs[grabbed].update();
                 }
         }
@@ -167,7 +172,7 @@ void Game::gameInput() {
                         if (startScreen)
                                 startScreen = false;
                         if (glm::length(map.gravity) > 0.0f) {
-                                thisPlayer->phys.v += -0.008f * glm::normalize(map.gravity) * 40.0f;
+                                thisPlayer->phys.v += -map.gravity * 35.0f;
                                 //aud.playAudio(6, aud.jump, 0);
                         }
                 }
@@ -190,7 +195,7 @@ void Game::gameInput() {
                                 path = "gfx/models/cube.obj";
                                 break;
                         case 2:
-                                path = "gfx/models/octa.obj";
+                                path = "gfx/models/cube.obj";
                                 break;
                         case 3:
                                 path = "gfx/models/ico.obj";
@@ -199,7 +204,7 @@ void Game::gameInput() {
                                 path = "gfx/models/tetra.obj";
                                 break;
                         }
-                        path = "gfx/models/ico.obj";
+                        //path = "gfx/models/cube.obj";
                         ++meshNo;
                         if (meshNo > 3) meshNo = 0;
 
@@ -215,7 +220,7 @@ void Game::gameInput() {
                         }
                         if (meshNo == 1) map.objs[map.objs.size() - 1].phys.s = glm::vec3(1.3f);
 
-                        map.objs[map.objs.size() - 1].phys.s *= glm::vec3(1.2f);
+                        map.objs[map.objs.size() - 1].phys.s *= glm::vec3(1.8f);
 
                         float r = random_range(0, 1000) / 1000.0f;
                         float g = random_range(0, 1000) / 1000.0f;
@@ -227,6 +232,9 @@ void Game::gameInput() {
                                 map.objs[map.objs.size() - 1].mesh.colBufferData[i + 2] = b + random_range(0, 5) / 20.0f;
                                 map.objs[map.objs.size() - 1].mesh.colBufferData[i + 3] = 1.0f;
                         }
+                        map.objs[map.objs.size() - 1].phys.v = glm::vec3(dist * sin(-thisPlayer->phys.rot.y + M_PI),
+                                                                         dist * sin(thisPlayer->phys.rot.x + M_PI),
+                                                                         dist * cos(-thisPlayer->phys.rot.y + M_PI))*0.05f;
                         input.keyPressed[GLFW_KEY_C] = false;
                         //map.addPhysObjects();
                         map.physadded = false;
@@ -262,6 +270,7 @@ void Game::gameInput() {
                 loadGameCfg();
                 loadingScreen();
                 map.reload(&renderer);
+                grabbed = map.objs.size() -1;
         }
 
         if (input.keyDown[GLFW_KEY_U]) { // MASSIVE MEMORY LEAK!

@@ -1,4 +1,4 @@
-#version 330
+#version 150
 
 precision lowp int;
 precision lowp float;
@@ -208,25 +208,27 @@ void main()
         }
     }
 
-    float depth = length(viewPos+FragPos)/(far_plane*0.2f);
+    float depth = length(viewPos+FragPos)/(far_plane);
 
     vec3 sigma = ambient;
-
     sigma += lighting*lght;
-    gl_FragColor = vec4(sigma/*max(1.0f, depth*depth)*/,fragCol.a);
+    gl_FragColor = vec4(sigma,fragCol.a);
 
-    //downsample color (rgb 12-bit)
+    //downsample color (16-bit, apparently? rgb 12-bit)
     float s = 16.0f;
     gl_FragColor.r = floor(gl_FragColor.r*s)/s;
     gl_FragColor.g = floor(gl_FragColor.g*s)/s;
     gl_FragColor.b = floor(gl_FragColor.b*s)/s;
 
     vec4 ditval = dither8x8(vec2(gl_FragCoord.x, gl_FragCoord.y), gl_FragColor);
-    gl_FragColor *= ditval*dither*ditval*dither*6.0f + (1.0f - dither);
+    gl_FragColor *= ditval*dither*ditval*dither*4.0f + (1.0f - dither);
+    gl_FragColor *= 0.5f;
     gl_FragColor.rgb += ambient*0.5f*dither; // adjust amb colors after dither
 
-    gl_FragColor /= length(gl_FragColor.rgb)*0.2f + 0.8f; // brighten and balance a bit
-    gl_FragColor.rgb += fogCol*(1.0f - 1.0f/max(1.0f, depth*depth));
+    gl_FragColor /= length(gl_FragColor.rgb)*0.3f + 0.7f; // brighten and balance a bit
+
+    float fg = max(min((((1.0f - pow(2.7f, -depth- 0.1f)))*1.67f-0.2f)*1.2f, 1.0f), 0.0f);
+    gl_FragColor.rgb = fogCol*fg + gl_FragColor.rgb*(1.0f - fg); // FOG
 
     if (texture(diffuseTexture, TexPos).a == 0.0f)
         discard;

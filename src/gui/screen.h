@@ -146,6 +146,12 @@ void drawLoadingScreen(Renderer* renderer) {
 
 void drawText(std::string s, Quad textQuad) {
         for (int i = 0; i < s.length(); ++i) {
+                //if (ticks > 60) {
+                //        textQuad.phys.pos.x += (sin(i+ticks/10.0f)*0.01f);
+                //        textQuad.phys.rot.z = (sin((i)*std::min(1.0f, ticks)+ticks/10.0f)*0.2f);
+                //        textQuad.setCol(glm::vec4(0.5f*(sin(i+ticks/10.0f)+1.0f), 0.5f*(cos(i+ticks/15.0f)+1.0f),
+                //                1.0f-0.5f*(sin(i+ticks/10.0f)+1.0f)-0.5f*(cos(i+ticks/15.0f)+1.0f), 1.0f));
+                //}
                 int x0 = (((int) s[i] - 32)) % 16;
                 int y0 = (int) floor(((float) ((int) s[i] - 32)) / 16.0f);
 
@@ -156,11 +162,6 @@ void drawText(std::string s, Quad textQuad) {
                 scrRndr.draw(textQuad.tex, glm::mat4(1.0f), &textQuad.vertexBufferData, &textQuad.texBufferData,
                              &textQuad.colBufferData, &textQuad.indexBufferData);
                 textQuad.phys.pos.x += textQuad.phys.s.x;
-                //if (ticks > 60) {
-                //    textQuad.phys.pos.x += (sin(i+ticks/10.0f)*0.01f);
-                //textQuad.phys.rot.z = (sin((i)*std::min(1, ticks)+ticks/10.0f)*0.2f);
-                //        textQuad.setCol(glm::vec4(0.5f*(sin(i+ticks/10.0f)+1.0f), 0.5f*(cos(i+ticks/15.0f)+1.0f), 1.0f-0.5f*(sin(i+ticks/10.0f)+1.0f)-0.5f*(cos(i+ticks/15.0f)+1.0f), 1.0f));
-                //}
         }
 }
 

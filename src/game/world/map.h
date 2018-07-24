@@ -19,6 +19,13 @@
 #include <anim.h>
 #include <game/obj/camera.h>
 
+template<typename T>
+std::vector<T>* clearVector(std::vector<T>* vec)
+{
+        std::vector<T>().swap(*vec);
+        return vec;
+}
+
 class Map {
 public:
 std::vector<Player> player;
@@ -72,34 +79,7 @@ void drawObjs(Renderer *renderer);
 
 void drawShadows(Renderer *renderer);
 
-void update()
-{
-        for (int i = 0; i < player.size(); ++i) {
-                player[i].update();
-                player[i].ticks = ticks;
-        }
-
-        sky.phys.pos = thisPlayer->renderPos;
-        sky.phys.rot.y += 0.005f;
-        sky.update();
-
-        for (int i = 0; i < objs.size(); ++i)
-                visible(&objs[i]);
-
-        for (int i = 0; i < environs.size(); ++i)
-                visible(&environs[i]);
-
-        clearLights(renderer);
-        findLights();
-
-        if (shadowsEnabled) {
-                shadowRender = true;
-        }
-
-        thisPlayer->tick();
-
-        tickPhysics();
-}
+void update();
 
 Player *getPlayer()
 {
@@ -127,11 +107,13 @@ void reload(Renderer *renderer)
 {
         physSys.finish();
 
-        objs.clear();
-        environs.clear();
-        for (int i = 0; i < textures.size(); ++i)
-                textures[i].deleteTexture();
-        textures.clear();
+        clearVector(&objs);
+        clearVector(&environs);
+
+        //for (int i = 0; i < textures.size(); ++i)
+        //        textures[i].deleteTexture();
+
+        //clearVector(&textures);
 
         clearLights(renderer);
 
@@ -143,6 +125,8 @@ void reload(Renderer *renderer)
 
         baked = false;
 }
+
+float newobjmass = 0.0f;
 
 void addObj(std::string s, std::string p, std::string t, glm::vec3 pos,
             glm::vec3 rot, glm::vec3 scale, bool st, bool ph)
@@ -168,6 +152,7 @@ void addObj(std::string s, std::string p, std::string t, glm::vec3 pos,
                 }
                 objs[i].tex = textures[fi];
 
+
                 objs[i].phys.pos = glm::vec3(pos.x, pos.y, pos.z);
                 objs[i].phys.rot = rot;
                 objs[i].phys.s = scale;
@@ -175,11 +160,19 @@ void addObj(std::string s, std::string p, std::string t, glm::vec3 pos,
 
                 objs[i].phys.isStatic = st;
 
-                if (!objs[i].phys.isStatic)
-                        objs[i].phys.v = gravity;
-
+                if (!objs[i].phys.isStatic) {
+                        objs[i].phys.v = normalize(gravity)*2.0f*PHYS_EPSILON;
+                        objs[i].phys.sv = normalize(gravity)*2.0f*PHYS_EPSILON;
+                }
                 objs[i].update();
                 objs[i].physMesh.triangleSizeCheck();
+
+                if (newobjmass > 0.0f)
+                        objs[i].phys.m = newobjmass;
+                else {
+                        objs[i].phys.m = pow(fabs(objs[i].physMesh.boundingSphereRadius), 2)*0.75f*M_PI + 1.0f;
+                }
+                objs[i].phys.I = objs[i].phys.m*objs[i].physMesh.boundingSphereRadius*objs[i].physMesh.boundingSphereRadius*0.3f;
 
                 if (objs[i].mesh.indexBufferData.size() > BATCH_SIZE * 0.1f)
                         objs[i].ro = true;
@@ -202,7 +195,7 @@ void addObj(std::string s, std::string p, std::string t, glm::vec3 pos,
                         fi = textures.size() - 1;
                         textures[fi].loadTexture(t.c_str());
                 }
-                environs[i].tex.tex = textures[fi].tex;
+                environs[i].tex = textures[fi];
 
                 environs[i].phys.pos = glm::vec3(pos.x, pos.y, pos.z);
                 environs[i].phys.rot = rot;
@@ -298,6 +291,7 @@ void load(Renderer *renderer)
         baked = false;
 }
 
+// are shadows 420
 bool baked = false;
 void bakeShadows();
 

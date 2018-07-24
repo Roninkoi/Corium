@@ -23,7 +23,7 @@ bool win = false;
 bool lose = false;
 bool reset = false;
 
-bool startScreen = true;
+bool startScreen = false;
 
 Screen scr;
 
@@ -44,6 +44,8 @@ int fps = 0;
 
 int frame_ticks = 0;
 int game_ticks = 0;
+
+bool ticking = false; // is game doing tick cycle?
 
 float renderTime = 0.0f;
 float tickTime = 0.0f;

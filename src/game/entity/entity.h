@@ -28,6 +28,24 @@ bool moving = false;
 
 float spd = 1.0f;
 
+// find this in world tick (probably player)
+Entity* closestEnemy;
+
+float chaseRange = 8.0f;
+float attackRange = 1.0f;
+
+// ai thinks
+void think();
+
+// entity movement, otherwise idle
+void chase(Entity* another);
+
+// he attacc
+void attack(Entity* another);
+
+// bounce up and down or whatever
+void idle();
+
 void draw(Renderer* renderer);
 void drawShadows(Renderer* renderer);
 

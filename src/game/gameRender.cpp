@@ -52,8 +52,6 @@ void Game::gameRender() {
         // flush before screen draws to buffer
         renderer.flushBatch();
 
-        //renderer.flushUpdate();
-
         // copy text buffer to screen
         scr.text_buffer.resize(text_buffer.size());
         for (int i = 0; i < text_buffer.size(); ++i) {

@@ -1,4 +1,4 @@
-#version 330
+#version 140
 
 in vec4 v_pos;
 in vec2 v_tex;
@@ -18,4 +18,3 @@ void main()
   gl_FragColor = vec4(texCol.rgb, 1.0f);
 
 }
-

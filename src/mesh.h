@@ -6,7 +6,6 @@
 #define CORIUM_MESH_H
 
 #include <render/renderer.h>
-#include "util/mollertri.h"
 #include "phys.h"
 
 const float MAX_TRIANGLE_SIZE = 200.0f;
@@ -25,9 +24,13 @@ std::vector<float> vertexNormalBufferData;
 std::vector<int> indexBufferData;
 
 glm::vec3 collision_normal;
+glm::vec3 collision_center;
 
 float boundingSphereRadius = 0.0f;
 glm::vec3 boundingSphereCenter = glm::vec3(0.0f);
+
+glm::vec3 velocity = glm::vec3(0.0f);
+int staticity = 1;
 
 bool isIntersecting = false;
 

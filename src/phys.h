@@ -6,48 +6,54 @@
 #define CORIUM_PHYS_H
 
 #include <crm.h>
+#include <glm/gtx/quaternion.hpp>
 
-const float PHYS_EPSILON = 0.0005f;
+const float PHYS_EPSILON = 0.005f;
 
 class Phys {
 public:
 glm::vec3 pos = glm::vec3(0.0f);
-
-glm::vec3 pos_k1 = glm::vec3(0.0f);
-glm::vec3 pos_k2 = glm::vec3(0.0f);
-glm::vec3 pos_k3 = glm::vec3(0.0f);
+glm::vec3 sv = glm::vec3(0.0f); // slow v for sleeping
 
 glm::vec3 rot = glm::vec3(0.0f);
+glm::fquat qrot = glm::quat(1.0f, 0.0f, 0.0f, 0.0f); // quaternion rep
+glm::fquat qrrot = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
+
+glm::vec3 srot_v = glm::vec3(0.0f); // slow rotv
 
 glm::vec3 rot_v = glm::vec3(0.0f);
 glm::vec3 rot_a = glm::vec3(0.0f);
 
+glm::vec3 rot_rv = glm::vec3(0.0f);
+
 glm::vec3 s = glm::vec3(1.0f);
 
-glm::vec3 rPos = glm::vec3(0.0f);
+glm::vec3 rpos = glm::vec3(0.0f);
+glm::vec3 rrot = glm::vec3(0.0f);
 
 glm::vec3 rot_offs = glm::vec3(0.0f, 0.0f, 0.0f);
 
 glm::vec3 v = glm::vec3(0.0f);
-
-glm::vec3 v_k1 = glm::vec3(0.0f);
-glm::vec3 v_k2 = glm::vec3(0.0f);
-glm::vec3 v_k3 = glm::vec3(0.0f);
-
 glm::vec3 a = glm::vec3(0.0f);
 glm::vec3 forces = glm::vec3(0.0f);
+glm::vec3 forcesold = glm::vec3(0.0f);
+
+glm::vec3 torx = glm::vec3(0.0f);
+glm::vec3 torxold = glm::vec3(0.0f);
+
+float I = 1.0f;
+glm::vec3 collision_center = glm::vec3(0.0f);
+glm::vec3 collision_normal = glm::vec3(0.0f);
 
 bool inRange = true;
 
 bool isColliding = false;
 int collision_num = 0;
+int scollision_num = 0;
 
 glm::vec3 p = glm::vec3(0.0f);
 float m = 1.0f;
-
-glm::vec3 l = glm::vec3(0.0f);
-float j = 100.0f;
-glm::vec3 M = glm::vec3(0.0f);
+glm::vec3 m_c = glm::vec3(0.0f); // mass center not used
 
 bool isStatic = false;
 bool isSemiStatic = false;
@@ -59,6 +65,8 @@ void update();
 void tick();
 
 void applyForce(glm::vec3 force);
+
+void setRot(glm::vec3 r);
 
 glm::mat4 getMatrix();
 glm::mat4 getRMatrix();
@@ -82,7 +90,7 @@ glm::mat3 getVecProjMatrix(glm::vec3 vector)
 }
 
 // bigger than zero
-bool btz(glm::vec3 vector)
+inline bool btz(glm::vec3 vector)
 {
         if (glm::length(vector) > 0.0f)
                 return true;
@@ -91,7 +99,7 @@ bool btz(glm::vec3 vector)
 }
 
 // bigger than epsilon
-bool bte(glm::vec3 vector)
+inline bool bte(glm::vec3 vector)
 {
         if (glm::length(vector) > PHYS_EPSILON)
                 return true;
@@ -100,12 +108,58 @@ bool bte(glm::vec3 vector)
 }
 
 // less than epsilon
-bool lte(glm::vec3 vector)
+inline bool lte(glm::vec3 vector)
 {
         if (glm::length(vector) <= PHYS_EPSILON)
                 return true;
         else
                 return false;
+}
+
+// not null
+
+template<typename nullval>
+
+bool nn(const nullval &value)
+{
+        if (!(value != value)) {
+                return true;
+        }
+        else
+                return false;
+}
+
+inline bool nnv(glm::vec3 value)
+{
+        return !(std::isnan(value.x)) && !(std::isnan(value.y)) && !(std::isnan(value.z));
+        /*if (!(value != value)) {
+                return true;
+           }
+           else
+                return false;*/
+}
+
+// glm normalize returns nan if 0
+glm::vec3 normalize(glm::vec3 v)
+{
+        if (glm::length(v) > 0) {
+                return glm::normalize(v);
+        }
+        else {
+                return v;
+        }
+}
+
+// distance between vectors
+inline float vecDiff(glm::vec3 v1, glm::vec3 v2)
+{
+        return glm::length(v1 - v2);
+}
+
+// vector from v1 to v2
+inline glm::vec3 vecFrom(glm::vec3 v1, glm::vec3 v2)
+{
+        return (v2 - v1);
 }
 
 #endif //CORIUM_PHYS_H

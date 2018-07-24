@@ -49,7 +49,8 @@ void Game::main()
 
                 renderTime += getTime() - renderTimeStart;
 
-                if (getTime() - time >= 15) {
+                ticking = getTime() - time >= 15;
+                if (ticking) {
                         time = getTime();
 
                         auto tickTimeStart = getTime();
@@ -93,10 +94,10 @@ void Game::init()
 
         if (fileoutput) outputfile = freopen("output.log", "w", stdout);
 
-        print("==========================================================\n");
-        print("------------- CORIUM ENGINE v1.4 BY RONIN748 -------------\n");
-        print("------------------ " + to_string(currentDateTime()) + " -------------------\n");
-        print("==========================================================\n\n");
+        print("===============================================================================\n");
+        print("----------------------- CORIUM ENGINE v1.40 BY RONIN748 -----------------------\n");
+        print("----------------------------- " + to_string(currentDateTime()) + " -----------------------------\n");
+        print("===============================================================================\n\n");
 
         int glfw_err = glfwInit();
         if (!glfw_err) {

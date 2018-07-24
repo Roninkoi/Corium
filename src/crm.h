@@ -17,6 +17,8 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 #include <util/toString.h>
@@ -30,5 +32,7 @@ void gamePrint(std::string s);
 void gameRefresh();
 
 void gameScript(std::string s);
+
+void gameDrawLine(glm::vec3 l0, glm::vec3 l1);
 
 #endif //CORIUM_CRM_H

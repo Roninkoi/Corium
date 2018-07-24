@@ -77,7 +77,6 @@ void Map::drawShadows(Renderer *renderer)
 
 void Map::drawObjs(Renderer *renderer)
 {
-        //objs[0].mesh.render(renderer);
         for (int i = 0; i < objs.size(); ++i) {
                 if (objs[i].rendered && objs[i].visible) {
                         objs[i].draw(renderer);
@@ -92,14 +91,22 @@ void Map::drawObjs(Renderer *renderer)
         renderer->flushBatch();
 
         if (sky.rendered) {
-                renderer->disableShadows = true;
+                renderer->shadows = false;
                 renderer->far_plane *= skyplane;
+                float ramb = renderer->amb;
+                float rlght = renderer->lght;
+                renderer->amb = 1.0f;
+                renderer->lght = 0.0f;
+
                 renderer->flushUpdate();
                 sky.draw(renderer);
                 renderer->flushBatch();
 
                 renderer->far_plane /= skyplane;
-                renderer->disableShadows = false;
+                renderer->amb = ramb;
+                renderer->lght = rlght;
+                renderer->shadows = true;
+                renderer->flushUpdate();
         }
 }
 
@@ -126,7 +133,6 @@ void Map::draw(Renderer *renderer)
 {
         this->renderer = renderer;
 
-        //gamePrint("sr "+to_string(shadowRender));
         if (shadowsEnabled) {
                 if (shadowRender) {
                         renderer->clearShadows();
@@ -141,7 +147,7 @@ void Map::draw(Renderer *renderer)
                         baked = true;
                 }
         }
-        //drawShadows(renderer);
+
         renderer->flushUpdate();
 
         drawObjs(renderer);
@@ -157,6 +163,35 @@ void Map::mapParser()
         for (int i = 0; i < words.size() && *running; ++i) {
                 mapCmd(words, i, this);
         }
+}
+
+void Map::update()
+{
+        for (int i = 0; i < player.size(); ++i) {
+                player[i].update();
+                player[i].ticks = ticks;
+        }
+
+        sky.phys.pos = thisPlayer->renderPos;
+        sky.phys.rot.y += 0.005f;
+        sky.update();
+
+        for (int i = 0; i < objs.size(); ++i)
+                visible(&objs[i]);
+
+        for (int i = 0; i < environs.size(); ++i)
+                visible(&environs[i]);
+
+        clearLights(renderer);
+        findLights();
+
+        if (shadowsEnabled) {
+                shadowRender = true;
+        }
+
+        thisPlayer->tick();
+
+        tickPhysics();
 }
 
 void Map::tickPhysics()
