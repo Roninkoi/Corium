@@ -9,7 +9,7 @@
 #include <anim.h>
 #include "entity.h"
 #include <input.h>
-#include "physSys.h"
+#include <physSys.h>
 
 class Player : public Entity {
 public:
