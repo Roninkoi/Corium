@@ -1,6 +1,6 @@
 ===============================================================================
 ----------------------- CORIUM ENGINE v1.40 BY RONIN748 -----------------------
------------------------------ 2018-07-24.09:46:31 -----------------------------
+----------------------------- 2018-07-24.10:06:03 -----------------------------
 ===============================================================================
 
 max vertices: 33000
@@ -39,132 +39,203 @@ Fragment info
 0(12) : warning C7533: global variable gl_FragColor is deprecated after version 120
 
 Vsync disabled!
-loading map maps/cornell.cm...
-FPS: 3225, rt: 0.0927132 ms, draws: 4, batches: 3, tt: 1 ms
-lights: 1
-Player pos: 0.00310829, -4.5652, 0.00225825
-FPS: 3258, rt: 0.096992 ms, draws: 4, batches: 3, tt: 1.02985 ms
-lights: 1
-Player pos: 0.0032971, -4.56501, 0.00239542
-key 68 pressed!
-FPS: 3290, rt: 0.100304 ms, draws: 3, batches: 3, tt: 1.13636 ms
-lights: 1
-Player pos: 7.17384, -4.43737, 1.62918
-key 87 pressed!
-FPS: 3427, rt: 0.103006 ms, draws: 3, batches: 3, tt: 1.1194 ms
-lights: 1
-Player pos: 14.0071, -2.70232, -6.03493
-key 68 pressed!
-FPS: 3352, rt: 0.0915871 ms, draws: 3, batches: 3, tt: 1.02985 ms
-lights: 1
-Player pos: 18.88, -4.16283, -6.61437
-key 68 pressed!
-key 87 pressed!
-FPS: 3261, rt: 0.0975161 ms, draws: 3, batches: 3, tt: 1.02985 ms
-lights: 1
-Player pos: 6.01079, -4.44814, 12.7708
-FPS: 3445, rt: 0.092598 ms, draws: 4, batches: 3, tt: 1 ms
-lights: 1
-Player pos: 10.6723, -4.39246, 5.61033
-FPS: 2852, rt: 0.092216 ms, draws: 4, batches: 3, tt: 1.63077 ms
-lights: 1
-Player pos: 14.2797, -4.22104, 3.36463
-key 65 pressed!
-FPS: 2833, rt: 0.0917755 ms, draws: 4, batches: 3, tt: 1.01515 ms
-lights: 1
-Player pos: 14.0761, -3.88149, 13.6409
-key 68 pressed!
-key 87 pressed!
+loading map maps/hurricos/hurricos.cm...
+running script maps/hurricos/hurricos.cl...
+Running map scripts...
+loading maps/hurricos/hurricos.cfg...
+loading chunk 000
+loading chunk 001
+loading chunk 002
+loading chunk 003
+loading chunk 004
+loading chunk 005
+loading chunk 006
+loading chunk 007
+loading chunk 008
+loading chunk 009
+loading chunk 010
+loading chunk 011
+loading chunk 012
+loading chunk 013
+loading chunk 014
+loading chunk 015
+loading chunk 016
+loading chunk 017
+loading chunk 018
+loading chunk 019
+loading chunk 020
+loading chunk 021
+loading chunk 022
+loading chunk 023
+loading chunk 024
+loading chunk 025
+loading chunk 026
+loading chunk 027
+loading chunk 028
+loading chunk 029
+loading chunk 030
+loading chunk 031
+loading chunk 032
+loading chunk 033
+loading chunk 034
+loading chunk 035
+loading chunk 036
+loading chunk 037
+loading chunk 038
+loading chunk 039
+loading chunk 040
+loading chunk 041
+loading chunk 042
+loading chunk 043
+loading chunk 044
+loading chunk 045
+loading chunk 046
+loading chunk 047
+loading chunk 048
+loading chunk 049
+loading chunk 050
+loading chunk 051
+loading chunk 052
+loading chunk 053
+loading chunk 054
+loading chunk 055
+loading chunk 056
+loading chunk 057
+loading chunk 058
+loading chunk 059
+loading chunk 060
+loading chunk 061
+loading chunk 062
+loading chunk 063
+loading chunk 064
+loading chunk 065
+loading chunk 066
+loading chunk 067
+loading chunk 068
+loading chunk 069
+loading chunk 070
+loading chunk 071
+loading chunk 072
+loading chunk 073
+loading chunk 074
+loading chunk 075
+loading chunk 076
+loading chunk 077
+loading chunk 078
+loading chunk 079
+loading chunk 080
+loading chunk 081
+loading chunk 082
+loading chunk 083
+loading chunk 084
+loading chunk 085
+loading chunk 086
+loading chunk 087
+loading chunk 088
+loading chunk 089
+loading chunk 090
+loading chunk 091
+loading chunk 092
+loading chunk 093
+loading chunk 094
+loading chunk 095
+loading chunk 096
+loading chunk 097
+loading chunk 098
+loading chunk 099
+loading chunk 100
+loading chunk 101
+loading chunk 102
+loading chunk 103
+loading chunk 104
+loading chunk 105
+loading chunk 106
+loading chunk 107
+loading chunk 108
+loading chunk 109
+loading chunk 110
+loading chunk 111
+loading chunk 112
+loading chunk 113
+loading chunk 114
+loading chunk 115
+loading chunk 116
+loading chunk 117
+loading chunk 118
+loading chunk 119
+loading chunk 120
+loading chunk 121
+loading chunk 122
+loading chunk 123
+loading chunk 124
+loading chunk 125
+loading chunk 126
+loading chunk 127
+loading chunk 128
+loading chunk 129
+loading chunk 130
+loading chunk 131
+loading chunk 132
+loading chunk 133
+loading chunk 134
+FPS: 1536, rt: 0.492188 ms, draws: 156, batches: 6, tt: 1.66667 ms
+lights: 3
+Player pos: 40, 10.4141, -30
+FPS: 1471, rt: 0.528212 ms, draws: 208, batches: 6, tt: 1.67164 ms
+lights: 3
+Player pos: 40, 10.4141, -30
+FPS: 1458, rt: 0.550754 ms, draws: 211, batches: 6, tt: 1.49254 ms
+lights: 3
+Player pos: 40, 10.4141, -30
 key 83 pressed!
-FPS: 2878, rt: 0.0924253 ms, draws: 4, batches: 3, tt: 1 ms
-lights: 1
-Player pos: 4.51055, -4.30968, 7.97396
-grabbed 1
-FPS: 2850, rt: 0.0912281 ms, draws: 4, batches: 3, tt: 1.01493 ms
-lights: 1
-Player pos: 3.85437, -4.45825, 6.02874
-FPS: 2882, rt: 0.092297 ms, draws: 4, batches: 3, tt: 1 ms
-lights: 1
-Player pos: 3.85424, -4.45807, 6.02855
-FPS: 2849, rt: 0.0961741 ms, draws: 4, batches: 3, tt: 1 ms
-lights: 1
-Player pos: 3.85424, -4.45807, 6.02855
-FPS: 2829, rt: 0.0883704 ms, draws: 3, batches: 3, tt: 1.04478 ms
-lights: 1
-Player pos: 3.85424, -4.45807, 6.02855
-FPS: 2964, rt: 0.0975034 ms, draws: 3, batches: 3, tt: 1.01515 ms
-lights: 1
-Player pos: 3.85424, -4.45807, 6.02855
-FPS: 2907, rt: 0.0901273 ms, draws: 3, batches: 3, tt: 1.02985 ms
-lights: 1
-Player pos: 3.85424, -4.45807, 6.02855
-FPS: 2894, rt: 0.0926054 ms, draws: 3, batches: 3, tt: 1 ms
-lights: 1
-Player pos: -7.14307, -4.30634, 2.80286
-FPS: 2884, rt: 0.0863384 ms, draws: 3, batches: 3, tt: 1.01515 ms
-lights: 1
-Player pos: -18.1071, -4.44778, -3.58401
-key 68 pressed!
+FPS: 1444, rt: 0.547784 ms, draws: 214, batches: 6, tt: 1.45455 ms
+lights: 3
+Player pos: 39.7184, 10.4148, -24.1805
 key 87 pressed!
-FPS: 2887, rt: 0.100797 ms, draws: 3, batches: 3, tt: 1.01493 ms
-lights: 1
-Player pos: -17.8273, -3.77731, -18.7455
-FPS: 2960, rt: 0.106757 ms, draws: 4, batches: 3, tt: 1.0303 ms
-lights: 1
-Player pos: -6.57289, -4.37552, -19.8953
-FPS: 2938, rt: 0.0983662 ms, draws: 3, batches: 3, tt: 1 ms
-lights: 1
-Player pos: 13.2397, -4.46533, -19.9728
-key 68 pressed!
+FPS: 1423, rt: 0.54603 ms, draws: 215, batches: 6, tt: 1.58209 ms
+lights: 3
+Player pos: 35.699, 10.6181, -36.4874
+key 65 pressed!
 key 87 pressed!
-FPS: 2947, rt: 0.0946725 ms, draws: 4, batches: 3, tt: 1.0597 ms
-lights: 1
-Player pos: 14.8804, -4.24478, -1.02462
-key 68 pressed!
-FPS: 2813, rt: 0.0956274 ms, draws: 4, batches: 3, tt: 1 ms
-lights: 1
-Player pos: 10.4857, -4.25146, -6.1243
-key 68 pressed!
+FPS: 1429, rt: 0.56753 ms, draws: 232, batches: 6, tt: 1.41791 ms
+lights: 3
+Player pos: 24.3827, 10.7196, -39.0146
+key 89 pressed!
+FPS: 1504, rt: 0.565824 ms, draws: 254, batches: 7, tt: 0.318182 ms
+lights: 3
+Player pos: 39.4836, 19.7217, -39.9083
+key 65 pressed!
+key 82 pressed!
+FPS: 1263, rt: 0.705463 ms, draws: 253, batches: 7, tt: 0.0149254 ms
+lights: 3
+Player pos: 49.385, 28.9717, -17.6934
+key 65 pressed!
+key 82 pressed!
+FPS: 1482, rt: 0.596491 ms, draws: 253, batches: 7, tt: 0 ms
+lights: 3
+Player pos: 46.2375, 41.4718, 0.372895
+key 65 pressed!
+key 82 pressed!
 key 83 pressed!
-FPS: 2856, rt: 0.0920868 ms, draws: 3, batches: 3, tt: 1.01493 ms
-lights: 1
-Player pos: 11.027, -4.33748, -13.9849
-key 65 pressed!
-FPS: 2903, rt: 0.0888736 ms, draws: 4, batches: 3, tt: 1 ms
-lights: 1
-Player pos: 0.533523, -4.45354, 3.27455
-FPS: 2924, rt: 0.0919973 ms, draws: 4, batches: 3, tt: 1 ms
-lights: 1
-Player pos: 5.51831, -4.21383, 6.7696
+FPS: 1253, rt: 0.687151 ms, draws: 289, batches: 8, tt: 0 ms
+lights: 3
+Player pos: -13.6347, 52.1967, 55.7401
 key 65 pressed!
 key 87 pressed!
-FPS: 2859, rt: 0.0874432 ms, draws: 3, batches: 3, tt: 1.04478 ms
-lights: 1
-Player pos: 10.8256, -4.29088, 19.2187
-key 68 pressed!
+FPS: 1180, rt: 0.766949 ms, draws: 263, batches: 8, tt: 0.0298507 ms
+lights: 3
+Player pos: -74.0167, 57.6967, 37.407
+key 65 pressed!
 key 87 pressed!
-FPS: 2900, rt: 0.092069 ms, draws: 4, batches: 3, tt: 1 ms
-lights: 1
-Player pos: -11.4395, -4.36933, 15.7761
-FPS: 2867, rt: 0.0931287 ms, draws: 4, batches: 3, tt: 1 ms
-lights: 1
-Player pos: -12.324, -4.17798, 16.6476
-key 68 pressed!
+FPS: 1180, rt: 0.754237 ms, draws: 281, batches: 8, tt: 0 ms
+lights: 3
+Player pos: -30.8251, 49.1717, -42.7304
+key 65 pressed!
+key 82 pressed!
 key 87 pressed!
-FPS: 2870, rt: 0.0958188 ms, draws: 4, batches: 3, tt: 1 ms
-lights: 1
-Player pos: -19.3894, -4.30982, 8.90125
-key 68 pressed!
-key 87 pressed!
-FPS: 2903, rt: 0.0916293 ms, draws: 2, batches: 2, tt: 1 ms
-lights: 1
-Player pos: -4.61722, -4.45515, -12.0974
-FPS: 2922, rt: 0.0927447 ms, draws: 3, batches: 3, tt: 1.01515 ms
-lights: 1
-Player pos: -4.52608, -4.46102, -12.1212
-FPS: 3213, rt: 0.097728 ms, draws: 3, batches: 3, tt: 1.04478 ms
-lights: 1
-Player pos: -4.52608, -4.46102, -12.1212
-FPS: 3410, rt: 0.101466 ms, draws: 3, batches: 3, tt: 1.0597 ms
-lights: 1
-Player pos: -4.52608, -4.46102, -12.1212
+FPS: 1269, rt: 0.693459 ms, draws: 283, batches: 8, tt: 0 ms
+lights: 3
+Player pos: 43.3598, 33.7717, -50.1912
+FPS: 1245, rt: 0.73253 ms, draws: 284, batches: 8, tt: 0.0298507 ms
+lights: 3
+Player pos: 43.3707, 33.7717, -50.1884

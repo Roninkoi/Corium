@@ -1,5 +1,5 @@
 //
-// Created by Roni A. Koitermaa on 20.12.2015.
+// Created by Ronin748 on 20.12.2015.
 //
 
 #include "game.h"

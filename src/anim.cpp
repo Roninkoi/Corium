@@ -1,9 +1,9 @@
 //
-// Created by Roni A. Koitermaa on 28.7.2017.
+// Created by Ronin748 on 28.7.2017.
 //
 
 #include <util/objParser.h>
-#include "anim.h"
+#include <anim.h>
 
 void Anim::draw(Renderer* renderer)
 {

@@ -1,4 +1,4 @@
-#include "mesh.h"
+#include <mesh.h>
 #include <util/triIsect.h>
 
 int tri_tunneling(float v0[3], float v1[3], float v2[3], float u0[3], float u1[3], float u2[3], float nv[3], float nu[3])

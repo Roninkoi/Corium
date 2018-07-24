@@ -1,5 +1,5 @@
 //
-// Created by Roni A. Koitermaa on 29.7.2017.
+// Created by Ronin748 on 29.7.2017.
 //
 
 #ifndef CORIUM_TEXTRENDERER_H

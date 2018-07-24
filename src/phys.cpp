@@ -1,10 +1,9 @@
 //
-// Created by Roni A. Koitermaa on 21.12.2015.
+// Created by Ronin748 on 21.12.2015.
 //
 
-#include "phys.h"
+#include <phys.h>
 #include <util/randomRange.h>
-#include <glm/gtx/matrix_interpolation.hpp>
 
 void Phys::tick()
 {

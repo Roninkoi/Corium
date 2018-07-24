@@ -1,5 +1,5 @@
 //
-// Created by Roni A. Koitermaa on 18.12.2015.
+// Created by Ronin748 on 18.12.2015.
 //
 
 #include "player.h"

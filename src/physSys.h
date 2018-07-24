@@ -1,5 +1,5 @@
 //
-// Created by Roni A. Koitermaa on 2.2.2016.
+// Created by Ronin748 on 2.2.2016.
 //
 
 #ifndef CORIUM_PHYSSYS_H

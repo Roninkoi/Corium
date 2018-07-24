@@ -3,7 +3,6 @@
 //
 
 #include <physSys.h>
-#include <algorithm>
 
 // fully dynamic
 bool fd = false;

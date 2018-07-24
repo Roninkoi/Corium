@@ -1,5 +1,5 @@
 //
-// Created by Roni A. Koitermaa on 22.12.2015.
+// Created by Ronin748 on 22.12.2015.
 //
 
 #ifndef CORIUM_SCREEN_H
