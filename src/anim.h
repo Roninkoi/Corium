@@ -1,12 +1,12 @@
 //
-// Created by Roni A. Koitermaa on 8.4.2017.
+// Created by Ronin748 on 8.4.2017.
 //
 
 #ifndef CORIUM_ANIM_H
 #define CORIUM_ANIM_H
 
 #include <mesh.h>
-#include "crm.h"
+#include <crm.h>
 
 class Anim {
 public:

@@ -1,13 +1,13 @@
 //
-// Created by Roni A. Koitermaa on 18.12.2015.
+// Created by Ronin748 on 18.12.2015.
 //
 
 #ifndef CORIUM_QUAD_H
 #define CORIUM_QUAD_H
 
-#include "mesh.h"
+#include <mesh.h>
 #include <texture.h>
-#include "util/quadIsect.h"
+#include <util/quadIsect.h>
 
 class Quad : public Mesh {
 public:

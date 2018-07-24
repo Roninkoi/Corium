@@ -1,13 +1,11 @@
 //
-// Created by Roni A. Koitermaa on 20.12.2015.
+// Created by Ronin748 on 20.12.2015.
 //
 
 #ifndef CORIUM_TEXTURE_H
 #define CORIUM_TEXTURE_H
 
-#include "crm.h"
-//#include <png.h>
-//#include <SOIL/SOIL.h>
+#include <crm.h>
 
 class Texture {
 public:
@@ -25,7 +23,7 @@ void deleteTexture()
                 glDeleteTextures(1, &tex);
                 path = "";
                 tex = 0;
-            }
+        }
 }
 
 Texture()
