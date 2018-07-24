@@ -5,8 +5,7 @@
 #ifndef CORIUM_ENTITY_H
 #define CORIUM_ENTITY_H
 
-#include "../obj/obj.h"
-#include "../../phys.h"
+#include <game/obj/obj.h>
 
 class Entity : public Obj {
 public:
