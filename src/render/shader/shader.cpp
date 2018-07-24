@@ -109,42 +109,41 @@ GLuint Shader::loadGS(const char *vertex_file_path, const char *fragment_file_pa
         FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
         std::string VertexShaderCode;
-        
-           std::fstream VertexShaderStream(vertex_file_path, std::ios::in);
-           if (VertexShaderStream.is_open()) {
-            std::string Line = "";
-            while (getline(VertexShaderStream, Line))
-                VertexShaderCode += "\n" + Line;
-            VertexShaderStream.close();
-           } else {
-            printf("Could not open %s!\n",
-                   vertex_file_path);
-            getchar();
-            return 0;
-           }
+
+        std::fstream VertexShaderStream(vertex_file_path, std::ios::in);
+        if (VertexShaderStream.is_open()) {
+                std::string Line = "";
+                while (getline(VertexShaderStream, Line))
+                        VertexShaderCode += "\n" + Line;
+                VertexShaderStream.close();
+        } else {
+                printf("Could not open %s!\n",
+                       vertex_file_path);
+                getchar();
+                return 0;
+        }
 
         std::string GeometryShaderCode;
-        
-           std::fstream GeometryShaderStream(gs_file_path, std::ios::in);
-           if (GeometryShaderStream.is_open()) {
-            std::string Line = "";
-            while (getline(GeometryShaderStream, Line))
-                GeometryShaderCode += "\n" + Line;
-            GeometryShaderStream.close();
-           }
+
+        std::fstream GeometryShaderStream(gs_file_path, std::ios::in);
+        if (GeometryShaderStream.is_open()) {
+                std::string Line = "";
+                while (getline(GeometryShaderStream, Line))
+                        GeometryShaderCode += "\n" + Line;
+                GeometryShaderStream.close();
+        }
         std::string FragmentShaderCode;
-        
-           std::fstream FragmentShaderStream(fragment_file_path, std::ios::in);
-           if (FragmentShaderStream.is_open()) {
-            std::string Line = "";
-            while (getline(FragmentShaderStream, Line))
-                FragmentShaderCode += "\n" + Line;
-            FragmentShaderStream.close();
-           }
-           printf("Compiling shader : %s\n", vertex_file_path);
-           printf("Compiling shader : %s\n", gs_file_path);
-           printf("Compiling shader : %s\n", fragment_file_path);
-         
+
+        std::fstream FragmentShaderStream(fragment_file_path, std::ios::in);
+        if (FragmentShaderStream.is_open()) {
+                std::string Line = "";
+                while (getline(FragmentShaderStream, Line))
+                        FragmentShaderCode += "\n" + Line;
+                FragmentShaderStream.close();
+        }
+        printf("Compiling shader : %s\n", vertex_file_path);
+        printf("Compiling shader : %s\n", gs_file_path);
+        printf("Compiling shader : %s\n", fragment_file_path);
 
         GLint Result = GL_FALSE;
         int InfoLogLength;

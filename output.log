@@ -1,7 +1,7 @@
-==========================================================
-------------- CORIUM ENGINE v1.4 BY RONIN748 -------------
------------------- 2018-07-23.18:18:27 -------------------
-==========================================================
+===============================================================================
+----------------------- CORIUM ENGINE v1.40 BY RONIN748 -----------------------
+----------------------------- 2018-07-24.09:46:31 -----------------------------
+===============================================================================
 
 max vertices: 33000
 max indices: 33001
@@ -16,29 +16,17 @@ Fragment info
 -------------
 0(19) : warning C7533: global variable gl_FragColor is deprecated after version 120
 
-0(232) : warning C7533: global variable gl_FragColor is deprecated after version 120
+0(231) : warning C7533: global variable gl_FragColor is deprecated after version 120
 
 Linking program
 Fragment info
 -------------
-0(232) : warning C7533: global variable gl_FragColor is deprecated after version 120
+0(231) : warning C7533: global variable gl_FragColor is deprecated after version 120
 
 Compiling shader : gfx/shader/pointShadowDepth.vert
 Compiling shader : gfx/shader/pointShadowDepth.gs
 Compiling shader : gfx/shader/pointShadowDepth.frag
-0(4) : warning C7547: extension GL_ARB_geometry_shader4 not supported in profile gp5vp
-
-0(4) : warning C7547: extension GL_ARB_geometry_shader4 not supported in profile gp5fp
-
 Linking program
-Vertex info
------------
-0(4) : warning C7547: extension GL_ARB_geometry_shader4 not supported in profile gp5vp
-
-Fragment info
--------------
-0(4) : warning C7547: extension GL_ARB_geometry_shader4 not supported in profile gp5fp
-
 SCREEN WIDTH: 512 SCREEN HEIGHT: 300
 st 9
 sd t 10
@@ -51,142 +39,132 @@ Fragment info
 0(12) : warning C7533: global variable gl_FragColor is deprecated after version 120
 
 Vsync disabled!
-loading map maps/hurricos/hurricos.cm...
-running script maps/hurricos/hurricos.cl...
-Running map scripts...
-loading maps/hurricos/hurricos.cfg...
-FPS: 1947, rt: 0.409348 ms, draws: 68, batches: 4, tt: 1.09091 ms
-lights: 3
-Player pos: 40, 10.4821, -30
-FPS: 2032, rt: 0.394193 ms, draws: 72, batches: 4, tt: 1.10448 ms
-lights: 3
-Player pos: 40, 10.3381, -30
-FPS: 2019, rt: 0.385835 ms, draws: 71, batches: 4, tt: 1.13433 ms
-lights: 3
-Player pos: 40, 15.149, -30
+loading map maps/cornell.cm...
+FPS: 3225, rt: 0.0927132 ms, draws: 4, batches: 3, tt: 1 ms
+lights: 1
+Player pos: 0.00310829, -4.5652, 0.00225825
+FPS: 3258, rt: 0.096992 ms, draws: 4, batches: 3, tt: 1.02985 ms
+lights: 1
+Player pos: 0.0032971, -4.56501, 0.00239542
+key 68 pressed!
+FPS: 3290, rt: 0.100304 ms, draws: 3, batches: 3, tt: 1.13636 ms
+lights: 1
+Player pos: 7.17384, -4.43737, 1.62918
+key 87 pressed!
+FPS: 3427, rt: 0.103006 ms, draws: 3, batches: 3, tt: 1.1194 ms
+lights: 1
+Player pos: 14.0071, -2.70232, -6.03493
+key 68 pressed!
+FPS: 3352, rt: 0.0915871 ms, draws: 3, batches: 3, tt: 1.02985 ms
+lights: 1
+Player pos: 18.88, -4.16283, -6.61437
+key 68 pressed!
+key 87 pressed!
+FPS: 3261, rt: 0.0975161 ms, draws: 3, batches: 3, tt: 1.02985 ms
+lights: 1
+Player pos: 6.01079, -4.44814, 12.7708
+FPS: 3445, rt: 0.092598 ms, draws: 4, batches: 3, tt: 1 ms
+lights: 1
+Player pos: 10.6723, -4.39246, 5.61033
+FPS: 2852, rt: 0.092216 ms, draws: 4, batches: 3, tt: 1.63077 ms
+lights: 1
+Player pos: 14.2797, -4.22104, 3.36463
+key 65 pressed!
+FPS: 2833, rt: 0.0917755 ms, draws: 4, batches: 3, tt: 1.01515 ms
+lights: 1
+Player pos: 14.0761, -3.88149, 13.6409
+key 68 pressed!
+key 87 pressed!
+key 83 pressed!
+FPS: 2878, rt: 0.0924253 ms, draws: 4, batches: 3, tt: 1 ms
+lights: 1
+Player pos: 4.51055, -4.30968, 7.97396
+grabbed 1
+FPS: 2850, rt: 0.0912281 ms, draws: 4, batches: 3, tt: 1.01493 ms
+lights: 1
+Player pos: 3.85437, -4.45825, 6.02874
+FPS: 2882, rt: 0.092297 ms, draws: 4, batches: 3, tt: 1 ms
+lights: 1
+Player pos: 3.85424, -4.45807, 6.02855
+FPS: 2849, rt: 0.0961741 ms, draws: 4, batches: 3, tt: 1 ms
+lights: 1
+Player pos: 3.85424, -4.45807, 6.02855
+FPS: 2829, rt: 0.0883704 ms, draws: 3, batches: 3, tt: 1.04478 ms
+lights: 1
+Player pos: 3.85424, -4.45807, 6.02855
+FPS: 2964, rt: 0.0975034 ms, draws: 3, batches: 3, tt: 1.01515 ms
+lights: 1
+Player pos: 3.85424, -4.45807, 6.02855
+FPS: 2907, rt: 0.0901273 ms, draws: 3, batches: 3, tt: 1.02985 ms
+lights: 1
+Player pos: 3.85424, -4.45807, 6.02855
+FPS: 2894, rt: 0.0926054 ms, draws: 3, batches: 3, tt: 1 ms
+lights: 1
+Player pos: -7.14307, -4.30634, 2.80286
+FPS: 2884, rt: 0.0863384 ms, draws: 3, batches: 3, tt: 1.01515 ms
+lights: 1
+Player pos: -18.1071, -4.44778, -3.58401
+key 68 pressed!
+key 87 pressed!
+FPS: 2887, rt: 0.100797 ms, draws: 3, batches: 3, tt: 1.01493 ms
+lights: 1
+Player pos: -17.8273, -3.77731, -18.7455
+FPS: 2960, rt: 0.106757 ms, draws: 4, batches: 3, tt: 1.0303 ms
+lights: 1
+Player pos: -6.57289, -4.37552, -19.8953
+FPS: 2938, rt: 0.0983662 ms, draws: 3, batches: 3, tt: 1 ms
+lights: 1
+Player pos: 13.2397, -4.46533, -19.9728
+key 68 pressed!
+key 87 pressed!
+FPS: 2947, rt: 0.0946725 ms, draws: 4, batches: 3, tt: 1.0597 ms
+lights: 1
+Player pos: 14.8804, -4.24478, -1.02462
+key 68 pressed!
+FPS: 2813, rt: 0.0956274 ms, draws: 4, batches: 3, tt: 1 ms
+lights: 1
+Player pos: 10.4857, -4.25146, -6.1243
 key 68 pressed!
 key 83 pressed!
-FPS: 1926, rt: 0.396677 ms, draws: 75, batches: 4, tt: 1.10606 ms
-lights: 3
-Player pos: 31.0145, 10.3471, -25.703
-key 87 pressed!
-FPS: 1865, rt: 0.38874 ms, draws: 64, batches: 4, tt: 1.13433 ms
-lights: 3
-Player pos: 37.8933, 10.3291, -9.30464
+FPS: 2856, rt: 0.0920868 ms, draws: 3, batches: 3, tt: 1.01493 ms
+lights: 1
+Player pos: 11.027, -4.33748, -13.9849
+key 65 pressed!
+FPS: 2903, rt: 0.0888736 ms, draws: 4, batches: 3, tt: 1 ms
+lights: 1
+Player pos: 0.533523, -4.45354, 3.27455
+FPS: 2924, rt: 0.0919973 ms, draws: 4, batches: 3, tt: 1 ms
+lights: 1
+Player pos: 5.51831, -4.21383, 6.7696
 key 65 pressed!
 key 87 pressed!
-FPS: 1983, rt: 0.378215 ms, draws: 63, batches: 4, tt: 1.10448 ms
-lights: 3
-Player pos: 46.5276, 10.3332, -23.0913
-key 65 pressed!
-FPS: 1898, rt: 0.394626 ms, draws: 68, batches: 4, tt: 1.12121 ms
-lights: 3
-Player pos: 36.5975, 10.3297, -29.0768
-grabbed 1
-FPS: 1839, rt: 0.442632 ms, draws: 71, batches: 4, tt: 1.01493 ms
-lights: 3
-Player pos: 37.0036, 10.3397, -28.5774
-key 83 pressed!
-FPS: 1789, rt: 0.422023 ms, draws: 77, batches: 4, tt: 1.1194 ms
-lights: 3
-Player pos: 40.016, 10.3537, -26.8369
-FPS: 1754, rt: 0.45268 ms, draws: 72, batches: 4, tt: 1.13636 ms
-lights: 3
-Player pos: 45.4796, 10.3537, -30.1264
-grabbed 0
-FPS: 1705, rt: 0.486804 ms, draws: 72, batches: 4, tt: 1.13433 ms
-lights: 3
-Player pos: 45.4887, 10.3597, -30.1353
-FPS: 1652, rt: 0.501211 ms, draws: 72, batches: 4, tt: 1.25373 ms
-lights: 3
-Player pos: 45.4887, 10.3577, -30.1353
-grabbed 1
-grabbed 2
-FPS: 1644, rt: 0.493917 ms, draws: 72, batches: 4, tt: 1.19697 ms
-lights: 3
-Player pos: 45.4887, 10.3577, -30.1353
-FPS: 1779, rt: 0.438449 ms, draws: 73, batches: 4, tt: 1.1791 ms
-lights: 3
-Player pos: 41.3091, 10.3477, -23.4628
+FPS: 2859, rt: 0.0874432 ms, draws: 3, batches: 3, tt: 1.04478 ms
+lights: 1
+Player pos: 10.8256, -4.29088, 19.2187
 key 68 pressed!
 key 87 pressed!
-FPS: 1810, rt: 0.449171 ms, draws: 70, batches: 4, tt: 1.0597 ms
-lights: 3
-Player pos: 30.7628, 10.3297, -19.2831
-key 65 pressed!
-key 87 pressed!
-FPS: 1973, rt: 0.364927 ms, draws: 48, batches: 4, tt: 1.15152 ms
-lights: 3
-Player pos: 29.2751, 10.3611, -5.428
-key 87 pressed!
-FPS: 1919, rt: 0.379885 ms, draws: 63, batches: 4, tt: 1.35821 ms
-lights: 3
-Player pos: 14.6238, 11.4348, 2.00814
-key 87 pressed!
-key 87 pressed!
-FPS: 1924, rt: 0.356029 ms, draws: 51, batches: 4, tt: 1.67164 ms
-lights: 3
-Player pos: 1.95234, 12.5767, 10.4735
-key 87 pressed!
-FPS: 2166, rt: 0.297322 ms, draws: 37, batches: 3, tt: 1.5 ms
-lights: 3
-Player pos: -12.3687, 13.1048, 20.851
+FPS: 2900, rt: 0.092069 ms, draws: 4, batches: 3, tt: 1 ms
+lights: 1
+Player pos: -11.4395, -4.36933, 15.7761
+FPS: 2867, rt: 0.0931287 ms, draws: 4, batches: 3, tt: 1 ms
+lights: 1
+Player pos: -12.324, -4.17798, 16.6476
 key 68 pressed!
 key 87 pressed!
-FPS: 2141, rt: 0.292854 ms, draws: 51, batches: 4, tt: 1.29851 ms
-lights: 3
-Player pos: -29.6204, 8.56806, 20.4072
-key 65 pressed!
-FPS: 2274, rt: 0.269129 ms, draws: 22, batches: 3, tt: 1.25373 ms
-lights: 3
-Player pos: -35.3518, 8.9076, 39.3967
-key 65 pressed!
-FPS: 2481, rt: 0.235792 ms, draws: 58, batches: 4, tt: 1.04545 ms
-lights: 3
-Player pos: -21.6642, 6.84072, 39.0784
-key 65 pressed!
+FPS: 2870, rt: 0.0958188 ms, draws: 4, batches: 3, tt: 1 ms
+lights: 1
+Player pos: -19.3894, -4.30982, 8.90125
+key 68 pressed!
 key 87 pressed!
-FPS: 1530, rt: 0.530065 ms, draws: 105, batches: 5, tt: 1.44776 ms
-lights: 3
-Player pos: -14.4563, 8.48199, 19.0311
-key 87 pressed!
-FPS: 1515, rt: 0.525413 ms, draws: 90, batches: 5, tt: 1.71642 ms
-lights: 3
-Player pos: -8.93503, 12.6121, 15.5903
-key 87 pressed!
-FPS: 1723, rt: 0.446315 ms, draws: 90, batches: 4, tt: 1.63636 ms
-lights: 3
-Player pos: 7.66329, 12.571, 7.1488
-key 87 pressed!
-FPS: 1843, rt: 0.413456 ms, draws: 80, batches: 4, tt: 1.50746 ms
-lights: 3
-Player pos: 24.2463, 10.3445, -1.8005
-key 65 pressed!
-key 87 pressed!
-FPS: 1829, rt: 0.407326 ms, draws: 77, batches: 4, tt: 1.31343 ms
-lights: 3
-Player pos: 28.1221, 10.3305, -16.632
-FPS: 1824, rt: 0.423246 ms, draws: 76, batches: 4, tt: 1.18182 ms
-lights: 3
-Player pos: 28.1231, 10.3305, -16.6346
-FPS: 1857, rt: 0.426494 ms, draws: 76, batches: 4, tt: 1.08955 ms
-lights: 3
-Player pos: 28.1231, 10.3405, -16.6346
-FPS: 1835, rt: 0.420708 ms, draws: 76, batches: 4, tt: 1.1194 ms
-lights: 3
-Player pos: 28.1231, 10.3545, -16.6346
-FPS: 1802, rt: 0.448391 ms, draws: 239, batches: 5, tt: 1.10606 ms
-lights: 3
-Player pos: 28.1231, 10.3545, -16.6346
-FPS: 1823, rt: 0.416347 ms, draws: 76, batches: 4, tt: 1.13433 ms
-lights: 3
-Player pos: 28.1231, 10.3605, -16.6346
-FPS: 1816, rt: 0.449339 ms, draws: 240, batches: 5, tt: 1.10448 ms
-lights: 3
-Player pos: 28.1231, 10.3585, -16.6346
-FPS: 1635, rt: 0.491743 ms, draws: 241, batches: 5, tt: 1.31818 ms
-lights: 3
-Player pos: 28.1231, 10.3585, -16.6346
-FPS: 1651, rt: 0.478498 ms, draws: 241, batches: 5, tt: 1.20896 ms
-lights: 3
-Player pos: 28.1231, 10.3485, -16.6346
+FPS: 2903, rt: 0.0916293 ms, draws: 2, batches: 2, tt: 1 ms
+lights: 1
+Player pos: -4.61722, -4.45515, -12.0974
+FPS: 2922, rt: 0.0927447 ms, draws: 3, batches: 3, tt: 1.01515 ms
+lights: 1
+Player pos: -4.52608, -4.46102, -12.1212
+FPS: 3213, rt: 0.097728 ms, draws: 3, batches: 3, tt: 1.04478 ms
+lights: 1
+Player pos: -4.52608, -4.46102, -12.1212
+FPS: 3410, rt: 0.101466 ms, draws: 3, batches: 3, tt: 1.0597 ms
+lights: 1
+Player pos: -4.52608, -4.46102, -12.1212

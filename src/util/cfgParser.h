@@ -85,9 +85,9 @@ void loadSettings(std::string path, Game *game)
                         game->thisCamera->camai = (bool) atof(words[i + 1].c_str());
                 }
                 if (expr(words, i, 2, "_FRAMEBUFFER")) {
-                        game->renderer.rts = (bool) atoi(words[i + 1].c_str());
+                        game->renderer.rfbo = (bool) atoi(words[i + 1].c_str());
 
-                        if (game->renderer.rts) {
+                        if (game->renderer.rfbo) {
                                 game->renderer.SCREEN_WIDTH = game->renderer.w;
                                 game->renderer.SCREEN_HEIGHT = game->renderer.h;
                         }
@@ -97,7 +97,7 @@ void loadSettings(std::string path, Game *game)
                         }
                 }
                 if (expr(words, i, 2, "_DITHERING")) {
-                        game->renderer.dithering_enabled = (bool) atoi(words[i + 1].c_str());
+                        game->renderer.dithering = (bool) atoi(words[i + 1].c_str());
                 }
                 if (expr(words, i, 2, "_ANTIALIAS")) {
                         game->wndw.aa_samples = atoi(words[i + 1].c_str());

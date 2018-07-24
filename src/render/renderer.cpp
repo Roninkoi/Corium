@@ -192,12 +192,12 @@ void Renderer::draw(Texture *tex, std::vector<float> *vertexData, std::vector<fl
 void Renderer::flushBatchFBO()
 {
         flushBatch();
-        if (!rts) renderFBO();
+        if (!rfbo) renderFBO();
 }
 
 void Renderer::flushUpdate()
 {
-        if (rts) {
+        if (rfbo) {
                 glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
                 SCREEN_WIDTH = w;
                 SCREEN_HEIGHT = h;
@@ -226,7 +226,7 @@ void Renderer::flushUpdate()
 
         glUniform1f(glGetUniformLocation(PS_Shader.program, "far_plane"), far_plane);
 
-        glUniform1f(glGetUniformLocation(PS_Shader.program, "dither"), (float) dithering_enabled);
+        glUniform1f(glGetUniformLocation(PS_Shader.program, "dither"), (float) dithering);
 
         GLuint sampleTex = glGetUniformLocation(PS_Shader.program, "diffuseTexture");
         glActiveTexture(GL_TEXTURE0);
@@ -241,7 +241,7 @@ void Renderer::flushUpdate()
                 glUniform3fv(glGetUniformLocation(PS_Shader.program, ("lights[" + to_string(l) + "].pos").c_str()), 1,
                              (const float *) glm::value_ptr(lights[l].pos));
                 glUniform3fv(glGetUniformLocation(PS_Shader.program, ("lights[" + to_string(l) + "].col").c_str()), 1,
-                             &(lights[l].col*((float)!disableShadows))[0]);
+                             &(lights[l].col*((float)shadows))[0]);
 
                 GLuint depthTex = glGetUniformLocation(PS_Shader.program, ("depthMap[" + to_string(l) + "]").c_str());
 
@@ -363,6 +363,129 @@ void Renderer::render(Texture *tex, glm::mat4 *objMatrix, std::vector<float> *ve
         flushUpdate();
 
         flush();
+}
+
+void Renderer::drawLine(glm::vec3 l0, glm::vec3 l1)
+{
+        flushBatch();
+
+        uMatrix = glm::mat4(1.0f);
+
+        std::vector<float> vertexData = {l0.x, l0.y, l0.z, 1.0f, l1.x, l1.y, l1.z, 1.0f};
+        std::vector<float> normalData = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+        std::vector<float> texData = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+        std::vector<float> colData = {20.0f, 0.0f, 0.0f, 1.0f, 20.0f, 0.0f, 20.0f, 1.0f};
+        std::vector<int> indexData = {0, 1, 0, 1, 0, 1};
+        //render(&tex, &uMatrix, &vertexData, &normalData,&texData,&colData,&indexData);
+        buffer_vertices = vertexData.size();
+        buffer_indices = indexData.size();
+
+        glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+        glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), &(vertexData)[0], GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ARRAY_BUFFER, texBuffer);
+        glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), &(texData)[0], GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
+        glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), &(normalData)[0], GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ARRAY_BUFFER, colBuffer);
+        glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), &(colData)[0], GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer_indices * sizeof(int), &(indexData)[0], GL_DYNAMIC_DRAW);
+
+        /*glActiveTexture(GL_TEXTURE0);
+           glBindTexture(GL_TEXTURE_2D, this->tex.tex);*/
+
+
+        /*glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+
+           glEnable(GL_POLYGON_OFFSET_LINE);
+
+           glPolygonOffset(0.0f, -500.0f);*/
+
+        flushUpdate();
+
+        glBindVertexArray(vertexArrayID);
+
+        glBindAttribLocation(PS_Shader.program, 0, "position");
+        glEnableVertexAttribArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+        glVertexAttribPointer(
+                0,
+                4,
+                GL_FLOAT,
+                GL_FALSE,
+                0,
+                (void *) 0
+                );
+
+        glBindAttribLocation(PS_Shader.program, 1, "normal");
+        glEnableVertexAttribArray(1);
+        glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
+        glVertexAttribPointer(
+                1,
+                4,
+                GL_FLOAT,
+                GL_FALSE,
+                0,
+                (void *) 0
+                );
+
+        glBindAttribLocation(PS_Shader.program, 2, "texCoords");
+        glEnableVertexAttribArray(2);
+        glBindBuffer(GL_ARRAY_BUFFER, texBuffer);
+        glVertexAttribPointer(
+                2,
+                4,
+                GL_FLOAT,
+                GL_FALSE,
+                0,
+                (void *) 0
+                );
+
+        glBindAttribLocation(PS_Shader.program, 3, "col");
+        glEnableVertexAttribArray(3);
+        glBindBuffer(GL_ARRAY_BUFFER, colBuffer);
+        glVertexAttribPointer(
+                3,
+                4,
+                GL_FLOAT,
+                GL_FALSE,
+                0,
+                (void *) 0
+                );
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+
+        glLineWidth(8.0f);
+
+        glDrawElements(GL_LINES,
+                       buffer_indices, GL_UNSIGNED_INT,
+                       (void *) 0);
+
+        glLineWidth(1.0f);
+
+        glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
+        glDisableVertexAttribArray(2);
+        glDisableVertexAttribArray(3);
+
+        buffer_indices = 0;
+        buffer_vertices = 0;
+
+        uMatrix = glm::mat4(1.0f);
+
+        if (!rfbo) renderFBO();
+
+        //flush();
+
+        /*glPolygonOffset(0.0f, 0.0f);
+
+           glEnable(GL_POLYGON_OFFSET_LINE);
+
+           glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);*/
 }
 
 void Renderer::flushBatch()

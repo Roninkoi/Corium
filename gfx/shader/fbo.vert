@@ -1,4 +1,4 @@
-#version 330
+#version 140
 
 /*layout(location = 0) */in vec4 a_pos;
 /*layout(location = 1) */in vec4 a_tex;

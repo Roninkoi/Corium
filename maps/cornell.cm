@@ -1,0 +1,24 @@
+_CORIUM_MAP;
+
+_NAME "Cornell";
+
+_FAR_PLANE 200.0f;
+_FOG_COL (0.007f,0.008f,0.009f);
+_AMB 0.32f;
+_LGHT 0.7f;
+
+_PLAYER_START (0.0f, 5.0f, 0.0f) (0.0f, -1.6f, 0.0f);
+
+#_SKY "gfx/models/sky2.obj" "gfx/bluesky.png" 100.0f 2.0f;
+
+_RENDER_DIST 0.5f;
+
+_GRAVITY (0.0f, -0.008f, 0.0f);
+
+_LIGHT (0.0f, 7.0f, 0.0f) (0.65f, 0.6f, 0.5f);
+
+_OBJECT gfx/models/cornell.obj NULL gfx/cornell.png (0.0f, 15.0f, 0.0f) (0.0f, 0.0f, 0.0f) (3.0f, 3.0f, 3.0f) true true;
+
+_OBJECT "gfx/models/cbbox.obj" NULL "gfx/test2.png" (10.0f, 0.0f, 0.0f) (0.0f, 0.0f, 0.0f) (2.0f, 2.0f, 2.0f) false true;
+_OBJECT "gfx/models/ico.obj" NULL "gfx/test2.png" (-10.0f, 0.0f, 0.0f) (0.0f, 0.0f, 0.0f) (2.0f, 2.0f, 2.0f) false true;
+

@@ -68,7 +68,6 @@ bool boolParser(std::string input)
         return output;
 }
 
-
 float parseAdd(std::string input)
 {
         float sum = 0.0f;

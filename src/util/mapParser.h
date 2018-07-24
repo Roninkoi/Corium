@@ -42,12 +42,18 @@ void mapCmd(std::vector<std::string> words, int i, Map* map)
 
                 map->sky.loadObject(t, s);
                 map->sky.phys.s = glm::vec3(atof(&c[0]));
+                map->sky.phys.isStatic = true;
                 map->sky.rendered = true;
+                map->sky.ro = false; // true
                 map->skyplane = atof(&p[0]);
         }
         if (expr(words, i, 2, "_RENDER_DIST")) {
                 std::string s = words[i + 1];
                 map->renderer->render_dist = atof(&s[0]);
+        }
+        if (expr(words, i, 2, "_MASS")) {
+                std::string s = words[i + 1];
+                map->newobjmass = atof(&s[0]);
         }
         if (expr(words, i, 2, "_AMB")) {
                 std::string s = words[i + 1];

@@ -1,4 +1,4 @@
-#version 330
+#version 140
 
 //layout(location = 0) out vec4 gl_FragColor;
 

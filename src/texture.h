@@ -15,14 +15,17 @@ std::string path = "";
 
 int w = 0, h = 0;
 
-GLuint tex = -1;
+GLuint tex = 0;
 
 GLuint loadTexture(std::string path);
 
 void deleteTexture()
 {
-        if (tex != -1)
+        if (tex > 0) {
                 glDeleteTextures(1, &tex);
+                path = "";
+                tex = 0;
+            }
 }
 
 Texture()

@@ -1,5 +1,6 @@
 #version 330
-#extension GL_ARB_geometry_shader4:enable
+//#extension GL_EXT_geometry_shader4 : enable
+//#extension GL_ARB_explicit_attrib_location : enable
 
 layout (triangles) in;
 layout (triangle_strip, max_vertices=18) out;

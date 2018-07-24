@@ -9,10 +9,16 @@
 #include <sstream>
 
 template<typename T>
-std::string to_string(const T &n) {
+std::string to_string(const T &n)
+{
         std::ostringstream stm;
         stm << n;
         return stm.str();
+}
+
+std::string vec_to_string(glm::vec3 v)
+{
+        return "(" + to_string(v[0]) + ", " + to_string(v[1]) + ", " + to_string(v[2]) + ")";
 }
 
 #endif //CORIUM_TOSTRING_H

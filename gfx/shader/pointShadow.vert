@@ -1,4 +1,4 @@
-#version 330
+#version 150
 
 precision lowp int;
 precision lowp float;
@@ -20,7 +20,7 @@ uniform mat4 model;
 void main()
 {
     gl_Position = projection * view * model * vec4(position.xyz, 1.0f);
-  FragPos = vec3(model * position);
+    FragPos = vec3(model * position);
     Normal = transpose(inverse(mat3(model))) * (normal.xyz);
     //Normal = mat3(model) * (normal.xyz);
     TexPos = vec2((texCoords.s)*texCoords.p, (texCoords.t)*texCoords.q);

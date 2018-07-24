@@ -3,51 +3,70 @@
 //
 
 #include "phys.h"
+#include <util/randomRange.h>
+#include <glm/gtx/matrix_interpolation.hpp>
 
 void Phys::tick()
 {
-/*        v_k1 = a;
-        v_k2 = v + 0.25f*v_k1;
-        v_k3 = v + 0.25f*v_k2;
+        if (!nnv(forces)) // NULL precaution
+                forces = glm::vec3(0.0f);
+        if (!nnv(torx))
+                torx = glm::vec3(0.0f);
+        if (!nnv(v)) // NULL precaution
+                v = glm::vec3(0.0f);
+        if (!nnv(rot_v))
+                rot_v = glm::vec3(0.0f);
+        if (!nn(qrot))
+                qrot = glm::quat(rot);
 
-        glm::vec3 v_k4 = v + v_k3;
- */
+        forcesold = forces;
+        torxold = torx;
         a = (forces / (m));
         v += a;
-/*
-        pos_k1 = pos;
-        pos_k2 = pos + 0.5f*pos_k1;
-        pos_k3 = pos + 0.5f*pos_k2;
-        glm::vec3 pos_k4 = pos + pos_k3;
-
-        rPos += 0.16666666667f*(pos_k1 + 2.0f*pos_k2 + 2.0f*pos_k3 + pos_k4);
- */
+        pos += v;
 
         // nulls can happen here
-        float rDiff = (float) glm::length(rPos - pos) + 0.1f;
+        float rDiff = (float) glm::length(rpos - pos) + 0.01f;
 
         // null == true always
         if (rDiff > 1.0f)
                 rDiff = 1.0f;
 
-        rPos = rPos * (1.0f - rDiff) + rDiff * pos;
+        rpos = rpos * (1.0f - rDiff) + rDiff * pos;
 
-        pos += v;
+        float rrDiff = (float) glm::length(rrot - rot) + 0.01f;
 
-        rot_a = M / j;
+        // null == true always
+        if (rrDiff > 1.0f)
+                rrDiff = 1.0f;
+
+        rrot = rrot * (1.0f - rrDiff) + rrDiff * rot;
+        qrrot = qrrot * (1.0f - rrDiff) + rrDiff * qrot;
+
+        rot_a = torx / I;
         rot_v += rot_a;
         rot += rot_v;
+
+        sv = sv*0.95f+v*0.05f;
+        srot_v = srot_v*0.95f+rot_v*0.05f;
+
+        glm::quat qr = glm::quat(rot_v);
+        qrot = qr * qrot;
 
         p = m * v;
 
         forces = glm::vec3(0.0f);
-
-        M = glm::vec3(0.0f);
+        torx = glm::vec3(0.0f);
 }
+
 void Phys::update()
 {
         if (!isStatic) tick();
-        else rPos = pos;
+        else {
+                rpos = pos;
+                qrot = glm::quat(rot);
+                qrrot = qrot;
+        }
 }
 
 void Phys::applyForce(glm::vec3 force)
@@ -56,15 +75,58 @@ void Phys::applyForce(glm::vec3 force)
         tick();
 }
 
+void Phys::setRot(glm::vec3 r)
+{
+        rot = r;
+        rrot = rot;
+
+        qrot = glm::quat(rot);
+        qrrot = qrot;
+}
+
+glm::mat4 makeRotationDir(glm::vec3 direction, glm::vec3 up)
+{
+        glm::mat4 rotm = glm::mat4(1.0f);
+        glm::vec3 xaxis = glm::cross(up, direction);
+        xaxis = normalize(xaxis);
+
+        glm::vec3 yaxis = glm::cross(direction, xaxis);
+        yaxis = normalize(yaxis);
+
+        rotm[0][0] = xaxis.x;
+        rotm[1][0] = yaxis.x;
+        rotm[2][0] = direction.x;
+
+        rotm[0][1] = xaxis.y;
+        rotm[1][1] = yaxis.y;
+        rotm[2][1] = direction.y;
+
+        rotm[0][2] = xaxis.z;
+        rotm[1][2] = yaxis.z;
+        rotm[2][2] = direction.z;
+
+        return rotm;
+}
+
+glm::mat4 gimbalRotate(glm::mat4 m, glm::vec3 r, glm::vec3 r_o = glm::vec3(0.0f))
+{
+        glm::quat qr = glm::quat(r);
+
+        qr = qr * glm::quat(r_o);
+
+        m = m * glm::toMat4(qr);
+
+        return m;
+}
+
 glm::mat4 Phys::getMatrix()
 {
         glm::mat4 objMatrix = glm::mat4(1.0f);
 
-        objMatrix = glm::translate(objMatrix, pos+v+a*0.5f);
+        objMatrix = glm::translate(objMatrix, pos + v);
 
-        objMatrix = glm::rotate(objMatrix, rot.x, glm::vec3(1.0f, 0.0f, 0.0f));
-        objMatrix = glm::rotate(objMatrix, rot.y, glm::vec3(0.0f, 1.0f, 0.0f));
-        objMatrix = glm::rotate(objMatrix, rot.z, glm::vec3(0.0f, 0.0f, 1.0f));
+        objMatrix *= glm::toMat4(qrot);
+        //objMatrix *= glm::axisAngleMatrix(rot, glm::length(rot));
 
         objMatrix = glm::scale(objMatrix, s);
 
@@ -77,11 +139,10 @@ glm::mat4 Phys::getRMatrix()
 {
         glm::mat4 objMatrix = glm::mat4(1.0f);
 
-        objMatrix = glm::translate(objMatrix, rPos);
+        objMatrix = glm::translate(objMatrix, rpos);
 
-        objMatrix = glm::rotate(objMatrix, rot.x, glm::vec3(1.0f, 0.0f, 0.0f));
-        objMatrix = glm::rotate(objMatrix, rot.y, glm::vec3(0.0f, 1.0f, 0.0f));
-        objMatrix = glm::rotate(objMatrix, rot.z, glm::vec3(0.0f, 0.0f, 1.0f));
+        objMatrix *= glm::toMat4(qrrot);
+        //objMatrix *= glm::axisAngleMatrix(rot, glm::length(rot));
 
         objMatrix = glm::scale(objMatrix, s);
 

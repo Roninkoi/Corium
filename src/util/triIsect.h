@@ -1,5 +1,5 @@
-#ifndef GUIGUETRI_H
-#define GUIGUETRI_H
+#ifndef TRIISECT_H
+#define TRIISECT_H
 
 /*
 *  Triangle-Triangle Overlap Test Routines
@@ -44,7 +44,7 @@
 //#define ZERO_TEST(x)  ((x) > -0.001 && (x) < .001)
 typedef float real;
 
-static const real M_EPSILON  = 0.00000001;
+static const real M_EPSILON  = 0.001; //  0.00000001
 
 /* function prototype */
 
@@ -586,7 +586,6 @@ int tri_tri_overlap_test_2d(real p1[2], real q1[2], real r1[2],
       return ccw_tri_tri_intersection_2d(p1,q1,r1,p2,r2,q2);
     else
       return ccw_tri_tri_intersection_2d(p1,q1,r1,p2,q2,r2);
-
 };
 
 #endif

@@ -14,14 +14,14 @@ unsigned char* loadGLTex(std::string p, int* w, int* h)
 
 GLuint Texture::loadTexture(std::string path)
 {
-        GLuint texture_id;
+        //GLuint texture_id;
 
         this->path = path;
 
-        glGenTextures(1, &texture_id);
+        glGenTextures(1, &tex);
 
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture_id);
+        glBindTexture(GL_TEXTURE_2D, tex);
 
         unsigned char * image;
 
@@ -34,7 +34,8 @@ GLuint Texture::loadTexture(std::string path)
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 
         //glDeleteTextures(1, &tex);
-        tex = texture_id;
+        //tex = texture_id;
+        delete image;
 
-        return texture_id;
+        return tex;
 }

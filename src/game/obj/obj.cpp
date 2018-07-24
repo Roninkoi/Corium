@@ -7,7 +7,8 @@
 void Obj::update()
 {
         phys.m = pow(fabs(physMesh.boundingSphereRadius), 2)*0.75f*M_PI + 1.0f;
-
+        phys.I = phys.m*physMesh.boundingSphereRadius*physMesh.boundingSphereRadius*0.4f;
+        //phys.m_c = -(phys.pos-physMesh.boundingSphereCenter);
         phys.update();
 
         updateMesh();
@@ -22,6 +23,17 @@ void Obj::updateMesh()
         }
         physMesh.objMatrix = phys.getMatrix();
         physMesh.update();
+
+        mesh.velocity = phys.v;
+        physMesh.velocity = phys.v;
+        if (phys.isStatic) {
+                mesh.staticity = 2;
+                physMesh.staticity = 2;
+        }
+        else {
+                mesh.staticity = 1;
+                physMesh.staticity = 1;
+        }
 }
 
 void Obj::draw(Renderer *renderer)
@@ -57,6 +69,7 @@ void Obj::loadMesh(std::string sp, std::string pp)
 
         mesh = loadObj(sp);
         physMesh = loadObj(pp);
+
 }
 
 void Obj::loadObject(std::string tp, std::string sp, std::string pp)

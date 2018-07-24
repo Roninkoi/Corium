@@ -11,21 +11,21 @@
 
 class TextRenderer {
 public:
-    Shader* textShader;
+Shader* textShader;
 
-    GLuint renderToTex(std::string s)
-    {
+GLuint renderToTex(std::string s)
+{
         return *(new GLuint);
-    }
+}
 
-    void draw(std::string s, glm::mat4 objMatrix, GLuint font_tex)
-    {
+void draw(std::string s, glm::mat4 objMatrix, GLuint font_tex)
+{
         Quad character;
-    }
+}
 
-    TextRenderer()
-    {
-    }
+TextRenderer()
+{
+}
 };
 
 #endif //CORIUM_TEXTRENDERER_H
