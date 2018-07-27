@@ -8,5 +8,4 @@ addons:
       - cmake-data
       - cmake
 script: cmake . && make
-install: make get-deps
 
