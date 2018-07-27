@@ -7,4 +7,4 @@ addons:
     packages:
       - cmake-data
       - cmake
-
+script: cmake . && make
