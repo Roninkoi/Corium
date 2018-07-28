@@ -180,6 +180,7 @@ void Player::collide(PhysSys *ps)
         physMesh.objMatrix = glm::scale(physMesh.objMatrix, glm::vec3(1.2f));
 
         physMesh.update();
+
         mesh.objMatrix = physMesh.objMatrix;
         mesh.update();
 
@@ -212,14 +213,15 @@ void Player::collide(PhysSys *ps)
 
         for (int i = 0; i < ps->objects.size(); ++i) {
                 if (clipMesh.bsi(&ps->objects[i]->physMesh)) {
-                        if (ps->objects[i]->physMesh.intersects(&clipMesh)) {
+                        if (ps->objects[i]->physMesh.sphereIsect(&clipMesh, physMesh.boundingSphereCenter + normalize(ps->field)*1.2f, 1.3f)
+                            || ps->objects[i]->physMesh.sphereIsect(&clipMesh, physMesh.boundingSphereCenter, 1.3f)) {
                                 if (!(clipMesh.collision_normal != clipMesh.collision_normal)) {
                                         onGround = true;
                                 }
                         }
                 }
                 if (physMesh.bsi(&ps->objects[i]->physMesh)) {         // bounding sphere test
-                        if (ps->objects[i]->physMesh.intersects(&physMesh)) {
+                        if (ps->objects[i]->physMesh.sphereIsect(&physMesh, physMesh.boundingSphereCenter, 1.7f)) {
                                 if (ps->objects[i]->phys.isStatic && !ps->objects[i]->phys.isSemiStatic) { // map geometry only
                                         colliding = true;
 
