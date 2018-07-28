@@ -588,4 +588,63 @@ int tri_tri_overlap_test_2d(real p1[2], real q1[2], real r1[2],
       return ccw_tri_tri_intersection_2d(p1,q1,r1,p2,q2,r2);
 };
 
+/*
+* Additional tests by Ronin748
+*/
+#define LENGTH(v) sqrt(pow(v[0], 2) + pow(v[1], 2) + pow(v[2], 2))
+
+#define ADD(dest,v1,v2) dest[0]=v1[0]+v2[0]; \
+                        dest[1]=v1[1]+v2[1]; \
+                        dest[2]=v1[2]+v2[2];
+
+#define NORM(dest,v) SCALAR(dest, 1.0f / LENGTH(dest), dest)
+
+/*
+* Triangle-Sphere intersection
+* This intersection is used in player physics
+*/
+int tri_sphere_intersection_test_3d(float v0[3], float v1[3], float v2[3], float s[3], float r)
+{
+	float s1[3];
+	float s2[3];
+
+	float n[3];
+	float nv[3];
+	float m[3];
+
+	m[0] = (v0[0] + v1[0] + v2[0]) / 3.0f;
+	m[1] = (v0[1] + v1[1] + v2[1]) / 3.0f;
+	m[2] = (v0[2] + v1[2] + v2[2]) / 3.0f;
+
+	SUB(m, m, s);
+
+	CROSS(n, v0, v1);
+	ADD(nv, nv, n);
+	CROSS(n, v1, v2);
+	ADD(nv, nv, n);
+	CROSS(n, v2, v0);
+	ADD(nv, nv, n);
+	SCALAR(n, 0.3333f, nv);
+
+	NORM(n, n);
+	SCALAR(n, -r, n);
+
+	s2[0] = s[0] + n[0];
+	s2[1] = s[1] + n[1];
+	s2[2] = s[2] + n[2];
+
+	NORM(m, m);
+	SCALAR(m, r, m);
+
+	s1[0] = s[0] + m[0];
+	s1[1] = s[1] + m[1];
+	s1[2] = s[2] + m[2];
+
+	s[0] = s[0];
+	s[1] = s[1];
+	s[2] = s[2];
+
+	return tri_tri_overlap_test_3d(v0, v1, v2, s, s1, s2);
+}
+
 #endif
