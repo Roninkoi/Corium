@@ -25,9 +25,9 @@ void Input::getKeys(GLFWwindow* window)
 
 void Input::getMouse(GLFWwindow *window)
 {
-    mouse_posOld = mouse_pos;
-    glfwGetCursorPos(window, &mouse_pos.x, &mouse_pos.y);
-    mouse_posDiff = mouse_pos - mouse_posOld;
+    mousePosOld = mousePos;
+    glfwGetCursorPos(window, &mousePos.x, &mousePos.y);
+    mousePosDiff = mousePos - mousePosOld;
 
     for (int i = 0; i < mouseDown.size(); ++i) {
         if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT)) {

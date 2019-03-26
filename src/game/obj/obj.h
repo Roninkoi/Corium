@@ -33,6 +33,7 @@ void renderShadows(Renderer* renderer);
 void update();
 void updateMesh();
 
+bool hasMesh = false;
 void loadMesh(std::string sp, std::string pp = "");
 
 void loadObject(std::string sp, std::string tp, std::string pp = "");

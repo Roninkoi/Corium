@@ -33,7 +33,7 @@ void Game::gameInput() {
         }
         else {
                 thisPlayer->phys.v = glm::vec3(0.0f);
-                thisPlayer->phys.rot_v = glm::vec3(0.0f);
+                thisPlayer->phys.rotV = glm::vec3(0.0f);
                 thisPlayer->moving = false;
         }
 
@@ -41,15 +41,15 @@ void Game::gameInput() {
 
         if (glfwGetWindowAttrib(wndw.window, GLFW_FOCUSED) && glfwGetMouseButton(wndw.window, GLFW_MOUSE_BUTTON_LEFT) &&
             !input.focused) {
-                if (input.window_focus) {
-                        input.window_focus = false;
+                if (input.winFocus) {
+                        input.winFocus = false;
                         input.focused = true;
                         glfwSetInputMode(wndw.window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
                         glfwSetInputMode(wndw.window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
                 }
         }
         else {
-                input.window_focus = true;
+                input.winFocus = true;
         }
         if (input.keyDown[GLFW_KEY_M]) {
                 if (input.keyPressed[GLFW_KEY_M]) {
@@ -107,13 +107,13 @@ void Game::gameInput() {
                 glfwSetInputMode(wndw.window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         }
         if (input.keyDown[GLFW_KEY_V] && !thrown) {
-                map.physSys.finish();
-                map.objs[grabbed].phys.rot_v = glm::vec3(0.0f);
+                map.sys.finish();
+                map.objs[grabbed].phys.rotV = glm::vec3(0.0f);
                 map.objs[grabbed].phys.pos = glm::vec3(thisPlayer->renderPos.x + dist * sin(-thisPlayer->phys.rot.y + M_PI),
                                                        thisPlayer->renderPos.y + dist * sin(thisPlayer->phys.rot.x + M_PI),
                                                        thisPlayer->renderPos.z + dist * cos(-thisPlayer->phys.rot.y + M_PI));
                 map.objs[grabbed].phys.rot.y = -thisPlayer->phys.rot.y;
-                map.objs[grabbed].phys.v = thisPlayer->phys.v - thisPlayer->phys.rot_v + map.gravity;
+                map.objs[grabbed].phys.v = thisPlayer->phys.v - thisPlayer->phys.rotV + map.gravity;
 
                 //map.objs[grabbed].mesh.phys.update();
                 //map.objs[grabbed].mesh.update();
@@ -185,7 +185,7 @@ void Game::gameInput() {
         if (input.keyDown[GLFW_KEY_C] && ticks % 6 == 0) {
                 if (input.keyPressed[GLFW_KEY_C] || true) {
 
-                        map.physSys.finish();
+                        map.sys.finish();
                         std::string path;
                         switch (meshNo) {
                         case 0:

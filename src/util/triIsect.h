@@ -624,7 +624,7 @@ int tri_sphere_intersection_test_3d(float v0[3], float v1[3], float v2[3], float
 	ADD(nv, nv, n);
 	CROSS(n, v2, v0);
 	ADD(nv, nv, n);
-	SCALAR(n, 0.3333f, nv);
+	SCALAR(n, 0.33333f, nv);
 
 	NORM(n, n);
 	SCALAR(n, -r, n);
@@ -640,10 +640,7 @@ int tri_sphere_intersection_test_3d(float v0[3], float v1[3], float v2[3], float
 	s1[1] = s[1] + m[1];
 	s1[2] = s[2] + m[2];
 
-	s[0] = s[0];
-	s[1] = s[1];
-	s[2] = s[2];
-
+	// just usíng existing triangle test, this can be improved
 	return tri_tri_overlap_test_3d(v0, v1, v2, s, s1, s2);
 }
 

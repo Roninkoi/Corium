@@ -12,8 +12,8 @@ public:
 GLFWwindow *window;
 float swapInterval = 0;
 
-int glMaj = 3;
-int glMin = 1;
+int gl_maj = 3;
+int gl_min = 1;
 
 int w = 0;
 int h = 0;
@@ -35,8 +35,8 @@ void createWindow()
         glfwWindowHint(GLFW_SAMPLES, aa_samples);
         glfwWindowHint(GLFW_REFRESH_RATE, GLFW_DONT_CARE);
 
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, glMaj);//4
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, glMin);//5
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, gl_maj);//4
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, gl_min);//5
 
         monitor = glfwGetPrimaryMonitor();
 

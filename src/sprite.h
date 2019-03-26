@@ -16,7 +16,7 @@ glm::vec4* currentSprite;
 
 std::vector <int> anim_cycle;
 int anim;
-float anim_spd;
+float animSpd;
 float anim_ticks;
 
 float ticks;

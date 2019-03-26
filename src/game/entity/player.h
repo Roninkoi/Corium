@@ -9,7 +9,7 @@
 #include <anim.h>
 #include "entity.h"
 #include <input.h>
-#include <physSys.h>
+#include <sys.h>
 
 class Player : public Entity {
 public:
@@ -21,7 +21,7 @@ glm::vec3 renderPos = glm::vec3(0.0f);
 
 glm::vec3 playerMov = glm::vec3(0.0f);
 glm::vec3 playerLastMov = glm::vec3(0.0f, 0.0f, -1.0f);
-float lastmovangle = 0.0f;
+float lastMovAngle = 0.0f;
 
 Mesh clipMesh;
 
@@ -39,7 +39,7 @@ void restartPlayer();
 void draw(Renderer* renderer);
 void drawShadows(Renderer* renderer);
 
-void collide(PhysSys* ps);
+void collide(Sys* ps);
 
 void getInput(Input* input);
 

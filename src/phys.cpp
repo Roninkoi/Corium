@@ -3,7 +3,7 @@
 //
 
 #include <phys.h>
-#include <util/randomRange.h>
+//#include <util/random.h>
 
 void Phys::tick()
 {
@@ -13,15 +13,18 @@ void Phys::tick()
                 torx = glm::vec3(0.0f);
         if (!nnv(v)) // NULL precaution
                 v = glm::vec3(0.0f);
-        if (!nnv(rot_v))
-                rot_v = glm::vec3(0.0f);
+        if (!nnv(rotV))
+                rotV = glm::vec3(0.0f);
         if (!nn(qrot))
                 qrot = glm::quat(rot);
 
         forcesold = forces;
         torxold = torx;
+
         a = (forces / (m));
         v += a;
+
+        posold = pos;
         pos += v;
 
         // nulls can happen here
@@ -42,14 +45,14 @@ void Phys::tick()
         rrot = rrot * (1.0f - rrDiff) + rrDiff * rot;
         qrrot = qrrot * (1.0f - rrDiff) + rrDiff * qrot;
 
-        rot_a = torx / I;
-        rot_v += rot_a;
-        rot += rot_v;
+        rotA = torx / I;
+        rotV += rotA;
+        rot += rotV;
 
         sv = sv*0.95f+v*0.05f;
-        srot_v = srot_v*0.95f+rot_v*0.05f;
+        srotV = srotV*0.95f+rotV*0.05f;
 
-        glm::quat qr = glm::quat(rot_v);
+        glm::quat qr = glm::quat(rotV);
         qrot = qr * qrot;
 
         p = m * v;

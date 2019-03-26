@@ -50,7 +50,7 @@ inline bool Map::inRange(Obj *object)
 
 inline bool Map::inRange(glm::vec3 bsc, float bsr)
 {
-        return (glm::length(-camera->pos - bsc) < bsr + renderer->far_plane * renderer->render_dist);
+        return (glm::length(-camera->pos - bsc) < bsr + renderer->farPlane * renderer->renderDist);
 }
 
 void Map::drawShadows(Renderer *renderer)
@@ -68,6 +68,8 @@ void Map::drawShadows(Renderer *renderer)
                 }
         }
 
+        // GAME OBJECTS HERE
+
         if (shadowsEnabled) {
                 thisPlayer->drawShadows(renderer);
         }
@@ -77,14 +79,13 @@ void Map::drawShadows(Renderer *renderer)
 
 void Map::drawObjs(Renderer *renderer)
 {
-        for (int i = 0; i < objs.size(); ++i) {
-                if (objs[i].rendered && objs[i].visible) {
-                        objs[i].draw(renderer);
-                }
-        }
-        for (int i = 0; i < environs.size(); ++i) {
-                if (environs[i].rendered && environs[i].visible) environs[i].draw(renderer);
-        }
+        for (int i = 0; i < objs.size(); ++i)
+                objs[i].draw(renderer);
+
+        for (int i = 0; i < environs.size(); ++i)
+                environs[i].draw(renderer);
+
+        // GAME OBJECTS HERE
 
         thisPlayer->draw(renderer);
 
@@ -92,7 +93,7 @@ void Map::drawObjs(Renderer *renderer)
 
         if (sky.rendered) {
                 renderer->shadows = false;
-                renderer->far_plane *= skyplane;
+                renderer->farPlane *= skyplane;
                 float ramb = renderer->amb;
                 float rlght = renderer->lght;
                 renderer->amb = 1.0f;
@@ -102,7 +103,7 @@ void Map::drawObjs(Renderer *renderer)
                 sky.draw(renderer);
                 renderer->flushBatch();
 
-                renderer->far_plane /= skyplane;
+                renderer->farPlane /= skyplane;
                 renderer->amb = ramb;
                 renderer->lght = rlght;
                 renderer->shadows = true;
@@ -182,6 +183,8 @@ void Map::update()
         for (int i = 0; i < environs.size(); ++i)
                 visible(&environs[i]);
 
+        // GAME OBJECTS here
+
         clearLights(renderer);
         findLights();
 
@@ -196,11 +199,11 @@ void Map::update()
 
 void Map::tickPhysics()
 {
-        physSys.field = gravity;
+        sys.field = gravity;
 
         if (physicsEnabled && physadded) {
-                physSys.update();
+                sys.update();
         }
 
-        if (!thisPlayer->flying && physadded) thisPlayer->collide(&physSys);
+        if (!thisPlayer->flying && physadded) thisPlayer->collide(&sys);
 }

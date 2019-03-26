@@ -3,9 +3,9 @@
 precision lowp int;
 precision lowp float;
 
-in vec3 FragPos;
-in vec3 Normal;
-in vec2 TexPos;
+in vec3 fragPos;
+in vec3 fnormal;
+in vec2 ftexPos;
 in vec4 fragCol;
 
 //layout(location = 0) out vec4 gl_FragColor;
@@ -23,7 +23,7 @@ uniform struct Light {
 
 uniform samplerCube depthMap[MAX_LIGHTS];
 
-uniform float far_plane;
+uniform float farPlane;
 
 uniform int max_lights;
 
@@ -54,7 +54,7 @@ CRM_TEXTURE_DEPTHMAP
     float currentDepth = length(fragToLight);
     float bias = 0.1f+0.2f*tan(acos(min(lightAngle, 1.0f)));
 
-    closestDepth *= far_plane;
+    closestDepth *= farPlane;
 
     float shadow = currentDepth -  bias > closestDepth ? 1.0: 0.0;
 
@@ -168,8 +168,9 @@ void main()
     float amb = al.x;
     float lght = al.y; // a + l = 1.0f
 
-    vec3 color = texture(diffuseTexture, TexPos).rgb * fragCol.rgb;
-    vec3 normal = normalize(Normal);
+    vec3 color = texture(diffuseTexture, ftexPos).rgb * fragCol.rgb;
+    //color = fragCol.rgb * vec3(0.5f, 0.8f, 1.0f);
+    vec3 normal = normalize(fnormal);
     vec3 lighting = vec3(0.0f);
     vec3 bloomLighting = vec3(0.0f);
 
@@ -184,11 +185,11 @@ void main()
         if (length(lights[l].col) > 0.0f) {
             vec3 lightColor = lights[l].col;
             // DIFFUSE
-            vec3 lightDir = normalize(lights[l].pos - FragPos);
+            vec3 lightDir = normalize(lights[l].pos - fragPos);
             float diff = max(dot(lightDir, normal), 0.0);
             vec3 diffuse = diff * lightColor;
             // SPEC
-            vec3 viewDir = normalize(-viewPos - FragPos);
+            vec3 viewDir = normalize(-viewPos - fragPos);
             vec3 reflectDir = reflect(-lightDir, normal);
             float spec = 0.0;
             vec3 halfwayDir = normalize(lightDir + viewDir);
@@ -198,17 +199,17 @@ void main()
 
             lightAngle = abs(dot(lightDir, normal));
             // SHADOW CHECK
-            shadow = ShadowCalculation(FragPos, l);
+            shadow = ShadowCalculation(fragPos, l);
 
             // distance fading, inverse square law
-            vec3 fadeDist = (FragPos - lights[l].pos)/length(lightColor);
+            vec3 fadeDist = (fragPos - lights[l].pos)/length(lightColor);
             float fade = length(fadeDist)*length(fadeDist)*0.001f;
 
             lighting += (1.0 - min(shadow+(1.0f-min(lightAngle,1.0f)), 1.0f)) *((((diffuse + specular)) * color))/max(fade, 1.0f);
         }
     }
 
-    float depth = length(viewPos+FragPos)/(far_plane);
+    float depth = length(viewPos+fragPos)/(farPlane);
 
     vec3 sigma = ambient;
     sigma += lighting*lght;
@@ -230,6 +231,6 @@ void main()
     float fg = max(min((((1.0f - pow(2.7f, -depth- 0.1f)))*1.67f-0.2f)*1.2f, 1.0f), 0.0f);
     gl_FragColor.rgb = fogCol*fg + gl_FragColor.rgb*(1.0f - fg); // FOG
 
-    if (texture(diffuseTexture, TexPos).a == 0.0f)
+    if (texture(diffuseTexture, ftexPos).a == 0.0f)
         discard;
 }

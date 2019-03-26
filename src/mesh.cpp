@@ -1,40 +1,6 @@
 #include <mesh.h>
 #include <util/triIsect.h>
 
-int tri_tunneling(float v0[3], float v1[3], float v2[3], float u0[3], float u1[3], float u2[3], float nv[3], float nu[3])
-{
-        glm::vec3 vert0 = glm::vec3(v0[0], v0[1], v0[2]);
-        glm::vec3 vert1 = glm::vec3(v1[0], v1[1], v1[2]);
-        glm::vec3 vert2 = glm::vec3(v2[0], v2[1], v2[2]);
-
-        glm::vec3 vc = (vert0+vert1+vert2)/3.0f;
-
-        glm::vec3 vert3 = glm::vec3(u0[0], u0[1], u0[2]);
-        glm::vec3 vert4 = glm::vec3(u1[0], u1[1], u1[2]);
-        glm::vec3 vert5 = glm::vec3(u2[0], u2[1], u2[2]);
-
-        glm::vec3 uc = (vert3+vert4+vert5)/3.0f;
-
-        float vbs = 0.5f*(glm::length(vert0 - vert1) + glm::length(vert3 - vert4));
-
-        glm::vec3 vn = glm::vec3(nv[0], nv[1], nv[2]);
-        glm::vec3 un = glm::vec3(nu[0], nu[1], nu[2]);
-
-        glm::vec3 vu = uc - vc;
-
-        float v0d = glm::dot(uc - vert0, vn);
-        float v1d = glm::dot(uc - vert1, vn);
-        float v2d = glm::dot(uc - vert2, vn);
-        float v3d = glm::dot(uc - vert3, vn);
-
-        float ad = (v0d > 0.0f && v1d > 0.0f && v2d > 0.0f && v3d > 0.0f);
-
-        if (ad && glm::length(vu) < (vbs))
-                return 1;
-        else
-                return 0;
-}
-
 std::vector<float> transform_mesh(std::vector<float> data, glm::mat4 matrix)
 {
         std::vector<float> newData;
@@ -73,11 +39,11 @@ glm::mat4 mesh_inverse(glm::mat4 matrix)
 bool Mesh::intersects(Mesh *another)
 {
         bool returns = false;
-        collision_normal = glm::vec3(0.0f);
-        another->collision_normal = glm::vec3(0.0f);
+        collisionNormal = glm::vec3(0.0f);
+        another->collisionNormal = glm::vec3(0.0f);
 
-        collision_center = glm::vec3(0.0f);
-        another->collision_center = glm::vec3(0.0f);
+        collisionCenter = glm::vec3(0.0f);
+        another->collisionCenter = glm::vec3(0.0f);
 
         int collision_num = 0;
 
@@ -131,12 +97,12 @@ bool Mesh::intersects(Mesh *another)
                                                 pn = normalize(glm::vec3(0.0f, (tcn.y - acn.y), 0.0f));
                                         }
                                         if (glm::length(pn) <= 0.0f) {
-                                                collision_normal += tcn;
-                                                another->collision_normal += acn;
+                                                collisionNormal += tcn;
+                                                another->collisionNormal += acn;
                                         }
 
-                                        collision_normal += pn;
-                                        another->collision_normal += -pn;
+                                        collisionNormal += pn;
+                                        another->collisionNormal += -pn;
 
                                         returns = true;
 
@@ -164,8 +130,8 @@ bool Mesh::intersects(Mesh *another)
                                         glm::vec3 tcc = newtcc;
                                         glm::vec3 acc = newacc;
 
-                                        collision_center += tcc - boundingSphereCenter;
-                                        another->collision_center += acc - another->boundingSphereCenter;
+                                        collisionCenter += tcc - boundingSphereCenter;
+                                        another->collisionCenter += acc - another->boundingSphereCenter;
 
                                         collision_num += 1;
                                 }
@@ -174,16 +140,16 @@ bool Mesh::intersects(Mesh *another)
         }
 
         if (collision_num > 0) {
-                collision_center /= collision_num;
-                another->collision_center /= collision_num;
+                collisionCenter /= collision_num;
+                another->collisionCenter /= collision_num;
 
-                if (glm::length(collision_center) > glm::length(boundingSphereRadius))
-                        collision_center = normalize(collision_center)*glm::length(boundingSphereRadius);
-                if (glm::length(another->collision_center) > glm::length(another->boundingSphereRadius))
-                        another->collision_center = normalize(another->collision_center)*glm::length(another->boundingSphereRadius);
+                if (glm::length(collisionCenter) > glm::length(boundingSphereRadius))
+                        collisionCenter = normalize(collisionCenter)*glm::length(boundingSphereRadius);
+                if (glm::length(another->collisionCenter) > glm::length(another->boundingSphereRadius))
+                        another->collisionCenter = normalize(another->collisionCenter)*glm::length(another->boundingSphereRadius);
 
-                collision_normal = normalize(collision_normal);
-                another->collision_normal = normalize(another->collision_normal);
+                collisionNormal = normalize(collisionNormal);
+                another->collisionNormal = normalize(another->collisionNormal);
         }
 
         if (returns) {
@@ -192,17 +158,99 @@ bool Mesh::intersects(Mesh *another)
         }
 
         // NULL checks
-        if (!nnv(collision_normal)) {
-                collision_normal = glm::vec3(0.0f);
+        if (!nnv(collisionNormal)) {
+                collisionNormal = glm::vec3(0.0f);
         }
-        if (!nnv(another->collision_normal)) {
-                another->collision_normal = glm::vec3(0.0f);
+        if (!nnv(another->collisionNormal)) {
+                another->collisionNormal = glm::vec3(0.0f);
         }
-        if (!nnv(collision_center)) {
-                collision_center = glm::vec3(0.0f);
+        if (!nnv(collisionCenter)) {
+                collisionCenter = glm::vec3(0.0f);
         }
-        if (!nnv(another->collision_center)) {
-                another->collision_center = glm::vec3(0.0f);
+        if (!nnv(another->collisionCenter)) {
+                another->collisionCenter = glm::vec3(0.0f);
+        }
+
+        return returns;
+}
+
+bool Mesh::sphereIsect(Mesh *another, glm::vec3 s, float r)
+{
+        bool returns = false;
+        collisionNormal = glm::vec3(0.0f);
+
+        collisionCenter = glm::vec3(0.0f);
+
+        float sa[] = {s.x, s.y, s.z};
+
+        int collision_num = 0;
+
+        bool foundisect = false;
+        for (int i = 0; i < indexBufferData.size() && !foundisect; i += 3) {
+                float v0[] = {vertexBufferData[indexBufferData[i] * 4],
+                              vertexBufferData[indexBufferData[i] * 4 + 1],
+                              vertexBufferData[indexBufferData[i] * 4 + 2]};
+
+                if (glm::length((glm::vec3(v0[0], v0[1], v0[2]) - s)) <
+                    (triangle_size+r)) {
+                        float v1[] = {vertexBufferData[indexBufferData[i + 1] * 4],
+                                      vertexBufferData[indexBufferData[i + 1] * 4 + 1],
+                                      vertexBufferData[indexBufferData[i + 1] * 4 + 2]};
+                        float v2[] = {vertexBufferData[indexBufferData[i + 2] * 4],
+                                      vertexBufferData[indexBufferData[i + 2] * 4 + 1],
+                                      vertexBufferData[indexBufferData[i + 2] * 4 + 2]};
+
+                        int cp = 0;
+                        float vi[3] = {0.0f, 0.0f, 0.0f};
+                        if (tri_sphere_intersection_test_3d(v0, v1, v2, sa, r)) {
+                                glm::vec3 acn = normalize(glm::vec3(normalBufferData[i],
+                                                                    normalBufferData[i + 1],
+                                                                    normalBufferData[i + 2]));
+                                glm::vec3 tcn = -acn;
+
+                                collisionNormal += tcn;
+                                another->collisionNormal += acn;
+
+                                returns = true;
+
+                                collisionCenter += s;
+                                another->collisionCenter += s;
+
+                                collision_num += 1;
+                        }
+                }
+        }
+
+        if (collision_num > 0) {
+                collisionCenter /= collision_num;
+                another->collisionCenter /= collision_num;
+
+                if (glm::length(collisionCenter) > glm::length(boundingSphereRadius))
+                        collisionCenter = normalize(collisionCenter)*glm::length(boundingSphereRadius);
+                if (glm::length(another->collisionCenter) > glm::length(another->boundingSphereRadius))
+                        another->collisionCenter = normalize(another->collisionCenter)*glm::length(another->boundingSphereRadius);
+
+                collisionNormal = normalize(collisionNormal);
+                another->collisionNormal = normalize(another->collisionNormal);
+        }
+
+        if (returns) {
+                isIntersecting = true;
+                another->isIntersecting = true;
+        }
+
+        // NULL checks
+        if (!nnv(collisionNormal)) {
+                collisionNormal = glm::vec3(0.0f);
+        }
+        if (!nnv(another->collisionNormal)) {
+                another->collisionNormal = glm::vec3(0.0f);
+        }
+        if (!nnv(collisionCenter)) {
+                collisionCenter = glm::vec3(0.0f);
+        }
+        if (!nnv(another->collisionCenter)) {
+                another->collisionCenter = glm::vec3(0.0f);
         }
 
         return returns;

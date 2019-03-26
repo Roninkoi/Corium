@@ -39,7 +39,7 @@ void drawShadows(Renderer* renderer);
 
 void setAnim(float spd, std::vector<int> fi, bool immediate = false);
 
-void setSpd(float new_spd);
+void setSpd(float newSpd);
 
 bool finished();
 
@@ -68,7 +68,7 @@ Texture tex;
 Phys phys;
 
 std::vector<Anim> anims;
-std::vector<bool> anim_running;
+std::vector<bool> animRunning;
 
 void draw(Renderer* renderer);
 void render(Renderer* renderer);

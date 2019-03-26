@@ -101,8 +101,8 @@ Texture tex;
 GLuint SCREEN_WIDTH = 512, SCREEN_HEIGHT = 300;
 float SCREEN_SCALE = 1.0f;
 
-float far_plane = 200.0f;
-glm::vec3 clr_col = glm::vec3(0.0f, 0.0f, 0.0f);
+float farPlane = 200.0f;
+glm::vec3 clearCol = glm::vec3(0.0f, 0.0f, 0.0f);
 
 int rfbo = 0;     // render fbo, 0 internal, 1 screen
 
@@ -110,7 +110,7 @@ bool shadows = true;     // enable shadows => col * ds
 
 float amb = 0.5f;
 float lght = 0.5f;
-float render_dist = 0.5f;
+float renderDist = 0.5f;
 
 bool dithering = true;
 
@@ -120,8 +120,8 @@ glm::vec3 camStart = glm::vec3(0.0f, 0.0f, 0.0f);
 
 glm::vec3 down = glm::vec3(0.0f, -1.0f, 0.0f);
 
-Shader PS_Shader;
-Shader PS_ShaderDepth;
+Shader psShader;
+Shader psShaderDepth;
 Shader quadShader;
 
 GLuint screenTex;

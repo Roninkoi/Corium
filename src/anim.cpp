@@ -213,13 +213,13 @@ void Anim::clearFrames() {
         frames.clear();
 }
 
-void Anim::setAnim(float new_spd, std::vector<int> fi, bool immediate)
+void Anim::setAnim(float newSpd, std::vector<int> fi, bool immediate)
 {
         if (finished() || immediate) {
                 frameIndex = fi;
 
-                if (new_spd > 0.0f)
-                        setSpd(new_spd);
+                if (newSpd > 0.0f)
+                        setSpd(newSpd);
 
                 if (fi.size() > 1)
                         interpolation = 3;
@@ -235,9 +235,9 @@ void Anim::setAnim(float new_spd, std::vector<int> fi, bool immediate)
         }
 }
 
-void Anim::setSpd(float new_spd)
+void Anim::setSpd(float newSpd)
 {
-        spd = new_spd;
+        spd = newSpd;
 }
 
 bool Anim::finished()
@@ -294,9 +294,9 @@ void Anims::clearAnims()
 
 void Anims::resetStates()
 {
-        anim_running.resize(anims.size());
+        animRunning.resize(anims.size());
         for (int i = 0; i < anims.size(); ++i) {
-                anim_running[i] = false;
+                animRunning[i] = false;
         }
 
         animFrame = templateFrame;
@@ -313,7 +313,7 @@ void Anims::tick()
                 float dt = templateFrame.texBufferData[i];
 
                 for (int j = 0; j < anims.size(); ++j) {
-                        if (anim_running[j] || !anims[j].finished()) {
+                        if (animRunning[j] || !anims[j].finished()) {
                                 dv += anims[j].currentFrame.rawVertexBufferData[i] - templateFrame.rawVertexBufferData[i];
                                 dt += anims[j].currentFrame.texBufferData[i] - templateFrame.texBufferData[i];
                         }
