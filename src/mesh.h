@@ -23,10 +23,10 @@ std::vector<float> vertexNormalBufferData;
 
 std::vector<int> indexBufferData;
 
-glm::vec3 collision_normal;
-glm::vec3 collision_center;
+glm::vec3 collisionNormal;
+glm::vec3 collisionCenter;
 
-float boundingSphereRadius = 0.0f;
+float boundingSphereRadius = 1.0f;
 glm::vec3 boundingSphereCenter = glm::vec3(0.0f);
 
 glm::vec3 velocity = glm::vec3(0.0f);
@@ -37,6 +37,7 @@ bool isIntersecting = false;
 glm::mat4 objMatrix = glm::mat4(1.0f);
 
 bool intersects(Mesh *another);
+bool sphereIsect(Mesh *another, glm::vec3 s, float r);
 
 void getNormals();
 

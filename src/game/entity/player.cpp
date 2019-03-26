@@ -11,7 +11,7 @@ float camTicks = 0.0f;
 void Player::getPlayerCam()
 {
         camTicks += 1.0f;
-        if (glm::length(phys.rot_v) > 0.0f) {
+        if (glm::length(phys.rotV) > 0.0f) {
                 camMoved = true;
                 camTicks = 0.0f;
         }
@@ -20,12 +20,18 @@ void Player::getPlayerCam()
                 camTicks = 0.0f;
         }
 
-        if (camera->camai && !flying) {
+        // clamp camera
+        if (phys.rot.x > M_PI*0.5f) phys.rot.x = M_PI*0.5f;
+        if (phys.rot.x < -M_PI*0.5f) phys.rot.x = -M_PI*0.5f;
+
+        phys.rot.y = phys.rot.y - floor(phys.rot.y/(M_PI*2.0f))*M_PI*2.0f;
+
+        if (camera->camAI && !flying) {
                 if (camMoved) {
                         camera->rot = phys.rot;
                 }
                 else if (moving) {
-                        float lma = -lastmovangle + M_PI;
+                        float lma = -lastMovAngle + M_PI;
 
                         if (fabs(lma - camera->rot.y) > M_PI) // discontinuity
                                 camera->rot.y += 2 * M_PI * ((lma - camera->rot.y) / fabs(lma - camera->rot.y));
@@ -48,10 +54,10 @@ void Player::getPlayerCam()
 
 void Player::getInput(Input *input)
 {
-        phys.rot_v = glm::vec3(0.0f);
+        phys.rotV = glm::vec3(0.0f);
 
-        if (input->focused) phys.rot_v.y = (float) input->mouse_posDiff.x / (1000.0f / input->mouse_spd);
-        if (input->focused) phys.rot_v.x = (float) input->mouse_posDiff.y / (1000.0f / input->mouse_spd);
+        if (input->focused) phys.rotV.y = (float) input->mousePosDiff.x / (1000.0f / input->mouseSpd);
+        if (input->focused) phys.rotV.x = (float) input->mousePosDiff.y / (1000.0f / input->mouseSpd);
 
         int count;
         const float *axes = glfwGetJoystickAxes(input->jsnum, &count);
@@ -65,21 +71,21 @@ void Player::getInput(Input *input)
                 if (fabs(ay) < 0.01f)
                         ay = 0.0f;
 
-                phys.rot_v.y += ax;
-                phys.rot_v.x += ay;
+                phys.rotV.y += ax;
+                phys.rotV.x += ay;
         }
 
         if (input->getKey(GLFW_KEY_LEFT)) {
-                phys.rot_v.y = -0.05;
+                phys.rotV.y = -0.05;
         }
         if (input->getKey(GLFW_KEY_RIGHT)) {
-                phys.rot_v.y = 0.05;
+                phys.rotV.y = 0.05;
         }
         if (input->getKey(GLFW_KEY_UP)) {
-                phys.rot_v.x = -0.05;
+                phys.rotV.x = -0.05;
         }
         if (input->getKey(GLFW_KEY_DOWN)) {
-                phys.rot_v.x = 0.05;
+                phys.rotV.x = 0.05;
         }
 
         //getPlayerCam();
@@ -171,12 +177,12 @@ void Player::drawShadows(Renderer *renderer)
         playerAnims.drawShadows(renderer);
 }
 
-void Player::collide(PhysSys *ps)
+void Player::collide(Sys *ps)
 {
         physMesh.objMatrix = glm::mat4(1.0f);
         physMesh.objMatrix = glm::translate(physMesh.objMatrix, phys.pos);
         physMesh.objMatrix = glm::translate(physMesh.objMatrix, glm::vec3(0.0f, -1.5f+0.5f, 0.0f));
-        physMesh.objMatrix = glm::rotate(physMesh.objMatrix, lastmovangle, glm::vec3(0.0f, 1.0f, 0.0f));
+        physMesh.objMatrix = glm::rotate(physMesh.objMatrix, lastMovAngle, glm::vec3(0.0f, 1.0f, 0.0f));
         physMesh.objMatrix = glm::scale(physMesh.objMatrix, glm::vec3(1.2f));
 
         physMesh.update();
@@ -213,9 +219,9 @@ void Player::collide(PhysSys *ps)
 
         for (int i = 0; i < ps->objects.size(); ++i) {
                 if (clipMesh.bsi(&ps->objects[i]->physMesh)) {
-                        if (ps->objects[i]->physMesh.sphereIsect(&clipMesh, physMesh.boundingSphereCenter + normalize(ps->field)*1.2f, 1.3f)
-                            || ps->objects[i]->physMesh.sphereIsect(&clipMesh, physMesh.boundingSphereCenter, 1.3f)) {
-                                if (!(clipMesh.collision_normal != clipMesh.collision_normal)) {
+                        if (ps->objects[i]->physMesh.sphereIsect(&clipMesh, physMesh.boundingSphereCenter + normalize(ps->field)*2.2f, 0.8f)
+                            || ps->objects[i]->physMesh.sphereIsect(&clipMesh, physMesh.boundingSphereCenter + normalize(ps->field)*1.4f, 0.8f)) {
+                                if (!(clipMesh.collisionNormal != clipMesh.collisionNormal)) {
                                         onGround = true;
                                 }
                         }
@@ -228,7 +234,7 @@ void Player::collide(PhysSys *ps)
                                         // gravity damping
                                         phys.v.y *= 0.2;
 
-                                        glm::vec3 normalVec = glm::normalize(physMesh.collision_normal);
+                                        glm::vec3 normalVec = glm::normalize(physMesh.collisionNormal);
                                         glm::mat3 vecProj = getVecProjMatrix(normalVec);
 
                                         glm::vec3 newForce = normalVec * (glm::length((phys.v- playerMov) * vecProj))*phys.m;
@@ -243,18 +249,18 @@ void Player::collide(PhysSys *ps)
                                 else {
                                         ps->objects[i]->phys.isStatic = false;
 
-                                        glm::vec3 normalVec = glm::normalize(physMesh.collision_normal);
+                                        glm::vec3 normalVec = glm::normalize(physMesh.collisionNormal);
                                         glm::mat3 vecProj = getVecProjMatrix(normalVec);
 
-                                        glm::vec3 newForce = (normalVec)*(glm::length(((phys.v + phys.a - playerMov)*phys.m + (ps->objects[i]->phys.v + ps->objects[i]->phys.a)*ps->objects[i]->phys.m) * vecProj));
+                                        glm::vec3 newForce = (normalVec)*(glm::length(((phys.v - playerMov) * phys.m + (ps->objects[i]->phys.v) * ps->objects[i]->phys.m) * vecProj));
 
                                         newForce *= 0.6f;
 
                                         if (!(newForce != newForce)) {
-                                                phys.forces += newForce + 1.0f*normalVec*glm::length(ps->field)*phys.m;
+                                                phys.forces += newForce + 1.0f*normalVec*glm::length(ps->field) *phys.m;
 
-                                                if (sprinting) newForce = newForce * 1.0f;
-                                                else newForce = newForce * 0.5f;
+                                                if (sprinting) newForce = newForce * 1.4f;
+                                                else newForce = newForce * 0.8f;
 
                                                 ps->objects[i]->phys.forces += -newForce;
                                                 glm::vec3 pc = normalVec * (glm::length((phys.v - playerMov)));
@@ -273,6 +279,8 @@ void Player::collide(PhysSys *ps)
         float c = std::max(0.0f, std::min(0.95f, glm::length(phys.v)));
         if (glm::length(renderPos - phys.pos) > 0.05f)
                 renderPos = phys.pos * (0.05f + c) + renderPos * (0.95f - c);
+
+        phys.rpos = renderPos; // fix this later
 
         if (glm::length(phys.v) > 0.05f) playerLastMov = -phys.v * 0.07f + playerLastMov * 0.93f;
 }
@@ -295,22 +303,22 @@ void Player::tick()
 
         playerAnims.phys.pos = renderPos;
 
-        lastmovangle = 0.0f;
+        lastMovAngle = 0.0f;
         glm::vec3 movvec = glm::vec3(playerLastMov.x, 0.0f, playerLastMov.z);
         if (glm::length(movvec) > 0.0f)
-                lastmovangle = (acos(glm::dot(glm::normalize(movvec), glm::vec3(0.0f, 0.0f, -1.0f))));
+                lastMovAngle = (acos(glm::dot(glm::normalize(movvec), glm::vec3(0.0f, 0.0f, -1.0f))));
 
         if (playerLastMov.x > 0.0f) {
-                lastmovangle = -lastmovangle;
+                lastMovAngle = -lastMovAngle;
         }
 
-        playerAnims.phys.setRot(glm::vec3(0.0f, lastmovangle, 0.0f));
+        playerAnims.phys.setRot(glm::vec3(0.0f, lastMovAngle, 0.0f));
 
         playerAnims.phys.pos.y -= 2.5f;
 
-        playerAnims.anim_running[0] = true;
-        playerAnims.anim_running[1] = flaming;
-        playerAnims.anim_running[2] = sprinting;
+        playerAnims.animRunning[0] = true;
+        playerAnims.animRunning[1] = flaming;
+        playerAnims.animRunning[2] = sprinting;
 
         if (moving && !flying) {
                 // main running animation

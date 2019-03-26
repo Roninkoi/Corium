@@ -17,7 +17,7 @@ float z = 7.0f;
 
 float fov = 1.8f;
 
-bool camai = false;
+bool camAI = false;
 
 glm::vec3 camStart = glm::vec3(0.0f);
 

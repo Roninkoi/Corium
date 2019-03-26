@@ -7,8 +7,8 @@
 void Renderer::destroyRenderer()
 {
         quadShader.destroyShader();
-        PS_Shader.destroyShader();
-        PS_ShaderDepth.destroyShader();
+        psShader.destroyShader();
+        psShaderDepth.destroyShader();
 
         glDeleteBuffers(1, &vertexBuffer);
         glDeleteBuffers(1, &texBuffer);
@@ -26,14 +26,14 @@ void Renderer::destroyRenderer()
 
 void Renderer::compileShaders()
 {
-        PS_Shader.max_lights = MAX_LIGHTS;
+        psShader.max_lights = MAX_LIGHTS;
 
         quadShader.init("gfx/shader/fbo.vert", "gfx/shader/fbo.frag", loadShaders);
-        PS_Shader.init("gfx/shader/pointShadow.vert", "gfx/shader/pointShadow.frag", loadShaders);
+        psShader.init("gfx/shader/pointShadow.vert", "gfx/shader/pointShadow.frag", loadShaders);
 
-        PS_ShaderDepth.initGS("gfx/shader/pointShadowDepth.vert",
-                              "gfx/shader/pointShadowDepth.frag",
-                              "gfx/shader/pointShadowDepth.gs", loadShaders);
+        psShaderDepth.initGS("gfx/shader/pointShadowDepth.vert",
+                             "gfx/shader/pointShadowDepth.frag",
+                             "gfx/shader/pointShadowDepth.gs", loadShaders);
 }
 
 void Renderer::init()
@@ -43,7 +43,7 @@ void Renderer::init()
 
         compileShaders();
 
-        glUseProgram(PS_Shader.program);
+        glUseProgram(psShader.program);
 
         glGenVertexArrays(1, &vertexArrayID);
         glBindVertexArray(vertexArrayID);
@@ -60,8 +60,8 @@ void Renderer::init()
         glEnable(GL_CULL_FACE);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-//    glUniform1i(glGetUniformLocation(PS_Shader.program, "diffuseTexture"), 0);
-//    glUniform1i(glGetUniformLocation(PS_Shader.program, "depthMap"), 1);
+//    glUniform1i(glGetUniformLocation(psShader.program, "diffuseTexture"), 0);
+//    glUniform1i(glGetUniformLocation(psShader.program, "depthMap"), 1);
 
         for (int l = 0; l < MAX_LIGHTS; ++l)
                 lights[l].initShadows(SHADOW_WIDTH, SHADOW_HEIGHT);
@@ -117,7 +117,7 @@ void Renderer::init()
 
 void Renderer::clear()
 {
-        glClearColor(clr_col.r, clr_col.g, clr_col.b, 1.0f);
+        glClearColor(clearCol.r, clearCol.g, clearCol.b, 1.0f);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
@@ -134,7 +134,7 @@ void Renderer::update()
         cMatrix = glm::mat4(1.0f);
         pMatrix = glm::mat4(1.0f);
 
-        pMatrix = glm::perspective(fov, (float) w / (float) h, 0.05f, far_plane);
+        pMatrix = glm::perspective(fov, (float) w / (float) h, 0.05f, farPlane);
 
         //glViewport(0, 0, w, h);
 
@@ -209,7 +209,7 @@ void Renderer::flushUpdate()
         }
 
         glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        glUseProgram(PS_Shader.program);
+        glUseProgram(psShader.program);
 
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_CULL_FACE);
@@ -221,40 +221,40 @@ void Renderer::flushUpdate()
         glDepthFunc(GL_LESS);
         glCullFace(GL_BACK);
 
-        glUniform2fv(glGetUniformLocation(PS_Shader.program, "ws"), 1,
+        glUniform2fv(glGetUniformLocation(psShader.program, "ws"), 1,
                      &(glm::vec2((float) SCREEN_WIDTH, (float) SCREEN_HEIGHT))[0]);
 
-        glUniform1f(glGetUniformLocation(PS_Shader.program, "far_plane"), far_plane);
+        glUniform1f(glGetUniformLocation(psShader.program, "farPlane"), farPlane);
 
-        glUniform1f(glGetUniformLocation(PS_Shader.program, "dither"), (float) dithering);
+        glUniform1f(glGetUniformLocation(psShader.program, "dither"), (float) dithering);
 
-        GLuint sampleTex = glGetUniformLocation(PS_Shader.program, "diffuseTexture");
+        GLuint sampleTex = glGetUniformLocation(psShader.program, "diffuseTexture");
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, tex.tex);
         glUniform1i(sampleTex, 0);
 
-        glUniform3fv(glGetUniformLocation(PS_Shader.program, "fogCol"), 1, &(clr_col)[0]);
-        glUniform2fv(glGetUniformLocation(PS_Shader.program, "al"), 1, &(glm::vec2(this->amb, this->lght))[0]);
+        glUniform3fv(glGetUniformLocation(psShader.program, "fogCol"), 1, &(clearCol)[0]);
+        glUniform2fv(glGetUniformLocation(psShader.program, "al"), 1, &(glm::vec2(this->amb, this->lght))[0]);
 
 
         for (int l = 0; l < max_lights; ++l) {
-                glUniform3fv(glGetUniformLocation(PS_Shader.program, ("lights[" + to_string(l) + "].pos").c_str()), 1,
+                glUniform3fv(glGetUniformLocation(psShader.program, ("lights[" + to_string(l) + "].pos").c_str()), 1,
                              (const float *) glm::value_ptr(lights[l].pos));
-                glUniform3fv(glGetUniformLocation(PS_Shader.program, ("lights[" + to_string(l) + "].col").c_str()), 1,
+                glUniform3fv(glGetUniformLocation(psShader.program, ("lights[" + to_string(l) + "].col").c_str()), 1,
                              &(lights[l].col*((float)shadows))[0]);
 
-                GLuint depthTex = glGetUniformLocation(PS_Shader.program, ("depthMap[" + to_string(l) + "]").c_str());
+                GLuint depthTex = glGetUniformLocation(psShader.program, ("depthMap[" + to_string(l) + "]").c_str());
 
                 glActiveTexture((GLenum) (GL_TEXTURE1 + l));
                 glBindTexture(GL_TEXTURE_CUBE_MAP, lights[l].depthCubemap);
                 glUniform1i(depthTex, 1 + l);
         }
 
-        glUniform1i(glGetUniformLocation(PS_Shader.program, "max_lights"), max_lights);
+        glUniform1i(glGetUniformLocation(psShader.program, "max_lights"), max_lights);
 
-        glUniformMatrix4fv(glGetUniformLocation(PS_Shader.program, "projection"), 1, GL_FALSE, glm::value_ptr(pMatrix));
-        glUniformMatrix4fv(glGetUniformLocation(PS_Shader.program, "view"), 1, GL_FALSE, glm::value_ptr(cMatrix));
-        glUniformMatrix4fv(glGetUniformLocation(PS_Shader.program, "model"), 1, GL_FALSE, glm::value_ptr(uMatrix));
+        glUniformMatrix4fv(glGetUniformLocation(psShader.program, "projection"), 1, GL_FALSE, glm::value_ptr(pMatrix));
+        glUniformMatrix4fv(glGetUniformLocation(psShader.program, "view"), 1, GL_FALSE, glm::value_ptr(cMatrix));
+        glUniformMatrix4fv(glGetUniformLocation(psShader.program, "model"), 1, GL_FALSE, glm::value_ptr(uMatrix));
 
 }
 
@@ -264,7 +264,7 @@ void Renderer::flush()
 
         glBindVertexArray(vertexArrayID);
 
-        glBindAttribLocation(PS_Shader.program, 0, "position");
+        glBindAttribLocation(psShader.program, 0, "position");
         glEnableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
         glVertexAttribPointer(
@@ -276,7 +276,7 @@ void Renderer::flush()
                 (void *) 0
                 );
 
-        glBindAttribLocation(PS_Shader.program, 1, "normal");
+        glBindAttribLocation(psShader.program, 1, "normal");
         glEnableVertexAttribArray(1);
         glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
         glVertexAttribPointer(
@@ -288,7 +288,7 @@ void Renderer::flush()
                 (void *) 0
                 );
 
-        glBindAttribLocation(PS_Shader.program, 2, "texCoords");
+        glBindAttribLocation(psShader.program, 2, "texPos");
         glEnableVertexAttribArray(2);
         glBindBuffer(GL_ARRAY_BUFFER, texBuffer);
         glVertexAttribPointer(
@@ -300,7 +300,7 @@ void Renderer::flush()
                 (void *) 0
                 );
 
-        glBindAttribLocation(PS_Shader.program, 3, "col");
+        glBindAttribLocation(psShader.program, 3, "col");
         glEnableVertexAttribArray(3);
         glBindBuffer(GL_ARRAY_BUFFER, colBuffer);
         glVertexAttribPointer(
@@ -409,7 +409,7 @@ void Renderer::drawLine(glm::vec3 l0, glm::vec3 l1)
 
         glBindVertexArray(vertexArrayID);
 
-        glBindAttribLocation(PS_Shader.program, 0, "position");
+        glBindAttribLocation(psShader.program, 0, "position");
         glEnableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
         glVertexAttribPointer(
@@ -421,7 +421,7 @@ void Renderer::drawLine(glm::vec3 l0, glm::vec3 l1)
                 (void *) 0
                 );
 
-        glBindAttribLocation(PS_Shader.program, 1, "normal");
+        glBindAttribLocation(psShader.program, 1, "normal");
         glEnableVertexAttribArray(1);
         glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
         glVertexAttribPointer(
@@ -433,7 +433,7 @@ void Renderer::drawLine(glm::vec3 l0, glm::vec3 l1)
                 (void *) 0
                 );
 
-        glBindAttribLocation(PS_Shader.program, 2, "texCoords");
+        glBindAttribLocation(psShader.program, 2, "texPos");
         glEnableVertexAttribArray(2);
         glBindBuffer(GL_ARRAY_BUFFER, texBuffer);
         glVertexAttribPointer(
@@ -445,7 +445,7 @@ void Renderer::drawLine(glm::vec3 l0, glm::vec3 l1)
                 (void *) 0
                 );
 
-        glBindAttribLocation(PS_Shader.program, 3, "col");
+        glBindAttribLocation(psShader.program, 3, "col");
         glEnableVertexAttribArray(3);
         glBindBuffer(GL_ARRAY_BUFFER, colBuffer);
         glVertexAttribPointer(
@@ -621,19 +621,19 @@ void Renderer::drawShadowMap()
 
         GLfloat aspect = ((GLfloat) SHADOW_WIDTH) / ((GLfloat) SHADOW_HEIGHT);
         GLfloat near = 0.3f;
-        GLfloat far = far_plane;
+        GLfloat far = farPlane;
         glm::mat4 shadowProj = glm::perspective((float) (M_PI / 2.0f), aspect, near, far);
 
         glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 
-        glUseProgram(PS_ShaderDepth.program);
+        glUseProgram(psShaderDepth.program);
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
         glDepthFunc(GL_LESS);
 
-        glUniform1f(glGetUniformLocation(PS_ShaderDepth.program, "far_plane"), far);
+        glUniform1f(glGetUniformLocation(psShaderDepth.program, "farPlane"), far);
 
-        glUniformMatrix4fv(glGetUniformLocation(PS_ShaderDepth.program, "model"), 1, GL_FALSE,
+        glUniformMatrix4fv(glGetUniformLocation(psShaderDepth.program, "model"), 1, GL_FALSE,
                            (const float *) glm::value_ptr(uMatrix));
         glEnableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
@@ -666,11 +666,11 @@ void Renderer::drawShadowMap()
 
                 for (GLuint i = 0; i < 6; ++i)
                         glUniformMatrix4fv(
-                                glGetUniformLocation(PS_ShaderDepth.program,
+                                glGetUniformLocation(psShaderDepth.program,
                                                      ("shadowTransforms[" + to_string(i) + "]").c_str()), 1,
                                 GL_FALSE, glm::value_ptr(shadowTransforms[i]));
 
-                glUniform3fv(glGetUniformLocation(PS_ShaderDepth.program, "lightPos"), 1,
+                glUniform3fv(glGetUniformLocation(psShaderDepth.program, "lightPos"), 1,
                              (const float *) glm::value_ptr(lights[light_i].pos));
 /*
         glDrawRangeElements(GL_TRIANGLES, 0, buffer_vertices - 1, buffer_indices, GL_UNSIGNED_INT,
@@ -759,7 +759,7 @@ void Renderer::renderFBO()
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indBuf);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * 2 * sizeof(int), indices, GL_DYNAMIC_DRAW);
 
-        glBindAttribLocation(quadShader.program, 0, "a_pos");
+        glBindAttribLocation(quadShader.program, 0, "aPos");
         glEnableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, quadBuf);
         glVertexAttribPointer(
@@ -770,7 +770,7 @@ void Renderer::renderFBO()
                 0,
                 (void *) 0
                 );
-        glBindAttribLocation(quadShader.program, 1, "a_tex");
+        glBindAttribLocation(quadShader.program, 1, "aTex");
         glEnableVertexAttribArray(1);
         glBindBuffer(GL_ARRAY_BUFFER, texBuffer);
         glVertexAttribPointer(

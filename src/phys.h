@@ -13,18 +13,19 @@ const float PHYS_EPSILON = 0.005f;
 class Phys {
 public:
 glm::vec3 pos = glm::vec3(0.0f);
+glm::vec3 posold = glm::vec3(0.0f);
 glm::vec3 sv = glm::vec3(0.0f); // slow v for sleeping
 
 glm::vec3 rot = glm::vec3(0.0f);
 glm::fquat qrot = glm::quat(1.0f, 0.0f, 0.0f, 0.0f); // quaternion rep
 glm::fquat qrrot = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
 
-glm::vec3 srot_v = glm::vec3(0.0f); // slow rotv
+glm::vec3 srotV = glm::vec3(0.0f); // slow rotv
 
-glm::vec3 rot_v = glm::vec3(0.0f);
-glm::vec3 rot_a = glm::vec3(0.0f);
+glm::vec3 rotV = glm::vec3(0.0f);
+glm::vec3 rotA = glm::vec3(0.0f);
 
-glm::vec3 rot_rv = glm::vec3(0.0f);
+glm::vec3 rotRV = glm::vec3(0.0f);
 
 glm::vec3 s = glm::vec3(1.0f);
 
@@ -42,8 +43,8 @@ glm::vec3 torx = glm::vec3(0.0f);
 glm::vec3 torxold = glm::vec3(0.0f);
 
 float I = 1.0f;
-glm::vec3 collision_center = glm::vec3(0.0f);
-glm::vec3 collision_normal = glm::vec3(0.0f);
+glm::vec3 collisionCenter = glm::vec3(0.0f);
+glm::vec3 collisionNormal = glm::vec3(0.0f);
 
 bool inRange = true;
 
@@ -53,7 +54,7 @@ int scollision_num = 0;
 
 glm::vec3 p = glm::vec3(0.0f);
 float m = 1.0f;
-glm::vec3 m_c = glm::vec3(0.0f); // mass center not used
+glm::vec3 mc = glm::vec3(0.0f); // mass center not used
 
 bool isStatic = false;
 bool isSemiStatic = false;

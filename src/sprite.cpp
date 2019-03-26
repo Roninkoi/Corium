@@ -8,7 +8,7 @@ void Sprite::tickAnim(float newTicks)
 {
         ticks = newTicks;
 
-        if (anim_ticks - ticks >= anim_spd) {
+        if (anim_ticks - ticks >= animSpd) {
                 ++anim;
                 if (anim >= anim_cycle.size()) {
                         anim = 0;
@@ -21,7 +21,7 @@ void Sprite::tickAnim(float newTicks)
 void Sprite::setAnim(std::vector <int> newAnim, float newSpd)
 {
         anim_cycle = newAnim;
-        anim_spd = newSpd;
+        animSpd = newSpd;
 }
 
 void Sprite::addSprite(glm::vec4 newSprite)

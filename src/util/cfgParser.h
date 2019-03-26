@@ -6,8 +6,7 @@
 #define CORIUM_CFGPARSER_H
 
 #include <game/game.h>
-#include "crmlexer.h"
-#include "crmlang.h"
+#include "crmLang.h"
 
 void loadSettings(std::string path, Game *game)
 {
@@ -20,7 +19,7 @@ void loadSettings(std::string path, Game *game)
                         game->thisCamera->fov = atof(words[i + 1].c_str());
                 }
                 if (expr(words, i, 2, "_MOUSE_SPD")) {
-                        game->input.mouse_spd = atof(words[i + 1].c_str());
+                        game->input.mouseSpd = atof(words[i + 1].c_str());
                 }
                 if (expr(words, i, 2, "_JSNUM")) {
                         game->input.jsnum = atoi(words[i + 1].c_str());
@@ -53,7 +52,7 @@ void loadSettings(std::string path, Game *game)
                 }
                 if (expr(words, i, 2, "_MULTITHREADING")) {
                         game->multithreading = (bool) atof(words[i + 1].c_str());
-                        game->map.physSys.multithreading = (bool) atof(words[i + 1].c_str());
+                        game->map.sys.multithreading = (bool) atof(words[i + 1].c_str());
                 }
                 if (expr(words, i, 2, "_LOADSHADERS")) {
                         game->loadShaders = (bool) atof(words[i + 1].c_str());
@@ -78,11 +77,11 @@ void loadSettings(std::string path, Game *game)
                         game->startFullScr = (bool) atof(words[i + 1].c_str());
                 }
                 if (expr(words, i, 2, "_GLVER")) {
-                        game->wndw.glMaj = (int) atof(words[i + 1].c_str());
-                        game->wndw.glMin = (int) atof(words[i + 2].c_str());
+                        game->wndw.gl_maj = (int) atof(words[i + 1].c_str());
+                        game->wndw.gl_min = (int) atof(words[i + 2].c_str());
                 }
                 if (expr(words, i, 2, "_CAMERA_AUTO")) {
-                        game->thisCamera->camai = (bool) atof(words[i + 1].c_str());
+                        game->thisCamera->camAI = (bool) atof(words[i + 1].c_str());
                 }
                 if (expr(words, i, 2, "_FRAMEBUFFER")) {
                         game->renderer.rfbo = (bool) atoi(words[i + 1].c_str());

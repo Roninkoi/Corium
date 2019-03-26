@@ -3,7 +3,7 @@
 //
 
 #include "game.h"
-#include <util/currentTime.h>
+#include <util/time.h>
 #include <util/cfgParser.h>
 
 Game::Game()
@@ -94,10 +94,10 @@ void Game::init()
 
         if (fileoutput) outputfile = freopen("output.log", "w", stdout);
 
-        print("===============================================================================\n");
-        print("----------------------- CORIUM ENGINE v1.40 BY RONIN748 -----------------------\n");
-        print("----------------------------- " + to_string(currentDateTime()) + " -----------------------------\n");
-        print("===============================================================================\n\n");
+        print("===========================================================================\n");
+        print("--------------------- CORIUM ENGINE v1.40 BY RONIN748 ---------------------\n");
+        print("--------------------------- " + to_string(currentDateTime()) + " ---------------------------\n");
+        print("===========================================================================\n\n");
 
         int glfw_err = glfwInit();
         if (!glfw_err) {
@@ -189,7 +189,7 @@ void Game::fullScr()
 {
         wndw.fullScr();
 
-        input.window_focus = false;
+        input.winFocus = false;
         input.focused = true;
         glfwSetInputMode(wndw.window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
         glfwSetInputMode(wndw.window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);

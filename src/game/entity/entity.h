@@ -28,7 +28,7 @@ bool moving = false;
 float spd = 1.0f;
 
 // find this in world tick (probably player)
-Entity* closestEnemy;
+Entity* closestEnemy = NULL;
 
 float chaseRange = 8.0f;
 float attackRange = 1.0f;

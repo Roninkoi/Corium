@@ -20,14 +20,14 @@ std::vector<bool> keyPressed;
 
 std::vector<bool> mouseDown;
 
-glm::dvec2 mouse_pos;
-glm::dvec2 mouse_posOld;
-glm::dvec2 mouse_posDiff;
-float mouse_spd;
+glm::dvec2 mousePos;
+glm::dvec2 mousePosOld;
+glm::dvec2 mousePosDiff;
+float mouseSpd;
 
 int jsnum = 0;     // joystick number
 
-bool window_focus;
+bool winFocus;
 bool focused;
 
 bool fullscreen = false;
@@ -40,16 +40,16 @@ bool getKey(int id);
 
 Input()
 {
-        window_focus = true;
+        winFocus = true;
         focused = false;
 
-        mouse_spd = 1.0;
+        mouseSpd = 1.0;
 
         keyDown.resize(256);
         keyPressed.resize(256);
         mouseDown.resize(3);
 
-        mouse_pos = glm::vec2(0.0f, 0.0f);
+        mousePos = glm::vec2(0.0f, 0.0f);
 
         ticks = 0;
 

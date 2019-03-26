@@ -9,8 +9,8 @@
 #include <quad.h>
 #include <render/renderer.h>
 #include <game/entity/player.h>
-#include <util/randomRange.h>
-#include <physSys.h>
+#include <util/random.h>
+#include <sys.h>
 #include <math.h>
 #include <game/obj/obj.h>
 #include <util/objParser.h>
@@ -46,7 +46,7 @@ Audio *aud;
 
 bool *running;
 
-PhysSys physSys;
+Sys sys;
 bool physicsEnabled = true;
 bool physadded = false;
 
@@ -105,7 +105,7 @@ void start(Renderer *renderer, Audio *aud, bool *running)
 
 void reload(Renderer *renderer)
 {
-        physSys.finish();
+        sys.finish();
 
         clearVector(&objs);
         clearVector(&environs);
@@ -211,9 +211,9 @@ void addObj(std::string s, std::string p, std::string t, glm::vec3 pos,
 
 void addPhysObjects()
 {
-        physSys.objects.resize(objs.size());
+        sys.objects.resize(objs.size());
         for (int j = 0; j < objs.size(); ++j) {
-                physSys.objects[j] = &objs[j];
+                sys.objects[j] = &objs[j];
         }
 }
 
@@ -237,7 +237,7 @@ void findLights()
         bool found = true;
 
         for (int i = 0; i < renderer->MAX_LIGHTS && found; ++i) {
-                float closestDist = renderer->far_plane; // lights within zfar
+                float closestDist = renderer->farPlane; // lights within zfar
                 int closestJ = 0;
                 found = false;
 
@@ -291,7 +291,6 @@ void load(Renderer *renderer)
         baked = false;
 }
 
-// are shadows 420
 bool baked = false;
 void bakeShadows();
 
@@ -302,7 +301,7 @@ void restart()
 
 void quit()
 {
-        physSys.finish();
+        sys.finish();
 }
 
 Map()

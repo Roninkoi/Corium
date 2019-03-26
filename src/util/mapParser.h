@@ -1,5 +1,5 @@
 #include <game/world/map.h>
-#include "crmlexer.h"
+#include "crmLexer.h"
 
 void mapCmd(std::vector<std::string> words, int i, Map* map)
 {
@@ -32,7 +32,7 @@ void mapCmd(std::vector<std::string> words, int i, Map* map)
         }
         if (expr(words, i, 2, "_FAR_PLANE")) {
                 std::string s = words[i + 1];
-                map->renderer->far_plane = atof(&s[0]);
+                map->renderer->farPlane = atof(&s[0]);
         }
         if (expr(words, i, 5, "_SKY")) {
                 std::string s = words[i + 1];
@@ -49,7 +49,7 @@ void mapCmd(std::vector<std::string> words, int i, Map* map)
         }
         if (expr(words, i, 2, "_RENDER_DIST")) {
                 std::string s = words[i + 1];
-                map->renderer->render_dist = atof(&s[0]);
+                map->renderer->renderDist = atof(&s[0]);
         }
         if (expr(words, i, 2, "_MASS")) {
                 std::string s = words[i + 1];
@@ -65,7 +65,7 @@ void mapCmd(std::vector<std::string> words, int i, Map* map)
         }
         if (expr(words, i, 2, "_FOG_COL")) {
                 std::string s = words[i + 1];
-                map->renderer->clr_col = vecParser(s);
+                map->renderer->clearCol = vecParser(s);
         }
         if (expr(words, i, 2, "_GRAVITY")) {
                 std::string s = words[i + 1];
