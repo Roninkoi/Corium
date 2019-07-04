@@ -323,7 +323,7 @@ CMakeFiles/Corium.dir/src/sprite.cpp.o
  /home/rak/Documents/Corium/src/util/toString.h
 CMakeFiles/Corium.dir/src/texture.cpp.o
  /home/rak/Documents/Corium/src/texture.cpp
- /home/rak/Documents/Corium/src/util/stb_image.h
+ lib/include/stb_image.h
  src/crm.h
  src/texture.h
  src/util/toString.h

@@ -322,7 +322,7 @@ CMakeFiles/Corium.dir/src/sprite.cpp.o: src/texture.h
 CMakeFiles/Corium.dir/src/sprite.cpp.o: src/util/toString.h
 
 CMakeFiles/Corium.dir/src/texture.cpp.o: src/texture.cpp
-CMakeFiles/Corium.dir/src/texture.cpp.o: src/util/stb_image.h
+CMakeFiles/Corium.dir/src/texture.cpp.o: lib/include/stb_image.h
 CMakeFiles/Corium.dir/src/texture.cpp.o: src/crm.h
 CMakeFiles/Corium.dir/src/texture.cpp.o: src/texture.h
 CMakeFiles/Corium.dir/src/texture.cpp.o: src/util/toString.h
