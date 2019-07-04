@@ -3,26 +3,26 @@
 precision lowp int;
 precision lowp float;
 
-/*layout (location = 0) */in vec4 position;
-/*layout (location = 1) */in vec4 normal;
-/*layout (location = 2) */in vec4 texPos;
+/*layout (location = 0) */in vec4 pos;
+/*layout (location = 1) */in vec4 norm;
+/*layout (location = 2) */in vec4 tex;
 /*layout (location = 3) */in vec4 col;
 
-out vec3 fragPos;
-out vec3 fnormal;
-out vec2 ftexPos;
-out vec4 fragCol;
+out vec3 fPos;
+out vec3 fNorm;
+out vec2 fTex;
+out vec4 fCol;
 
-uniform mat4 projection;
+uniform mat4 proj;
 uniform mat4 view;
 uniform mat4 model;
 
 void main()
 {
-    gl_Position = projection * view * model * vec4(position.xyz, 1.0f);
-    fragPos = vec3(model * position);
-    fnormal = transpose(inverse(mat3(model))) * (normal.xyz);
+    gl_Position = proj * view * model * vec4(pos.xyz, 1.0f);
+    fPos = vec3(model * pos);
+    fNorm = transpose(inverse(mat3(model))) * (norm.xyz);
     //normal = mat3(model) * (normal.xyz);
-    ftexPos = vec2((texPos.s)*texPos.p, (texPos.t)*texPos.q);
-    fragCol = col;
+    fTex = vec2((tex.s)*tex.p, (tex.t)*tex.q);
+    fCol = col;
 }

@@ -1,14 +1,14 @@
 //
-// Created by Ronin748 on 18.12.2015.
+// Created by Roninkoi on 18.12.2015.
 //
-#include <util/objParser.h>
+#include "util/objParser.h"
 #include "obj.h"
 
 void Obj::update()
 {
-        phys.m = pow(fabs(physMesh.boundingSphereRadius), 2)*0.75f*M_PI + 1.0f;
-        phys.I = phys.m*physMesh.boundingSphereRadius*physMesh.boundingSphereRadius*0.4f;
-        //phys.m_c = -(phys.pos-physMesh.boundingSphereCenter);
+        phys.m = pow(fabs(physMesh.bsRadius), 2)*0.75f*M_PI + 1.0f;
+        phys.I = phys.m*physMesh.bsRadius*physMesh.bsRadius*0.4f;
+        //phys.m_c = -(phys.pos-physMesh.bsCenter);
         phys.update();
 
         if (hasMesh) updateMesh();

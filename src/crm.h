@@ -1,5 +1,5 @@
 //
-// Created by Ronin748 on 18.12.2015.
+// Created by Roninkoi on 18.12.2015.
 //
 
 #ifndef CORIUM_CRM_H
@@ -21,11 +21,11 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <util/toString.h>
-
 #include <GL/glew.h>
 #include <GL/gl.h>
 #include <GLFW/glfw3.h>
+
+#include "util/toString.h"
 
 void gamePrint(std::string s);
 

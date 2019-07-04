@@ -1,11 +1,11 @@
 //
-// Created by Ronin748 on 18.12.2015.
+// Created by Roninkoi on 18.12.2015.
 //
 
 #ifndef CORIUM_ENTITY_H
 #define CORIUM_ENTITY_H
 
-#include <game/obj/obj.h>
+#include "game/obj/obj.h"
 
 class Entity : public Obj {
 public:
@@ -28,7 +28,7 @@ bool moving = false;
 float spd = 1.0f;
 
 // find this in world tick (probably player)
-Entity* closestEnemy = NULL;
+Entity *closestEnemy = NULL;
 
 float chaseRange = 8.0f;
 float attackRange = 1.0f;
@@ -37,16 +37,16 @@ float attackRange = 1.0f;
 void think();
 
 // entity movement, otherwise idle
-void chase(Entity* another);
+void chase(Entity *another);
 
 // he attacc
-void attack(Entity* another);
+void attack(Entity *another);
 
 // bounce up and down or whatever
 void idle();
 
-void draw(Renderer* renderer);
-void drawShadows(Renderer* renderer);
+void draw(Renderer *renderer);
+void drawShadows(Renderer *renderer);
 
 void tick();
 

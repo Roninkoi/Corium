@@ -1,12 +1,12 @@
 //
-// Created by Ronin748 on 22.12.2015.
+// Created by Roninkoi on 22.12.2015.
 //
 
 #ifndef CORIUM_MESH_H
 #define CORIUM_MESH_H
 
-#include <render/renderer.h>
-#include <phys.h>
+#include "render/renderer.h"
+#include "phys/phys.h"
 
 const float MAX_TRIANGLE_SIZE = 200.0f;
 
@@ -14,20 +14,20 @@ class Mesh {
 public:
 float triangle_size = 1.0f;
 
-std::vector<float> rawVertexBufferData;
-std::vector<float> vertexBufferData;
-std::vector<float> texBufferData;
-std::vector<float> colBufferData;
-std::vector<float> normalBufferData;
-std::vector<float> vertexNormalBufferData;
+std::vector<float> vertexData0;
+std::vector<float> vertexData;
+std::vector<float> texData;
+std::vector<float> colData;
+std::vector<float> normalData;
+std::vector<float> vertexNormalData;
 
-std::vector<int> indexBufferData;
+std::vector<int> indexData;
 
 glm::vec3 collisionNormal;
 glm::vec3 collisionCenter;
 
-float boundingSphereRadius = 1.0f;
-glm::vec3 boundingSphereCenter = glm::vec3(0.0f);
+float bsRadius = 1.0f;
+glm::vec3 bsCenter = glm::vec3(0.0f);
 
 glm::vec3 velocity = glm::vec3(0.0f);
 int staticity = 1;
@@ -42,7 +42,7 @@ bool sphereIsect(Mesh *another, glm::vec3 s, float r);
 void getNormals();
 
 // bounding sphere intersection test
-bool bsi(Mesh* another);
+bool bsIsect(Mesh *another);
 
 void getBoundingSphere();
 
@@ -54,13 +54,13 @@ void triangleSizeCheck();
 
 void setCol(glm::vec4 newCol);
 
-void draw(Renderer* renderer, Texture* tex);
+void draw(Renderer *renderer, Texture *tex);
 
-void render(Renderer* renderer, Texture* tex);
+void render(Renderer *renderer, Texture *tex);
 
-void drawShadows(Renderer* renderer);
+void drawShadows(Renderer *renderer);
 
-void renderShadows(Renderer* renderer);
+void renderShadows(Renderer *renderer);
 
 Mesh()
 {

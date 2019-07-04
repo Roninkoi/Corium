@@ -1,12 +1,11 @@
 //
-// Created by Ronin748 on 21.12.2015.
+// Created by Roninkoi on 21.12.2015.
 //
 
 #ifndef CORIUM_PHYS_H
 #define CORIUM_PHYS_H
 
-#include <crm.h>
-#include <glm/gtx/quaternion.hpp>
+#include "crm.h"
 
 const float PHYS_EPSILON = 0.005f;
 
@@ -32,7 +31,7 @@ glm::vec3 s = glm::vec3(1.0f);
 glm::vec3 rpos = glm::vec3(0.0f);
 glm::vec3 rrot = glm::vec3(0.0f);
 
-glm::vec3 rot_offs = glm::vec3(0.0f, 0.0f, 0.0f);
+glm::vec3 rotOffs = glm::vec3(0.0f, 0.0f, 0.0f);
 
 glm::vec3 v = glm::vec3(0.0f);
 glm::vec3 a = glm::vec3(0.0f);
@@ -49,8 +48,8 @@ glm::vec3 collisionNormal = glm::vec3(0.0f);
 bool inRange = true;
 
 bool isColliding = false;
-int collision_num = 0;
-int scollision_num = 0;
+int collisionNum = 0;
+int scollisionNum = 0;
 
 glm::vec3 p = glm::vec3(0.0f);
 float m = 1.0f;

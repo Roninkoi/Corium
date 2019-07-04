@@ -1,15 +1,15 @@
 #version 140
 
-/*layout(location = 0) */in vec4 aPos;
-/*layout(location = 1) */in vec4 aTex;
+/*layout(location = 0) */in vec4 pos;
+/*layout(location = 1) */in vec4 tex;
 
 out vec4 vPos;
 out vec2 vTex;
 
 void main()
 {
-  gl_Position = vec4(aPos.xyz, 1.0f);
+  gl_Position = vec4(pos.xyz, 1.0f);
 
-  vTex = vec2(aTex.s*aTex.p, aTex.t*aTex.q);
-  vPos = aPos;
+  vTex = vec2(tex.s*tex.p, tex.t*tex.q);
+  vPos = pos;
 }

@@ -1,5 +1,5 @@
 //
-// Created by Ronin748 on 18.9.2017.
+// Created by Roninkoi on 18.9.2017.
 //
 
 #ifndef CORIUM_CAMERA_H

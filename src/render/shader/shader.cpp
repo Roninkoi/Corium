@@ -1,16 +1,16 @@
 //
-// Created by Ronin748 on 18.12.2015.
+// Created by Roninkoi on 18.12.2015.
 //
 
 #include "shader.h"
 
-GLuint Shader::loadShaders(const char *vertex_file_path, const char *fragment_file_path, bool src = false) {
+GLuint Shader::loadShaders(const char *vertPath, const char *fragPath, bool src = false) {
         VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
         FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
         std::string VertexShaderCode;
         if (!src) {
-                std::fstream VertexShaderStream(vertex_file_path, std::ios::in);
+                std::fstream VertexShaderStream(vertPath, std::ios::in);
                 if (VertexShaderStream.is_open()) {
                         std::string Line = "";
                         while (getline(VertexShaderStream, Line))
@@ -18,26 +18,26 @@ GLuint Shader::loadShaders(const char *vertex_file_path, const char *fragment_fi
                         VertexShaderStream.close();
                 } else {
                         printf("Could not open %s!\n",
-                               vertex_file_path);
+                               vertPath);
                         getchar();
                         return 0;
                 }
         }
         else {
-                VertexShaderCode = vertex_file_path;
+                VertexShaderCode = vertPath;
         }
         std::string FragmentShaderCode;
         if (!src) {
-                std::fstream FragmentShaderStream(fragment_file_path, std::ios::in);
+                std::fstream FragmentShaderStream(fragPath, std::ios::in);
                 if (FragmentShaderStream.is_open()) {
                         std::string Line = "";
-                        while (getline(FragmentShaderStream, Line)) {
+                        while (getline(FragmentShaderStream, Line)) { // custom shader macros
                                 if (Line == "#define MAX_LIGHTS CRM_LIGHTNUM\r" || Line == "#define MAX_LIGHTS CRM_LIGHTNUM\n" || Line == "#define MAX_LIGHTS CRM_LIGHTNUM") {
-                                        FragmentShaderCode += "\n" + to_string("#define MAX_LIGHTS ") + to_string(max_lights);
+                                        FragmentShaderCode += "\n" + toString("#define MAX_LIGHTS ") + toString(max_lights);
                                 }
                                 else if (Line == "CRM_TEXTURE_DEPTHMAP\r" || Line == "CRM_TEXTURE_DEPTHMAP\n" || Line == "CRM_TEXTURE_DEPTHMAP") {
                                         for (int l = 0; l < max_lights; ++l) {
-                                                FragmentShaderCode += "\n" + to_string("if (light_i == ") + to_string(l) + to_string(") closestDepth = texture(depthMap[") + to_string(l) + to_string("], fragToLight).r;\n");
+                                                FragmentShaderCode += "\n" + toString("if (light_i == ") + toString(l) + toString(") closestDepth = texture(depthMap[") + toString(l) + toString("], fragToLight).r;\n");
                                         }
                                 }
                                 else {
@@ -48,12 +48,12 @@ GLuint Shader::loadShaders(const char *vertex_file_path, const char *fragment_fi
                 }
         }
         else {
-                FragmentShaderCode = fragment_file_path;
+                FragmentShaderCode = fragPath;
         }
         GLint Result = GL_FALSE;
         int InfoLogLength;
 
-        //printf("Compiling shader : %s\n", vertex_file_path);
+        //printf("Compiling shader : %s\n", vertPath);
         char const *VertexSourcePointer = VertexShaderCode.c_str();
         glShaderSource(VertexShaderID, 1, &VertexSourcePointer, NULL);
         glCompileShader(VertexShaderID);
@@ -102,7 +102,7 @@ GLuint Shader::loadShaders(const char *vertex_file_path, const char *fragment_fi
         return ProgramID;
 }
 
-GLuint Shader::loadGS(const char *vertex_file_path, const char *fragment_file_path, const char *gs_file_path, bool src = false)
+GLuint Shader::loadGS(const char *vertPath, const char *fragPath, const char *gsPath, bool src = false)
 {
         VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
         GeometryShaderID = glCreateShader(GL_GEOMETRY_SHADER_ARB);
@@ -110,7 +110,7 @@ GLuint Shader::loadGS(const char *vertex_file_path, const char *fragment_file_pa
 
         std::string VertexShaderCode;
 
-        std::fstream VertexShaderStream(vertex_file_path, std::ios::in);
+        std::fstream VertexShaderStream(vertPath, std::ios::in);
         if (VertexShaderStream.is_open()) {
                 std::string Line = "";
                 while (getline(VertexShaderStream, Line))
@@ -118,14 +118,14 @@ GLuint Shader::loadGS(const char *vertex_file_path, const char *fragment_file_pa
                 VertexShaderStream.close();
         } else {
                 printf("Could not open %s!\n",
-                       vertex_file_path);
+                       vertPath);
                 getchar();
                 return 0;
         }
 
         std::string GeometryShaderCode;
 
-        std::fstream GeometryShaderStream(gs_file_path, std::ios::in);
+        std::fstream GeometryShaderStream(gsPath, std::ios::in);
         if (GeometryShaderStream.is_open()) {
                 std::string Line = "";
                 while (getline(GeometryShaderStream, Line))
@@ -134,16 +134,16 @@ GLuint Shader::loadGS(const char *vertex_file_path, const char *fragment_file_pa
         }
         std::string FragmentShaderCode;
 
-        std::fstream FragmentShaderStream(fragment_file_path, std::ios::in);
+        std::fstream FragmentShaderStream(fragPath, std::ios::in);
         if (FragmentShaderStream.is_open()) {
                 std::string Line = "";
                 while (getline(FragmentShaderStream, Line))
                         FragmentShaderCode += "\n" + Line;
                 FragmentShaderStream.close();
         }
-        printf("Compiling shader : %s\n", vertex_file_path);
-        printf("Compiling shader : %s\n", gs_file_path);
-        printf("Compiling shader : %s\n", fragment_file_path);
+        printf("Compiling shader: %s\n", vertPath);
+        printf("Compiling shader: %s\n", gsPath);
+        printf("Compiling shader: %s\n", fragPath);
 
         GLint Result = GL_FALSE;
         int InfoLogLength;

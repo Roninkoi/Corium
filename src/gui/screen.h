@@ -1,13 +1,13 @@
 //
-// Created by Ronin748 on 22.12.2015.
+// Created by Roninkoi on 22.12.2015.
 //
 
 #ifndef CORIUM_SCREEN_H
 #define CORIUM_SCREEN_H
 
 #include "gui.h"
-#include <quad.h>
-#include <render/screenRenderer.h>
+#include "quad.h"
+#include "render/screenRenderer.h"
 
 class Screen {
 public:
@@ -107,8 +107,8 @@ void loadScreen() {
         charQuad.phys.pos.y = -1.2f;
         charQuad.phys.pos.x = -2.26f;
         charQuad.phys.s = glm::vec3(1.0f, 1.8f, 1.0f) * 0.07f;
-        charQuad.phys.rot_offs.x = charQuad.phys.s.x * 0.5f;
-        charQuad.phys.rot_offs.z = -1.0f;
+        charQuad.phys.rotOffs.x = charQuad.phys.s.x * 0.5f;
+        charQuad.phys.rotOffs.z = -1.0f;
         charQuad.phys.update();
         charQuad.update();
 
@@ -120,7 +120,7 @@ void loadScreen() {
         crmlogo.loadSprite("gfx/misc/CRM_logo.png", glm::vec4(0.0f, 0.0f, 450.0f, -450.0f));
 }
 
-void drawLoadingScreen(Renderer* renderer) {
+void drawLoadingScreen(Renderer *renderer) {
         scrRndr.update(renderer);
         //scrRndr.rts = false;
 
@@ -133,13 +133,13 @@ void drawLoadingScreen(Renderer* renderer) {
         loadingQuad.phys.pos.y += 2.1f;
         loadingQuad.phys.pos.x -= 1.0f;
         loadingQuad.phys.pos.z -= 0.5f;
-        drawText("Corium engine 1.4 Ronin748 2017", loadingQuad);
+        drawText("Corium engine 1.4 Roninkoi 2017", loadingQuad);
 
         crmlogo.phys.pos = glm::vec3(-0.5f, -0.5f, -1.0f);
         crmlogo.phys.update();
         crmlogo.update();
-        scrRndr.draw(crmlogo.tex, glm::mat4(1.0f), &crmlogo.vertexBufferData, &crmlogo.texBufferData,
-                     &crmlogo.colBufferData, &crmlogo.indexBufferData);
+        scrRndr.draw(crmlogo.tex, glm::mat4(1.0f), &crmlogo.vertexData, &crmlogo.texData,
+                     &crmlogo.colData, &crmlogo.indexData);
 
         scrRndr.flushBatch();
 }
@@ -159,8 +159,8 @@ void drawText(std::string s, Quad textQuad) {
                 textQuad.loadSprite("", glm::vec4(textCoord.x, textCoord.y - textCoord.w, textCoord.z, textCoord.w), false);
                 textQuad.phys.update();
                 textQuad.update();
-                scrRndr.draw(textQuad.tex, glm::mat4(1.0f), &textQuad.vertexBufferData, &textQuad.texBufferData,
-                             &textQuad.colBufferData, &textQuad.indexBufferData);
+                scrRndr.draw(textQuad.tex, glm::mat4(1.0f), &textQuad.vertexData, &textQuad.texData,
+                             &textQuad.colData, &textQuad.indexData);
                 textQuad.phys.pos.x += textQuad.phys.s.x;
         }
 }

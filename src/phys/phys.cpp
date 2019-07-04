@@ -1,17 +1,16 @@
 //
-// Created by Ronin748 on 21.12.2015.
+// Created by Roninkoi on 21.12.2015.
 //
 
-#include <phys.h>
-//#include <util/random.h>
+#include "phys/phys.h"
 
 void Phys::tick()
 {
-        if (!nnv(forces)) // NULL precaution
+        if (!nnv(forces))
                 forces = glm::vec3(0.0f);
         if (!nnv(torx))
                 torx = glm::vec3(0.0f);
-        if (!nnv(v)) // NULL precaution
+        if (!nnv(v))
                 v = glm::vec3(0.0f);
         if (!nnv(rotV))
                 rotV = glm::vec3(0.0f);
@@ -27,10 +26,8 @@ void Phys::tick()
         posold = pos;
         pos += v;
 
-        // nulls can happen here
         float rDiff = (float) glm::length(rpos - pos) + 0.01f;
 
-        // null == true always
         if (rDiff > 1.0f)
                 rDiff = 1.0f;
 
@@ -38,7 +35,6 @@ void Phys::tick()
 
         float rrDiff = (float) glm::length(rrot - rot) + 0.01f;
 
-        // null == true always
         if (rrDiff > 1.0f)
                 rrDiff = 1.0f;
 
@@ -132,7 +128,7 @@ glm::mat4 Phys::getMatrix()
 
         objMatrix = glm::scale(objMatrix, s);
 
-        objMatrix = glm::translate(objMatrix, rot_offs);
+        objMatrix = glm::translate(objMatrix, rotOffs);
 
         return objMatrix;
 }
@@ -148,7 +144,7 @@ glm::mat4 Phys::getRMatrix()
 
         objMatrix = glm::scale(objMatrix, s);
 
-        objMatrix = glm::translate(objMatrix, rot_offs);
+        objMatrix = glm::translate(objMatrix, rotOffs);
 
         return objMatrix;
 }

@@ -19,11 +19,11 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/rak/Documents/Corium/src/input.cpp" "/home/rak/Documents/Corium/CMakeFiles/Corium.dir/src/input.cpp.o"
   "/home/rak/Documents/Corium/src/main.cpp" "/home/rak/Documents/Corium/CMakeFiles/Corium.dir/src/main.cpp.o"
   "/home/rak/Documents/Corium/src/mesh.cpp" "/home/rak/Documents/Corium/CMakeFiles/Corium.dir/src/mesh.cpp.o"
-  "/home/rak/Documents/Corium/src/phys.cpp" "/home/rak/Documents/Corium/CMakeFiles/Corium.dir/src/phys.cpp.o"
+  "/home/rak/Documents/Corium/src/phys/phys.cpp" "/home/rak/Documents/Corium/CMakeFiles/Corium.dir/src/phys/phys.cpp.o"
+  "/home/rak/Documents/Corium/src/phys/sys.cpp" "/home/rak/Documents/Corium/CMakeFiles/Corium.dir/src/phys/sys.cpp.o"
   "/home/rak/Documents/Corium/src/render/renderer.cpp" "/home/rak/Documents/Corium/CMakeFiles/Corium.dir/src/render/renderer.cpp.o"
   "/home/rak/Documents/Corium/src/render/shader/shader.cpp" "/home/rak/Documents/Corium/CMakeFiles/Corium.dir/src/render/shader/shader.cpp.o"
   "/home/rak/Documents/Corium/src/sprite.cpp" "/home/rak/Documents/Corium/CMakeFiles/Corium.dir/src/sprite.cpp.o"
-  "/home/rak/Documents/Corium/src/sys.cpp" "/home/rak/Documents/Corium/CMakeFiles/Corium.dir/src/sys.cpp.o"
   "/home/rak/Documents/Corium/src/texture.cpp" "/home/rak/Documents/Corium/CMakeFiles/Corium.dir/src/texture.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

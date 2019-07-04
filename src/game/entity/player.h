@@ -1,19 +1,19 @@
 //
-// Created by Ronin748 on 18.12.2015.
+// Created by Roninkoi on 18.12.2015.
 //
 
 #ifndef CORIUM_PLAYER_H
 #define CORIUM_PLAYER_H
 
-#include <game/obj/camera.h>
-#include <anim.h>
+#include "game/obj/camera.h"
+#include "anim.h"
 #include "entity.h"
-#include <input.h>
-#include <sys.h>
+#include "input.h"
+#include "phys/sys.h"
 
 class Player : public Entity {
 public:
-Camera* camera;
+Camera *camera;
 
 Anims playerAnims;
 
@@ -36,12 +36,12 @@ void getPlayerCam();
 void loadPlayer();
 void restartPlayer();
 
-void draw(Renderer* renderer);
-void drawShadows(Renderer* renderer);
+void draw(Renderer *renderer);
+void drawShadows(Renderer *renderer);
 
-void collide(Sys* ps);
+void collide(Sys *ps);
 
-void getInput(Input* input);
+void getInput(Input *input);
 
 void tick();
 

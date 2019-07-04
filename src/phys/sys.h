@@ -1,16 +1,17 @@
 //
-// Created by Ronin748 on 2.2.2016.
+// Created by Roninkoi on 2.2.2016.
 //
 
 #ifndef CORIUM_SYS_H
 #define CORIUM_SYS_H
 
-#include <game/obj/obj.h>
-#include <mesh.h>
 #include <thread>
 #include <mutex>
 #include <mingw.thread.h>
 #include <mingw.mutex.h>
+
+#include "game/obj/obj.h"
+#include "mesh.h"
 
 class Sys {
 public:

@@ -1,5 +1,5 @@
 //
-// Created by Ronin748 on 31.3.2016.
+// Created by Roninkoi on 31.3.2016.
 //
 
 #ifndef CORIUM_CURRENTTIME_H

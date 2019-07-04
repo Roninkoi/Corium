@@ -1,14 +1,11 @@
 //
-// Created by Ronin748 on 18.12.2015.
+// Created by Roninkoi on 18.12.2015.
 //
 
 #ifndef CORIUM_INPUT_H
 #define CORIUM_INPUT_H
 
-#include <crm.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include "crm.h"
 
 class Input {
 public:

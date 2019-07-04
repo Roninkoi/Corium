@@ -1,11 +1,11 @@
 //
-// Created by Ronin748 on 3.8.2016.
+// Created by Roninkoi on 3.8.2016.
 //
 
 #ifndef CORIUM_QUADISECT_H
 #define CORIUM_QUADISECT_H
 
-#include <crm.h>
+#include "crm.h"
 
 bool quadIsect(std::vector<float> q1, std::vector<float> q2)
 {

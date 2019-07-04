@@ -1,11 +1,11 @@
 //
-// Created by Ronin748 on 20.12.2015.
+// Created by Roninkoi on 20.12.2015.
 //
 
 #ifndef CORIUM_TEXTURE_H
 #define CORIUM_TEXTURE_H
 
-#include <crm.h>
+#include "crm.h"
 
 class Texture {
 public:
@@ -37,6 +37,6 @@ Texture()
    }*/
 };
 
-unsigned char* loadGLTex(std::string p, int* w, int* h);
+unsigned char *loadGLTex(std::string p, int *w, int *h);
 
 #endif //CORIUM_TEXTURE_H

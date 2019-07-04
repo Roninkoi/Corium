@@ -59,7 +59,7 @@ void mapCmd(std::vector<std::string> words, int i, Map* map)
                 std::string s = words[i + 1];
                 map->renderer->amb = atof(&s[0]);
         }
-        if (expr(words, i, 2, "_LGHT")) {
+        if (expr(words, i, 2, "_LIT")) {
                 std::string s = words[i + 1];
                 map->renderer->lght = atof(&s[0]);
         }

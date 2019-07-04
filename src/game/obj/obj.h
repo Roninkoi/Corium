@@ -1,13 +1,13 @@
 //
-// Created by Ronin748 on 18.12.2015.
+// Created by Roninkoi on 18.12.2015.
 //
 
 #ifndef CORIUM_OBJ_H
 #define CORIUM_OBJ_H
 
-#include <texture.h>
-#include <phys.h>
-#include <mesh.h>
+#include "texture.h"
+#include "phys/phys.h"
+#include "mesh.h"
 
 class Obj {
 public:
@@ -22,13 +22,13 @@ bool shadows = true;
 bool visible = true;
 bool ro = false;     // render only
 
-void draw(Renderer* renderer);
+void draw(Renderer *renderer);
 
-void render(Renderer* renderer);
+void render(Renderer *renderer);
 
-void drawShadows(Renderer* renderer);
+void drawShadows(Renderer *renderer);
 
-void renderShadows(Renderer* renderer);
+void renderShadows(Renderer *renderer);
 
 void update();
 void updateMesh();

@@ -1,13 +1,13 @@
 //
-// Created by Ronin748 on 18.12.2015.
+// Created by Roninkoi on 18.12.2015.
 //
 
 #ifndef CORIUM_QUAD_H
 #define CORIUM_QUAD_H
 
-#include <mesh.h>
-#include <texture.h>
-#include <util/quadIsect.h>
+#include "mesh.h"
+#include "texture.h"
+#include "util/quadIsect.h"
 
 class Quad : public Mesh {
 public:
@@ -17,14 +17,14 @@ Phys phys;
 void update()
 {
         objMatrix = phys.getMatrix();
-        vertexBufferData = transform(rawVertexBufferData, objMatrix);
+        vertexData = transform(vertexData0, objMatrix);
         getNormals();
         getBoundingSphere();
 }
 
-void draw(Renderer* renderer)
+void draw(Renderer *renderer)
 {
-        renderer->draw(&tex, &vertexBufferData, &normalBufferData, &texBufferData, &colBufferData, &indexBufferData);
+        renderer->draw(&tex, &vertexData, &normalData, &texData, &colData, &indexData);
 }
 
 void loadSprite(std::string tex_path, glm::vec4 tex_sprite, bool load_tex = true)
@@ -38,7 +38,7 @@ void loadSprite(std::string tex_path, glm::vec4 tex_sprite, bool load_tex = true
         float p_scale = tex_sprite.p / (float) tex.w;
         float q_scale = tex_sprite.q / (float) tex.h;
 
-        texBufferData = {
+        texData = {
                 0.0f + s_offs, 0.0f + t_offs,
                 p_scale, q_scale,
                 1.0f + s_offs, 0.0f + t_offs,
@@ -51,43 +51,43 @@ void loadSprite(std::string tex_path, glm::vec4 tex_sprite, bool load_tex = true
 }
 
 Quad() : Mesh() {
-        rawVertexBufferData.resize(16);
-        texBufferData.resize(16);
-        colBufferData.resize(16);
-        indexBufferData.resize(6);
-        normalBufferData.resize(6);
+        vertexData0.resize(16);
+        texData.resize(16);
+        colData.resize(16);
+        indexData.resize(6);
+        normalData.resize(6);
 
-        rawVertexBufferData = {
+        vertexData0 = {
                 0.0f, 0.0f, 0.0f, 0.0f,//0
                 1.0f, 0.0f, 0.0f, 0.0f,//1
                 1.0f, 1.0f, 0.0f, 0.0f,//2
                 0.0f, 1.0f, 0.0f, 0.0f//5
         };
-        vertexBufferData = {
+        vertexData = {
                 0.0f, 0.0f, 0.0f, 0.0f,//0
                 1.0f, 0.0f, 0.0f, 0.0f,//1
                 1.0f, 1.0f, 0.0f, 0.0f,//2
                 0.0f, 1.0f, 0.0f, 0.0f//5
         };
 
-        indexBufferData = {
+        indexData = {
                 0, 1, 2,
                 0, 2, 3
         };
 
-        texBufferData = {
+        texData = {
                 0.0f, 0.0f, 1.0f, 1.0f,//0
                 1.0f, 0.0f, 1.0f, 1.0f,//1
                 1.0f, 1.0f, 1.0f, 1.0f,//2
                 0.0f, 1.0f, 1.0f, 1.0f//5
         };
-        colBufferData = {
+        colData = {
                 1.0, 1.0, 1.0, 1.0,
                 1.0, 1.0, 1.0, 1.0,
                 1.0, 1.0, 1.0, 1.0,
                 1.0, 1.0, 1.0, 1.0
         };
-        normalBufferData = {
+        normalData = {
                 0.0f, 1.0f, 0.0f,
                 0.0f, 1.0f, 0.0f
         };

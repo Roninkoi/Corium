@@ -1,12 +1,12 @@
 //
-// Created by Ronin748 on 8.4.2017.
+// Created by Roninkoi on 8.4.2017.
 //
 
 #ifndef CORIUM_ANIM_H
 #define CORIUM_ANIM_H
 
-#include <mesh.h>
-#include <crm.h>
+#include "crm.h"
+#include "mesh.h"
 
 class Anim {
 public:
@@ -43,13 +43,13 @@ void setSpd(float newSpd);
 
 bool finished();
 
-void renderShadows(Renderer* renderer);
+void renderShadows(Renderer *renderer);
 
 void tick(float s = -1.0f);
 
 void loadAnim(std::string path, std::string texpath, int numFrames, std::vector<int> frameI = {});
 
-void addFrame(Mesh *new_frame);
+void addFrame(Mesh *newFrame);
 
 void resetFrames();
 
@@ -70,11 +70,11 @@ Phys phys;
 std::vector<Anim> anims;
 std::vector<bool> animRunning;
 
-void draw(Renderer* renderer);
-void render(Renderer* renderer);
+void draw(Renderer *renderer);
+void render(Renderer *renderer);
 
-void drawShadows(Renderer* renderer);
-void renderShadows(Renderer* renderer);
+void drawShadows(Renderer *renderer);
+void renderShadows(Renderer *renderer);
 
 void addAnim(std::string path, int numFrames, float spd, std::vector<int> frameI = {});
 void loadTemplate(std::string path, std::string texpath);

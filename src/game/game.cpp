@@ -1,10 +1,10 @@
 //
-// Created by Ronin748 on 18.12.2015.
+// Created by Roninkoi on 18.12.2015.
 //
 
 #include "game.h"
-#include <util/time.h>
-#include <util/cfgParser.h>
+#include "util/time.h"
+#include "util/cfgParser.h"
 
 Game::Game()
 {
@@ -23,17 +23,17 @@ void Game::main()
                         fps_time = getTime();
                         fps = frame_ticks;
 
-                        std::string fpsString = "FPS: " + to_string(fps) + ", rt: "
-                                                + to_string((renderTime) / (float) frame_ticks) + " ms, draws: " +
-                                                to_string(renderer.drawsPerCycle) + ", batches: " +
-                                                to_string(renderer.batchesPerCycle) + ", tt: " +
-                                                to_string((tickTime) / (float) game_ticks) +
+                        std::string fpsString = "FPS: " + toString(fps) + ", rt: "
+                                                + toString((renderTime) / (float) frame_ticks) + " ms, draws: " +
+                                                toString(renderer.drawsPerCycle) + ", batches: " +
+                                                toString(renderer.batchesPerCycle) + ", tt: " +
+                                                toString((tickTime) / (float) game_ticks) +
                                                 " ms";
                         print(fpsString + "\n");
-                        print("lights: " + to_string(renderer.max_lights) + "\n");
+                        print("lights: " + toString(renderer.max_lights) + "\n");
 
-                        print("Player pos: " + to_string(thisPlayer->phys.pos.x) + ", " + to_string(thisPlayer->phys.pos.y) +
-                              ", " + to_string(thisPlayer->phys.pos.z) + "\n");
+                        print("Player pos: " + toString(thisPlayer->phys.pos.x) + ", " + toString(thisPlayer->phys.pos.y) +
+                              ", " + toString(thisPlayer->phys.pos.z) + "\n");
 
                         renderTime = 0;
                         tickTime = 0;
@@ -85,7 +85,7 @@ void Game::refresh()
 
 void Game::init()
 {
-        printf("CORIUM 1.4 RONIN748 2018\n");
+        printf("CORIUM 1.4 RONINKOI 2019\n");
 
         thisPlayer = map.getPlayer();
         thisCamera = map.getCamera();
@@ -95,8 +95,8 @@ void Game::init()
         if (fileoutput) outputfile = freopen("output.log", "w", stdout);
 
         print("===========================================================================\n");
-        print("--------------------- CORIUM ENGINE v1.40 BY RONIN748 ---------------------\n");
-        print("--------------------------- " + to_string(currentDateTime()) + " ---------------------------\n");
+        print("--------------------- CORIUM ENGINE v1.40 BY RONINKOI ---------------------\n");
+        print("--------------------------- " + toString(currentDateTime()) + " ---------------------------\n");
         print("===========================================================================\n\n");
 
         int glfw_err = glfwInit();
@@ -112,13 +112,13 @@ void Game::init()
                 printf("Failed to init GLEW %i%s", glew_err, "\n");
         }
 
-        print("max vertices: " + to_string(GL_MAX_ELEMENTS_VERTICES) + "\n");
-        print("max indices: " + to_string(GL_MAX_ELEMENTS_INDICES) + "\n");
-        print("batch size: " + to_string(BATCH_SIZE) + "\n");
-        print("max tex size: " + to_string(GL_MAX_RECTANGLE_TEXTURE_SIZE) + "\n");
+        print("max vertices: " + toString(GL_MAX_ELEMENTS_VERTICES) + "\n");
+        print("max indices: " + toString(GL_MAX_ELEMENTS_INDICES) + "\n");
+        print("batch size: " + toString(BATCH_SIZE) + "\n");
+        print("max tex size: " + toString(GL_MAX_RECTANGLE_TEXTURE_SIZE) + "\n");
 
-        print("OpenGL version: " + to_string(glGetString(GL_VERSION)) + "\n");
-        print("GL_RENDERER: " + to_string(glGetString(GL_RENDERER)) + "\n");
+        print("OpenGL version: " + toString(glGetString(GL_VERSION)) + "\n");
+        print("GL_RENDERER: " + toString(glGetString(GL_RENDERER)) + "\n");
 
         aud.initAudio();
 

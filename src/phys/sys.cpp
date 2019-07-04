@@ -1,8 +1,8 @@
 //
-// Created by Ronin748 on 14.02.2018
+// Created by Roninkoi on 14.02.2018
 //
 
-#include <sys.h>
+#include "phys/sys.h"
 
 // fully dynamic
 bool fd = true;
@@ -16,11 +16,11 @@ void Sys::update()
         for (int i = 0; i < objects.size(); ++i) {
                 if (!objects[i]->phys.isStatic && objects[i]->phys.inRange) {
                         if (btz(objects[i]->phys.v) || fd) {
-                                if (objects[i]->phys.scollision_num > 1)
-                                        objects[i]->phys.forces /= objects[i]->phys.scollision_num; // hack
-                                if (objects[i]->phys.collision_num > 1) {
-                                        objects[i]->phys.collisionNormal /= objects[i]->phys.collision_num;
-                                        objects[i]->phys.collisionCenter /= objects[i]->phys.collision_num;
+                                if (objects[i]->phys.scollisionNum > 1)
+                                        objects[i]->phys.forces /= objects[i]->phys.scollisionNum; // hack
+                                if (objects[i]->phys.collisionNum > 1) {
+                                        objects[i]->phys.collisionNormal /= objects[i]->phys.collisionNum;
+                                        objects[i]->phys.collisionCenter /= objects[i]->phys.collisionNum;
                                 }
 
                                 objects[i]->phys.forces -=
@@ -56,8 +56,8 @@ void Sys::update()
                                 }
 
                                 // speed limit
-                                if (glm::length(objects[i]->phys.v) > 0.9f*objects[i]->physMesh.boundingSphereRadius) {
-                                        objects[i]->phys.v = (0.9f*objects[i]->physMesh.boundingSphereRadius)*glm::normalize(objects[i]->phys.v);
+                                if (glm::length(objects[i]->phys.v) > 0.9f*objects[i]->physMesh.bsRadius) {
+                                        objects[i]->phys.v = (0.9f*objects[i]->physMesh.bsRadius)*glm::normalize(objects[i]->phys.v);
                                 }
                         }
 
@@ -67,8 +67,8 @@ void Sys::update()
                         }
                         objects[i]->phys.collisionCenter = glm::vec3(0.0f);
                         objects[i]->phys.collisionNormal = glm::vec3(0.0f);
-                        objects[i]->phys.collision_num = 0;
-                        objects[i]->phys.scollision_num = 0;
+                        objects[i]->phys.collisionNum = 0;
+                        objects[i]->phys.scollisionNum = 0;
                         objects[i]->phys.isColliding = false;
                 }
         }
@@ -93,7 +93,7 @@ void Sys::updateObjs(int i_min, int i_max, int j_min, int j_max)
         for (int i = i_min; i < i_max; ++i) {
                 for (int j = std::max(i + 1, j_min); j < j_max; ++j) {
                         // culling of objects
-                        bool bst = objects[i]->physMesh.bsi(&objects[j]->physMesh);
+                        bool bst = objects[i]->physMesh.bsIsect(&objects[j]->physMesh);
                         bool st = !objects[i]->phys.isStatic || !objects[j]->phys.isStatic;
                         bool iz = btz(objects[i]->phys.v) || btz(objects[j]->phys.v) || fd;
                         bool ir = objects[i]->phys.inRange && objects[j]->phys.inRange;
@@ -105,8 +105,8 @@ void Sys::updateObjs(int i_min, int i_max, int j_min, int j_max)
                                 if (isects) {
                                         objects[i]->phys.isColliding = true;
                                         objects[j]->phys.isColliding = true;
-                                        ++objects[i]->phys.collision_num;
-                                        ++objects[j]->phys.collision_num;
+                                        ++objects[i]->phys.collisionNum;
+                                        ++objects[j]->phys.collisionNum;
 
                                         glm::vec3 collisionVeci = normalize(objects[i]->physMesh.collisionNormal - 0.0f*objects[j]->physMesh.collisionNormal*1.0f);
                                         glm::vec3 collisionVecj = normalize(objects[j]->physMesh.collisionNormal);
@@ -122,8 +122,8 @@ void Sys::updateObjs(int i_min, int i_max, int j_min, int j_max)
                                         bool ivalid = !objects[i]->phys.isStatic && nnv(collisionVeci);
                                         bool jvalid = !objects[j]->phys.isStatic && nnv(collisionVecj);
 
-                                        if (objects[i]->phys.isStatic) objects[j]->phys.scollision_num += 1;
-                                        if (objects[j]->phys.isStatic) objects[i]->phys.scollision_num += 1;
+                                        if (objects[i]->phys.isStatic) objects[j]->phys.scollisionNum += 1;
+                                        if (objects[j]->phys.isStatic) objects[i]->phys.scollisionNum += 1;
 
                                         glm::mat3 vecProji = getVecProjMatrix(collisionVeci);
                                         glm::mat3 vecProjj = getVecProjMatrix(collisionVecj);

@@ -1,18 +1,18 @@
 //
-// Created by Ronin748 on 20.12.2015.
+// Created by Roninkoi on 20.12.2015.
 //
 
 #ifndef CORIUM_SPRITE_H
 #define CORIUM_SPRITE_H
 
-#include <texture.h>
+#include "texture.h"
 
 class Sprite {
 public:
 Texture tex;
 
 std::vector <glm::vec4> sprites;
-glm::vec4* currentSprite;
+glm::vec4 *currentSprite;
 
 std::vector <int> anim_cycle;
 int anim;

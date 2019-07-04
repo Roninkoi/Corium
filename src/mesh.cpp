@@ -1,5 +1,5 @@
-#include <mesh.h>
-#include <util/triIsect.h>
+#include "mesh.h"
+#include "util/triIsect.h"
 
 std::vector<float> transform_mesh(std::vector<float> data, glm::mat4 matrix)
 {
@@ -45,51 +45,51 @@ bool Mesh::intersects(Mesh *another)
         collisionCenter = glm::vec3(0.0f);
         another->collisionCenter = glm::vec3(0.0f);
 
-        int collision_num = 0;
+        int collisionNum = 0;
 
-        for (int j = 0; j < another->indexBufferData.size(); j += 3) {
-                float u0[] = {another->vertexBufferData[another->indexBufferData[j] * 4],
-                              another->vertexBufferData[another->indexBufferData[j] * 4 + 1],
-                              another->vertexBufferData[another->indexBufferData[j] * 4 + 2]};
+        for (int j = 0; j < another->indexData.size(); j += 3) {
+                float u0[] = {another->vertexData[another->indexData[j] * 4],
+                              another->vertexData[another->indexData[j] * 4 + 1],
+                              another->vertexData[another->indexData[j] * 4 + 2]};
 
                 bool foundisect = false;
-                for (int i = 0; i < indexBufferData.size() && !foundisect; i += 3) {
-                        float v0[] = {vertexBufferData[indexBufferData[i] * 4],
-                                      vertexBufferData[indexBufferData[i] * 4 + 1],
-                                      vertexBufferData[indexBufferData[i] * 4 + 2]};
+                for (int i = 0; i < indexData.size() && !foundisect; i += 3) {
+                        float v0[] = {vertexData[indexData[i] * 4],
+                                      vertexData[indexData[i] * 4 + 1],
+                                      vertexData[indexData[i] * 4 + 2]};
 
                         if (glm::length((glm::vec3(v0[0], v0[1], v0[2]) - glm::vec3(u0[0], u0[1], u0[2]))) <
                             (triangle_size+another->triangle_size)) {
-                                float u1[] = {another->vertexBufferData[another->indexBufferData[j + 1] * 4],
-                                              another->vertexBufferData[another->indexBufferData[j + 1] * 4 + 1],
-                                              another->vertexBufferData[another->indexBufferData[j + 1] * 4 + 2]};
-                                float u2[] = {another->vertexBufferData[another->indexBufferData[j + 2] * 4],
-                                              another->vertexBufferData[another->indexBufferData[j + 2] * 4 + 1],
-                                              another->vertexBufferData[another->indexBufferData[j + 2] * 4 + 2]};
+                                float u1[] = {another->vertexData[another->indexData[j + 1] * 4],
+                                              another->vertexData[another->indexData[j + 1] * 4 + 1],
+                                              another->vertexData[another->indexData[j + 1] * 4 + 2]};
+                                float u2[] = {another->vertexData[another->indexData[j + 2] * 4],
+                                              another->vertexData[another->indexData[j + 2] * 4 + 1],
+                                              another->vertexData[another->indexData[j + 2] * 4 + 2]};
 
-                                float v1[] = {vertexBufferData[indexBufferData[i + 1] * 4],
-                                              vertexBufferData[indexBufferData[i + 1] * 4 + 1],
-                                              vertexBufferData[indexBufferData[i + 1] * 4 + 2]};
-                                float v2[] = {vertexBufferData[indexBufferData[i + 2] * 4],
-                                              vertexBufferData[indexBufferData[i + 2] * 4 + 1],
-                                              vertexBufferData[indexBufferData[i + 2] * 4 + 2]};
-                                float vn[] = {another->normalBufferData[j],
-                                              another->normalBufferData[j + 1],
-                                              another->normalBufferData[j + 2]};
-                                float un[] = {normalBufferData[i],
-                                              normalBufferData[i + 1],
-                                              normalBufferData[i + 2]};
+                                float v1[] = {vertexData[indexData[i + 1] * 4],
+                                              vertexData[indexData[i + 1] * 4 + 1],
+                                              vertexData[indexData[i + 1] * 4 + 2]};
+                                float v2[] = {vertexData[indexData[i + 2] * 4],
+                                              vertexData[indexData[i + 2] * 4 + 1],
+                                              vertexData[indexData[i + 2] * 4 + 2]};
+                                float vn[] = {another->normalData[j],
+                                              another->normalData[j + 1],
+                                              another->normalData[j + 2]};
+                                float un[] = {normalData[i],
+                                              normalData[i + 1],
+                                              normalData[i + 2]};
 
                                 int cp = 0;
                                 float vi[3] = {0.0f, 0.0f, 0.0f};
                                 float ui[3] = {0.0f, 0.0f, 0.0f};
                                 if (tri_tri_intersection_test_3d(v0, v1, v2, u0, u1, u2, &cp, vi, ui)) {
-                                        glm::vec3 tcn = normalize(glm::vec3(another->normalBufferData[j],
-                                                                            another->normalBufferData[j + 1],
-                                                                            another->normalBufferData[j + 2])) *(float)another->staticity;
-                                        glm::vec3 acn = normalize(glm::vec3(normalBufferData[i],
-                                                                            normalBufferData[i + 1],
-                                                                            normalBufferData[i + 2])) *(float)staticity;
+                                        glm::vec3 tcn = normalize(glm::vec3(another->normalData[j],
+                                                                            another->normalData[j + 1],
+                                                                            another->normalData[j + 2])) *(float)another->staticity;
+                                        glm::vec3 acn = normalize(glm::vec3(normalData[i],
+                                                                            normalData[i + 1],
+                                                                            normalData[i + 2])) *(float)staticity;
 
                                         glm::vec3 pn = fabs(std::max(0.0f, std::max(0.0f, glm::dot(tcn, -acn))))*normalize(tcn-acn);
 
@@ -118,11 +118,11 @@ bool Mesh::intersects(Mesh *another)
 
                                         glm::vec3 newacc = glm::vec3(0.0f);
 
-                                        if (glm::length(viv - boundingSphereCenter) < glm::length(uiv - boundingSphereCenter))
+                                        if (glm::length(viv - bsCenter) < glm::length(uiv - bsCenter))
                                                 newtcc = viv;
                                         else
                                                 newtcc = uiv;
-                                        if (glm::length(viv - another->boundingSphereCenter) < glm::length(uiv - another->boundingSphereCenter))
+                                        if (glm::length(viv - another->bsCenter) < glm::length(uiv - another->bsCenter))
                                                 newacc = viv;
                                         else
                                                 newacc = uiv;
@@ -130,23 +130,23 @@ bool Mesh::intersects(Mesh *another)
                                         glm::vec3 tcc = newtcc;
                                         glm::vec3 acc = newacc;
 
-                                        collisionCenter += tcc - boundingSphereCenter;
-                                        another->collisionCenter += acc - another->boundingSphereCenter;
+                                        collisionCenter += tcc - bsCenter;
+                                        another->collisionCenter += acc - another->bsCenter;
 
-                                        collision_num += 1;
+                                        collisionNum += 1;
                                 }
                         }
                 }
         }
 
-        if (collision_num > 0) {
-                collisionCenter /= collision_num;
-                another->collisionCenter /= collision_num;
+        if (collisionNum > 0) {
+                collisionCenter /= collisionNum;
+                another->collisionCenter /= collisionNum;
 
-                if (glm::length(collisionCenter) > glm::length(boundingSphereRadius))
-                        collisionCenter = normalize(collisionCenter)*glm::length(boundingSphereRadius);
-                if (glm::length(another->collisionCenter) > glm::length(another->boundingSphereRadius))
-                        another->collisionCenter = normalize(another->collisionCenter)*glm::length(another->boundingSphereRadius);
+                if (glm::length(collisionCenter) > glm::length(bsRadius))
+                        collisionCenter = normalize(collisionCenter)*glm::length(bsRadius);
+                if (glm::length(another->collisionCenter) > glm::length(another->bsRadius))
+                        another->collisionCenter = normalize(another->collisionCenter)*glm::length(another->bsRadius);
 
                 collisionNormal = normalize(collisionNormal);
                 another->collisionNormal = normalize(another->collisionNormal);
@@ -183,29 +183,29 @@ bool Mesh::sphereIsect(Mesh *another, glm::vec3 s, float r)
 
         float sa[] = {s.x, s.y, s.z};
 
-        int collision_num = 0;
+        int collisionNum = 0;
 
         bool foundisect = false;
-        for (int i = 0; i < indexBufferData.size() && !foundisect; i += 3) {
-                float v0[] = {vertexBufferData[indexBufferData[i] * 4],
-                              vertexBufferData[indexBufferData[i] * 4 + 1],
-                              vertexBufferData[indexBufferData[i] * 4 + 2]};
+        for (int i = 0; i < indexData.size() && !foundisect; i += 3) {
+                float v0[] = {vertexData[indexData[i] * 4],
+                              vertexData[indexData[i] * 4 + 1],
+                              vertexData[indexData[i] * 4 + 2]};
 
                 if (glm::length((glm::vec3(v0[0], v0[1], v0[2]) - s)) <
                     (triangle_size+r)) {
-                        float v1[] = {vertexBufferData[indexBufferData[i + 1] * 4],
-                                      vertexBufferData[indexBufferData[i + 1] * 4 + 1],
-                                      vertexBufferData[indexBufferData[i + 1] * 4 + 2]};
-                        float v2[] = {vertexBufferData[indexBufferData[i + 2] * 4],
-                                      vertexBufferData[indexBufferData[i + 2] * 4 + 1],
-                                      vertexBufferData[indexBufferData[i + 2] * 4 + 2]};
+                        float v1[] = {vertexData[indexData[i + 1] * 4],
+                                      vertexData[indexData[i + 1] * 4 + 1],
+                                      vertexData[indexData[i + 1] * 4 + 2]};
+                        float v2[] = {vertexData[indexData[i + 2] * 4],
+                                      vertexData[indexData[i + 2] * 4 + 1],
+                                      vertexData[indexData[i + 2] * 4 + 2]};
 
                         int cp = 0;
                         float vi[3] = {0.0f, 0.0f, 0.0f};
                         if (tri_sphere_intersection_test_3d(v0, v1, v2, sa, r)) {
-                                glm::vec3 acn = normalize(glm::vec3(normalBufferData[i],
-                                                                    normalBufferData[i + 1],
-                                                                    normalBufferData[i + 2]));
+                                glm::vec3 acn = normalize(glm::vec3(normalData[i],
+                                                                    normalData[i + 1],
+                                                                    normalData[i + 2]));
                                 glm::vec3 tcn = -acn;
 
                                 collisionNormal += tcn;
@@ -216,19 +216,19 @@ bool Mesh::sphereIsect(Mesh *another, glm::vec3 s, float r)
                                 collisionCenter += s;
                                 another->collisionCenter += s;
 
-                                collision_num += 1;
+                                collisionNum += 1;
                         }
                 }
         }
 
-        if (collision_num > 0) {
-                collisionCenter /= collision_num;
-                another->collisionCenter /= collision_num;
+        if (collisionNum > 0) {
+                collisionCenter /= collisionNum;
+                another->collisionCenter /= collisionNum;
 
-                if (glm::length(collisionCenter) > glm::length(boundingSphereRadius))
-                        collisionCenter = normalize(collisionCenter)*glm::length(boundingSphereRadius);
-                if (glm::length(another->collisionCenter) > glm::length(another->boundingSphereRadius))
-                        another->collisionCenter = normalize(another->collisionCenter)*glm::length(another->boundingSphereRadius);
+                if (glm::length(collisionCenter) > glm::length(bsRadius))
+                        collisionCenter = normalize(collisionCenter)*glm::length(bsRadius);
+                if (glm::length(another->collisionCenter) > glm::length(another->bsRadius))
+                        another->collisionCenter = normalize(another->collisionCenter)*glm::length(another->bsRadius);
 
                 collisionNormal = normalize(collisionNormal);
                 another->collisionNormal = normalize(another->collisionNormal);
@@ -258,46 +258,46 @@ bool Mesh::sphereIsect(Mesh *another, glm::vec3 s, float r)
 
 void Mesh::getNormals()
 {
-        normalBufferData.resize(indexBufferData.size());
+        normalData.resize(indexData.size());
 
-        for (int i = 0; i < indexBufferData.size(); i += 3) {
-                float v0[] = {vertexBufferData[indexBufferData[i] * 4],
-                              vertexBufferData[indexBufferData[i] * 4 + 1],
-                              vertexBufferData[indexBufferData[i] * 4 + 2]};
-                float v1[] = {vertexBufferData[indexBufferData[i + 1] * 4],
-                              vertexBufferData[indexBufferData[i + 1] * 4 + 1],
-                              vertexBufferData[indexBufferData[i + 1] * 4 + 2]};
-                float v2[] = {vertexBufferData[indexBufferData[i + 2] * 4],
-                              vertexBufferData[indexBufferData[i + 2] * 4 + 1],
-                              vertexBufferData[indexBufferData[i + 2] * 4 + 2]};
+        for (int i = 0; i < indexData.size(); i += 3) {
+                float v0[] = {vertexData[indexData[i] * 4],
+                              vertexData[indexData[i] * 4 + 1],
+                              vertexData[indexData[i] * 4 + 2]};
+                float v1[] = {vertexData[indexData[i + 1] * 4],
+                              vertexData[indexData[i + 1] * 4 + 1],
+                              vertexData[indexData[i + 1] * 4 + 2]};
+                float v2[] = {vertexData[indexData[i + 2] * 4],
+                              vertexData[indexData[i + 2] * 4 + 1],
+                              vertexData[indexData[i + 2] * 4 + 2]};
 
                 glm::vec3 normal = normalize(glm::cross(glm::vec3(v1[0] - v0[0], v1[1] - v0[1], v1[2] - v0[2]),
                                                         glm::vec3(v2[0] - v0[0], v2[1] - v0[1], v2[2] - v0[2])));
 
-                normalBufferData[i] = normal.x;
-                normalBufferData[i + 1] = normal.y;
-                normalBufferData[i + 2] = normal.z;
+                normalData[i] = normal.x;
+                normalData[i + 1] = normal.y;
+                normalData[i + 2] = normal.z;
         }
-        vertexNormalBufferData.clear();
-        vertexNormalBufferData.resize(vertexBufferData.size());
+        vertexNormalData.clear();
+        vertexNormalData.resize(vertexData.size());
 
-        for (int i = 0; i < vertexNormalBufferData.size(); i += 4) {
-                for (int j = 0; j < indexBufferData.size(); j += 3) {
-                        if (indexBufferData[j] == i / 4 || indexBufferData[j + 1] == i / 4 || indexBufferData[j + 2] == i / 4) {
-                                vertexNormalBufferData[i] += normalBufferData[j];
-                                vertexNormalBufferData[i + 1] += normalBufferData[j + 1];
-                                vertexNormalBufferData[i + 2] += normalBufferData[j + 2];
-                                vertexNormalBufferData[i + 3] += 0.0f;
+        for (int i = 0; i < vertexNormalData.size(); i += 4) {
+                for (int j = 0; j < indexData.size(); j += 3) {
+                        if (indexData[j] == i / 4 || indexData[j + 1] == i / 4 || indexData[j + 2] == i / 4) {
+                                vertexNormalData[i] += normalData[j];
+                                vertexNormalData[i + 1] += normalData[j + 1];
+                                vertexNormalData[i + 2] += normalData[j + 2];
+                                vertexNormalData[i + 3] += 0.0f;
                         }
                 }
         }
 }
 
 // bounding sphere intersection test
-bool Mesh::bsi(Mesh* another)
+bool Mesh::bsIsect(Mesh *another)
 {
-        if (glm::length(boundingSphereCenter-another->boundingSphereCenter) <=
-            (boundingSphereRadius + another->boundingSphereRadius))
+        if (glm::length(bsCenter-another->bsCenter) <=
+            (bsRadius + another->bsRadius))
                 return true;
         else
                 return false;
@@ -308,32 +308,32 @@ void Mesh::getBoundingSphere()
         glm::vec3 vertSum = glm::vec3(0.0f);
         int vertNum = 0;
 
-        for (int i = 0; i < vertexBufferData.size(); i += 4) {
-                vertSum += glm::vec3(vertexBufferData[i], vertexBufferData[i + 1], vertexBufferData[i + 2]);
+        for (int i = 0; i < vertexData.size(); i += 4) {
+                vertSum += glm::vec3(vertexData[i], vertexData[i + 1], vertexData[i + 2]);
                 ++vertNum;
         }
 
         vertSum /= vertNum;
 
-        boundingSphereCenter = vertSum;
+        bsCenter = vertSum;
 
         float maxRadius = 0.0f;
 
-        for (int i = 0; i < vertexBufferData.size(); i += 4) {
-                float dist = glm::length(glm::vec3(vertexBufferData[i], vertexBufferData[i + 1], vertexBufferData[i + 2]) -
-                                         boundingSphereCenter);
+        for (int i = 0; i < vertexData.size(); i += 4) {
+                float dist = glm::length(glm::vec3(vertexData[i], vertexData[i + 1], vertexData[i + 2]) -
+                                         bsCenter);
 
                 if (dist > maxRadius) {
                         maxRadius = dist;
                 }
         }
 
-        boundingSphereRadius = maxRadius;
+        bsRadius = maxRadius;
 }
 
 void Mesh::update()
 {
-        vertexBufferData = transform(rawVertexBufferData, objMatrix);
+        vertexData = transform(vertexData0, objMatrix);
         getNormals();
         getBoundingSphere();
         //triangleSizeCheck();
@@ -361,17 +361,17 @@ std::vector<float> Mesh::transform(std::vector<float> data, glm::mat4 matrix)
 void Mesh::triangleSizeCheck()
 {
         int indices = 0;
-        for (int i = 0; i < indexBufferData.size() / 3.0f; i += 1) {
+        for (int i = 0; i < indexData.size() / 3.0f; i += 1) {
                 // check triangle size
-                glm::vec3 v1 = glm::vec3(vertexBufferData[indexBufferData[indices] * 4],
-                                         vertexBufferData[indexBufferData[indices] * 4 + 1],
-                                         vertexBufferData[indexBufferData[indices] * 4 + 2]);
-                glm::vec3 v2 = glm::vec3(vertexBufferData[indexBufferData[indices + 1] * 4],
-                                         vertexBufferData[indexBufferData[indices + 1] * 4 + 1],
-                                         vertexBufferData[indexBufferData[indices + 1] * 4 + 2]);
-                glm::vec3 v3 = glm::vec3(vertexBufferData[indexBufferData[indices + 2] * 4],
-                                         vertexBufferData[indexBufferData[indices + 2] * 4 + 1],
-                                         vertexBufferData[indexBufferData[indices + 2] * 4 + 2]);
+                glm::vec3 v1 = glm::vec3(vertexData[indexData[indices] * 4],
+                                         vertexData[indexData[indices] * 4 + 1],
+                                         vertexData[indexData[indices] * 4 + 2]);
+                glm::vec3 v2 = glm::vec3(vertexData[indexData[indices + 1] * 4],
+                                         vertexData[indexData[indices + 1] * 4 + 1],
+                                         vertexData[indexData[indices + 1] * 4 + 2]);
+                glm::vec3 v3 = glm::vec3(vertexData[indexData[indices + 2] * 4],
+                                         vertexData[indexData[indices + 2] * 4 + 1],
+                                         vertexData[indexData[indices + 2] * 4 + 2]);
                 float ts = std::max(glm::length(v1 - v2), std::max(glm::length(v2 - v3), glm::length(v3 - v1)));
                 if (ts >= triangle_size) {
                         triangle_size = std::min(ts, MAX_TRIANGLE_SIZE);
@@ -383,30 +383,30 @@ void Mesh::triangleSizeCheck()
 
 void Mesh::setCol(glm::vec4 newCol)
 {
-        for (int i = 0; i < colBufferData.size(); i += 4) {
-                colBufferData[0 + i] = newCol.r;
-                colBufferData[1 + i] = newCol.g;
-                colBufferData[2 + i] = newCol.b;
-                colBufferData[3 + i] = newCol.a;
+        for (int i = 0; i < colData.size(); i += 4) {
+                colData[0 + i] = newCol.r;
+                colData[1 + i] = newCol.g;
+                colData[2 + i] = newCol.b;
+                colData[3 + i] = newCol.a;
         }
 }
 
-void Mesh::draw(Renderer* renderer, Texture* tex)
+void Mesh::draw(Renderer *renderer, Texture *tex)
 {
-        renderer->draw(tex, &vertexBufferData, &vertexNormalBufferData, &texBufferData, &colBufferData, &indexBufferData);
+        renderer->draw(tex, &vertexData, &vertexNormalData, &texData, &colData, &indexData);
 }
 
-void Mesh::render(Renderer* renderer, Texture* tex)
+void Mesh::render(Renderer *renderer, Texture *tex)
 {
-        renderer->render(tex, &objMatrix, &rawVertexBufferData, &vertexNormalBufferData, &texBufferData, &colBufferData, &indexBufferData);
+        renderer->render(tex, &objMatrix, &vertexData0, &vertexNormalData, &texData, &colData, &indexData);
 }
 
-void Mesh::drawShadows(Renderer* renderer)
+void Mesh::drawShadows(Renderer *renderer)
 {
-        renderer->drawShadows(&vertexBufferData, &indexBufferData);
+        renderer->drawShadows(&vertexData, &indexData);
 }
 
-void Mesh::renderShadows(Renderer* renderer)
+void Mesh::renderShadows(Renderer *renderer)
 {
-        renderer->renderShadows(&objMatrix, &rawVertexBufferData, &indexBufferData);
+        renderer->renderShadows(&objMatrix, &vertexData0, &indexData);
 }

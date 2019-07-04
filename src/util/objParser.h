@@ -1,5 +1,5 @@
 //
-// Created by Ronin748 on 14.2.2016.
+// Created by Roninkoi on 14.2.2016.
 //
 
 #ifndef CORIUM_OBJPARSER_H
@@ -77,7 +77,6 @@ Mesh loadObj(std::string path)
                                                                 }
                                                                 else {
                                                                         tstring += indexstr[is];
-
                                                                 }
                                                         }
                                                         else {
@@ -98,29 +97,29 @@ Mesh loadObj(std::string path)
                                                 }
 
                                                 if (exists) {
-                                                        object.indexBufferData.push_back(t);
+                                                        object.indexData.push_back(t);
                                                 }
                                                 else {
                                                         vi.push_back(verti);
                                                         ti.push_back(texi);
                                                         int ei = vi.size()-1;
 
-                                                        object.rawVertexBufferData.push_back(verts[vi[ei] * 3]);
-                                                        object.rawVertexBufferData.push_back(verts[vi[ei] * 3 + 1]);
-                                                        object.rawVertexBufferData.push_back(verts[vi[ei] * 3 + 2]);
-                                                        object.rawVertexBufferData.push_back(0.0f);
+                                                        object.vertexData0.push_back(verts[vi[ei] * 3]);
+                                                        object.vertexData0.push_back(verts[vi[ei] * 3 + 1]);
+                                                        object.vertexData0.push_back(verts[vi[ei] * 3 + 2]);
+                                                        object.vertexData0.push_back(0.0f);
 
-                                                        object.texBufferData.push_back(texes[ti[ei] * 2]);
-                                                        object.texBufferData.push_back(-texes[ti[ei] * 2 + 1]);
-                                                        object.texBufferData.push_back(1.0f);
-                                                        object.texBufferData.push_back(1.0f);
+                                                        object.texData.push_back(texes[ti[ei] * 2]);
+                                                        object.texData.push_back(-texes[ti[ei] * 2 + 1]);
+                                                        object.texData.push_back(1.0f);
+                                                        object.texData.push_back(1.0f);
 
-                                                        object.colBufferData.push_back(1.0f);
-                                                        object.colBufferData.push_back(1.0f);
-                                                        object.colBufferData.push_back(1.0f);
-                                                        object.colBufferData.push_back(1.0f);
+                                                        object.colData.push_back(1.0f);
+                                                        object.colData.push_back(1.0f);
+                                                        object.colData.push_back(1.0f);
+                                                        object.colData.push_back(1.0f);
 
-                                                        object.indexBufferData.push_back(ei);
+                                                        object.indexData.push_back(ei);
                                                 }
                                         }
                                 }

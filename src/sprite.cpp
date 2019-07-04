@@ -1,8 +1,8 @@
 //
-// Created by Ronin748 on 20.12.2015.
+// Created by Roninkoi on 20.12.2015.
 //
 
-#include <sprite.h>
+#include "sprite.h"
 
 void Sprite::tickAnim(float newTicks)
 {
