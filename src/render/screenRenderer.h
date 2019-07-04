@@ -1,12 +1,12 @@
 //
-// Created by Ronin748 on 22.8.2016.
+// Created by Roninkoi on 22.8.2016.
 //
 
 #ifndef CORIUM_SCREENRENDERER_H
 #define CORIUM_SCREENRENDERER_H
 
-#include <render/renderer.h>
-#include <render/shader/shader.h>
+#include "render/renderer.h"
+#include "render/shader/shader.h"
 
 class ScreenRenderer {
 public:
@@ -28,13 +28,13 @@ GLuint indexBuffer;
 
 Texture tex;
 
-float vertexBufferArray[BATCH_SIZE];
-float texBufferArray[BATCH_SIZE];
-float colBufferArray[BATCH_SIZE];
-int indexBufferArray[BATCH_SIZE];
+float vertexArray[BATCH_SIZE];
+float texArray[BATCH_SIZE];
+float colArray[BATCH_SIZE];
+int indexArray[BATCH_SIZE];
 
-int buffer_vertices = 0;
-int buffer_indices = 0;
+int bufferVertices = 0;
+int bufferIndices = 0;
 
 glm::mat4 pMatrix = glm::mat4(1.0f);
 glm::mat4 cMatrix = glm::mat4(1.0f);
@@ -75,8 +75,8 @@ void render(Texture tex, glm::mat4 objMatrix, std::vector<float> *vertexData, st
         uMatrix = objMatrix;
         this->tex = tex;
 
-        buffer_indices = indexData->size();
-        buffer_vertices = vertexData->size();
+        bufferIndices = indexData->size();
+        bufferVertices = vertexData->size();
 
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
         glBufferData(GL_ARRAY_BUFFER, vertexData->size() * sizeof(float), &(*vertexData)[0], GL_DYNAMIC_DRAW);
@@ -94,18 +94,18 @@ void render(Texture tex, glm::mat4 objMatrix, std::vector<float> *vertexData, st
 }
 
 void flushBatch() {
-        if (buffer_indices > 2) {
+        if (bufferIndices > 2) {
                 glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-                glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), vertexBufferArray, GL_DYNAMIC_DRAW);
+                glBufferData(GL_ARRAY_BUFFER, bufferVertices * sizeof(float), vertexArray, GL_DYNAMIC_DRAW);
 
                 glBindBuffer(GL_ARRAY_BUFFER, texBuffer);
-                glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), texBufferArray, GL_DYNAMIC_DRAW);
+                glBufferData(GL_ARRAY_BUFFER, bufferVertices * sizeof(float), texArray, GL_DYNAMIC_DRAW);
 
                 glBindBuffer(GL_ARRAY_BUFFER, colBuffer);
-                glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), colBufferArray, GL_DYNAMIC_DRAW);
+                glBufferData(GL_ARRAY_BUFFER, bufferVertices * sizeof(float), colArray, GL_DYNAMIC_DRAW);
 
                 glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-                glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer_indices * sizeof(int), indexBufferArray, GL_DYNAMIC_DRAW);
+                glBufferData(GL_ELEMENT_ARRAY_BUFFER, bufferIndices * sizeof(int), indexArray, GL_DYNAMIC_DRAW);
 
                 flush();
         }
@@ -114,7 +114,7 @@ void flushBatch() {
 void draw(Texture tex, glm::mat4 objMatrix, std::vector<float> *vertexData, std::vector<float> *texData,
           std::vector<float> *colData, std::vector<int> *indexData) {
         if (vertexData->size() < BATCH_SIZE && indexData->size() < BATCH_SIZE) {
-                batchAdd(tex, objMatrix, vertexData, texData, colData, indexData);
+                add(tex, objMatrix, vertexData, texData, colData, indexData);
         }
         else {
                 flushBatch();
@@ -122,28 +122,28 @@ void draw(Texture tex, glm::mat4 objMatrix, std::vector<float> *vertexData, std:
         }
 }
 
-void batchAdd(Texture tex, glm::mat4 objMatrix, std::vector<float> *vertexData, std::vector<float> *texData,
-              std::vector<float> *colData, std::vector<int> *indexData) {
+void add(Texture tex, glm::mat4 objMatrix, std::vector<float> *vertexData, std::vector<float> *texData,
+         std::vector<float> *colData, std::vector<int> *indexData) {
         ++drawnum;
         uMatrix = objMatrix;
 
-        if (buffer_vertices + vertexData->size() >= BATCH_SIZE ||
-            buffer_indices + indexData->size() >= BATCH_SIZE || (tex.path != this->tex.path)) {
+        if (bufferVertices + vertexData->size() >= BATCH_SIZE ||
+            bufferIndices + indexData->size() >= BATCH_SIZE || (tex.path != this->tex.path)) {
                 flushBatch();
         }
 
-        int vertices = buffer_vertices / 4;
+        int vertices = bufferVertices / 4;
 
         for (unsigned int i = 0; i < vertexData->size(); ++i) {
-                vertexBufferArray[buffer_vertices] = vertexData->at(i);
-                texBufferArray[buffer_vertices] = texData->at(i);
-                colBufferArray[buffer_vertices] = colData->at(i);
-                ++buffer_vertices;
+                vertexArray[bufferVertices] = vertexData->at(i);
+                texArray[bufferVertices] = texData->at(i);
+                colArray[bufferVertices] = colData->at(i);
+                ++bufferVertices;
         }
 
         for (unsigned int i = 0; i < indexData->size(); ++i) {
-                indexBufferArray[buffer_indices] = indexData->at(i) + vertices;
-                ++buffer_indices;
+                indexArray[bufferIndices] = indexData->at(i) + vertices;
+                ++bufferIndices;
         }
         this->tex = tex;
 }
@@ -218,7 +218,7 @@ void flush() {
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 
-        glDrawRangeElements(GL_TRIANGLES, 0, buffer_vertices - 1, buffer_indices, GL_UNSIGNED_INT,
+        glDrawRangeElements(GL_TRIANGLES, 0, bufferVertices - 1, bufferIndices, GL_UNSIGNED_INT,
                             (void *) 0);
 
         glDisableVertexAttribArray(0);
@@ -228,8 +228,8 @@ void flush() {
         glEnable(GL_DEPTH_TEST);
         glDisable(GL_BLEND);
 
-        buffer_vertices = 0;
-        buffer_indices = 0;
+        bufferVertices = 0;
+        bufferIndices = 0;
 }
 
 void init() {
@@ -251,7 +251,7 @@ void init() {
         glDisable(GL_CULL_FACE);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        u_pMatrix = glGetUniformLocation(screenShader.program, "projection");
+        u_pMatrix = glGetUniformLocation(screenShader.program, "proj");
         u_cMatrix = glGetUniformLocation(screenShader.program, "view");
         u_uMatrix = glGetUniformLocation(screenShader.program, "model");
 

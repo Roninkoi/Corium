@@ -1,5 +1,5 @@
 //
-// Created by Ronin748 on 23.01.2018.
+// Created by Roninkoi on 23.01.2018.
 //
 
 #ifndef CRMLANG_H
@@ -29,7 +29,7 @@ std::vector<std::string> loopReplace(std::vector<std::string> words, int n, int 
                                                 after += loopwords[i][a];
                                 }
 
-                                loopwords[i] = before + to_string(n) + after;
+                                loopwords[i] = before + toString(n) + after;
                         }
                         if (loopwords[i][j] == '%') {
                                 std::string before = "";
@@ -54,7 +54,7 @@ std::vector<std::string> loopReplace(std::vector<std::string> words, int n, int 
                                         for (int k = 0; k < (int)log10(nmax); ++k)
                                                 zeroes += "0";
                                 }
-                                loopwords[i] = before + zeroes + to_string(n) + after;
+                                loopwords[i] = before + zeroes + toString(n) + after;
                         }
                 }
         }
@@ -67,7 +67,7 @@ std::string getStringVal(std::string s, Game* game)
                 return game->map.mapName;
         }
         else if (s == "_TIME") {
-                return to_string(currentDateTime());
+                return toString(currentDateTime());
         }
         else {
                 return s;

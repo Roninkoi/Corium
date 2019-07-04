@@ -1,9 +1,9 @@
 //
-// Created by Ronin748 on 21.12.2015.
+// Created by Roninkoi on 21.12.2015.
 //
 
 #include "map.h"
-#include <util/mapParser.h>
+#include "util/mapParser.h"
 
 bool Map::visible(Obj *object)
 {
@@ -21,19 +21,19 @@ bool Map::visible(Obj *object)
 
         glm::vec3 camPos = camera->pos + lookVec * camera->z;
 
-        glm::vec3 po = object->physMesh.boundingSphereCenter + camPos;
+        glm::vec3 po = object->physMesh.bsCenter + camPos;
 
         po += (glm::normalize(-po) + glm::normalize(lookVec)) *
-              object->physMesh.boundingSphereRadius; // there's quite a bit of error (hack)
+              object->physMesh.bsRadius; // there's quite a bit of error (hack)
 
         float visAngle = glm::dot(glm::normalize(po), glm::normalize(lookVec));
 
         if (visAngle > 0.3f) // < 0.0f is behind
                 behind = false;
 
-        bool isVisible = inRange(object->physMesh.boundingSphereCenter,
-                                 object->physMesh.boundingSphereRadius) &&
-                         (!behind || glm::length(-camPos - object->physMesh.boundingSphereCenter) < object->physMesh.boundingSphereRadius);
+        bool isVisible = inRange(object->physMesh.bsCenter,
+                                 object->physMesh.bsRadius) &&
+                         (!behind || glm::length(-camPos - object->physMesh.bsCenter) < object->physMesh.bsRadius);
 
         object->visible = isVisible;
 
@@ -42,7 +42,7 @@ bool Map::visible(Obj *object)
 
 inline bool Map::inRange(Obj *object)
 {
-        bool ir = inRange(object->physMesh.boundingSphereCenter, object->physMesh.boundingSphereRadius);
+        bool ir = inRange(object->physMesh.bsCenter, object->physMesh.bsRadius);
         object->phys.inRange = ir;
 
         return ir;

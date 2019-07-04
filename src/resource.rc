@@ -9,11 +9,11 @@ BEGIN
   BEGIN
     BLOCK "080904E4"
     BEGIN
-      VALUE "CompanyName", "Ronin748"
+      VALUE "CompanyName", "Roninkoi"
       VALUE "FileDescription", "CRM"
       VALUE "FileVersion", "1.0"
       VALUE "InternalName", "Corium"
-      VALUE "LegalCopyright", "Ronin748"
+      VALUE "LegalCopyright", "Roninkoi"
       VALUE "OriginalFilename", "CRM.exe"
       VALUE "ProductName", "Corium"
       VALUE "ProductVersion", "1.4"

@@ -1,27 +1,27 @@
 //
-// Created by Ronin748 on 28.7.2017.
+// Created by Roninkoi on 28.7.2017.
 //
 
-#include <util/objParser.h>
-#include <anim.h>
+#include "util/objParser.h"
+#include "anim.h"
 
-void Anim::draw(Renderer* renderer)
+void Anim::draw(Renderer *renderer)
 {
         currentFrame.draw(renderer, &tex);
 }
 
-void Anim::render(Renderer* renderer)
+void Anim::render(Renderer *renderer)
 {
         currentFrame.objMatrix = phys.getMatrix();
         currentFrame.render(renderer, &tex);
 }
 
-void Anim::drawShadows(Renderer* renderer)
+void Anim::drawShadows(Renderer *renderer)
 {
         currentFrame.drawShadows(renderer);
 }
 
-void Anim::renderShadows(Renderer* renderer)
+void Anim::renderShadows(Renderer *renderer)
 {
         currentFrame.objMatrix = phys.getMatrix();
         currentFrame.renderShadows(renderer);
@@ -36,21 +36,21 @@ void Anim::tick(float s) {
         ticks += spd;
 
         for (int i = 0;
-             i + 2 < frames[thisIndex].rawVertexBufferData.size() && i + 2 < currentFrame.rawVertexBufferData.size() &&
-             i + 2 < frames[previousIndex].rawVertexBufferData.size(); i += 4) {
-                glm::vec3 frameVertex = glm::vec3(frames[thisIndex].rawVertexBufferData[i],
-                                                  frames[thisIndex].rawVertexBufferData[i + 1],
-                                                  frames[thisIndex].rawVertexBufferData[i + 2]);
-                glm::vec3 previousVertex = glm::vec3(frames[previousIndex].rawVertexBufferData[i],
-                                                     frames[previousIndex].rawVertexBufferData[i + 1],
-                                                     frames[previousIndex].rawVertexBufferData[i + 2]);
-                glm::vec3 thisVertex = glm::vec3(currentFrame.rawVertexBufferData[i],
-                                                 currentFrame.rawVertexBufferData[i + 1],
-                                                 currentFrame.rawVertexBufferData[i + 2]);
+             i + 2 < frames[thisIndex].vertexData0.size() && i + 2 < currentFrame.vertexData0.size() &&
+             i + 2 < frames[previousIndex].vertexData0.size(); i += 4) {
+                glm::vec3 frameVertex = glm::vec3(frames[thisIndex].vertexData0[i],
+                                                  frames[thisIndex].vertexData0[i + 1],
+                                                  frames[thisIndex].vertexData0[i + 2]);
+                glm::vec3 previousVertex = glm::vec3(frames[previousIndex].vertexData0[i],
+                                                     frames[previousIndex].vertexData0[i + 1],
+                                                     frames[previousIndex].vertexData0[i + 2]);
+                glm::vec3 thisVertex = glm::vec3(currentFrame.vertexData0[i],
+                                                 currentFrame.vertexData0[i + 1],
+                                                 currentFrame.vertexData0[i + 2]);
 
-                glm::vec3 nextVertex = glm::vec3(frames[nextIndex].rawVertexBufferData[i],
-                                                 frames[nextIndex].rawVertexBufferData[i + 1],
-                                                 frames[nextIndex].rawVertexBufferData[i + 2]);
+                glm::vec3 nextVertex = glm::vec3(frames[nextIndex].vertexData0[i],
+                                                 frames[nextIndex].vertexData0[i + 1],
+                                                 frames[nextIndex].vertexData0[i + 2]);
 
                 glm::vec3 midVertex = (nextVertex + frameVertex) / 2.0f;
 
@@ -94,9 +94,9 @@ void Anim::tick(float s) {
                     thisVertex = frameVertex;
                    }*/
 
-                currentFrame.rawVertexBufferData[i] = thisVertex.x;
-                currentFrame.rawVertexBufferData[i + 1] = thisVertex.y;
-                currentFrame.rawVertexBufferData[i + 2] = thisVertex.z;
+                currentFrame.vertexData0[i] = thisVertex.x;
+                currentFrame.vertexData0[i + 1] = thisVertex.y;
+                currentFrame.vertexData0[i + 2] = thisVertex.z;
         }
 
         if (finished) {
@@ -124,7 +124,7 @@ void Anim::tick(float s) {
                 previousIndex = frameIndex[previousFrame];
                 nextIndex = frameIndex[nextFrame];
 
-                currentFrame.texBufferData = frames[thisIndex].texBufferData;
+                currentFrame.texData = frames[thisIndex].texData;
         }
 
         // tranform current frame
@@ -142,14 +142,14 @@ void Anim::loadAnim(std::string path, std::string texpath, int numFrames, std::v
         clearFrames();
         for (int i = 0; i < numFrames; ++i) {
                 std::string zeroes = "";
-                for (int j = 5 - to_string(i).length(); j >= 0; --j)
+                for (int j = 5 - toString(i).length(); j >= 0; --j)
                         zeroes += "0";
                 Mesh newF;
-                newF = loadObj(path + to_string(i) + ".obj");
+                newF = loadObj(path + toString(i) + ".obj");
 
                 addFrame(&newF);
 
-                //gamePrint(path + zeroes + to_string(i) + ".obj");
+                //gamePrint(path + zeroes + toString(i) + ".obj");
         }
         if (numFrames == 0) {
                 Mesh newF = loadObj(path);
@@ -169,9 +169,9 @@ void Anim::loadAnim(std::string path, std::string texpath, int numFrames, std::v
         nextIndex = frameIndex[nextFrame];
 }
 
-void Anim::addFrame(Mesh *new_frame) {
-        if (new_frame->vertexBufferData.size() > 0) {
-                frames.push_back(*new_frame);
+void Anim::addFrame(Mesh *newFrame) {
+        if (newFrame->vertexData.size() > 0) {
+                frames.push_back(*newFrame);
 
                 currentFrame = frames[0];
 
@@ -247,22 +247,22 @@ bool Anim::finished()
         return returns;
 }
 
-void Anims::draw(Renderer* renderer)
+void Anims::draw(Renderer *renderer)
 {
         animFrame.draw(renderer, &tex);
 }
 
-void Anims::render(Renderer* renderer)
+void Anims::render(Renderer *renderer)
 {
         animFrame.render(renderer, &tex);
 }
 
-void Anims::drawShadows(Renderer* renderer)
+void Anims::drawShadows(Renderer *renderer)
 {
         animFrame.drawShadows(renderer);
 }
 
-void Anims::renderShadows(Renderer* renderer)
+void Anims::renderShadows(Renderer *renderer)
 {
         animFrame.renderShadows(renderer);
 }
@@ -308,19 +308,19 @@ void Anims::tick()
                 anims[i].tick();
         }
 
-        for (int i = 0; i < templateFrame.rawVertexBufferData.size(); ++i) {
-                float dv = templateFrame.rawVertexBufferData[i];
-                float dt = templateFrame.texBufferData[i];
+        for (int i = 0; i < templateFrame.vertexData0.size(); ++i) {
+                float dv = templateFrame.vertexData0[i];
+                float dt = templateFrame.texData[i];
 
                 for (int j = 0; j < anims.size(); ++j) {
                         if (animRunning[j] || !anims[j].finished()) {
-                                dv += anims[j].currentFrame.rawVertexBufferData[i] - templateFrame.rawVertexBufferData[i];
-                                dt += anims[j].currentFrame.texBufferData[i] - templateFrame.texBufferData[i];
+                                dv += anims[j].currentFrame.vertexData0[i] - templateFrame.vertexData0[i];
+                                dt += anims[j].currentFrame.texData[i] - templateFrame.texData[i];
                         }
                 }
 
-                animFrame.rawVertexBufferData[i] = dv;
-                animFrame.texBufferData[i] = dt;
+                animFrame.vertexData0[i] = dv;
+                animFrame.texData[i] = dt;
         }
 
         animFrame.objMatrix = phys.getMatrix();

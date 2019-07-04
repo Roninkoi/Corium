@@ -1,26 +1,27 @@
 //
-// Created by Ronin748 on 21.12.2015.
+// Created by Roninkoi on 21.12.2015.
 //
 
 #ifndef CORIUM_MAP_H
 #define CORIUM_MAP_H
 
-#include <crm.h>
-#include <quad.h>
-#include <render/renderer.h>
-#include <game/entity/player.h>
-#include <util/random.h>
-#include <sys.h>
 #include <math.h>
-#include <game/obj/obj.h>
-#include <util/objParser.h>
-#include <audio.h>
+
+#include "crm.h"
+#include "quad.h"
+#include "render/renderer.h"
+#include "util/random.h"
+#include "phys/sys.h"
+#include "game/obj/obj.h"
+#include "util/objParser.h"
+#include "audio.h"
 #include "gen.h"
-#include <anim.h>
-#include <game/obj/camera.h>
+#include "anim.h"
+#include "game/obj/camera.h"
+#include "game/entity/player.h"
 
 template<typename T>
-std::vector<T>* clearVector(std::vector<T>* vec)
+std::vector<T> *clearVector(std::vector<T> *vec)
 {
         std::vector<T>().swap(*vec);
         return vec;
@@ -89,7 +90,7 @@ Player *getPlayer()
         return thisPlayer;
 }
 
-Camera* getCamera()
+Camera *getCamera()
 {
         return camera;
 }
@@ -170,11 +171,11 @@ void addObj(std::string s, std::string p, std::string t, glm::vec3 pos,
                 if (newobjmass > 0.0f)
                         objs[i].phys.m = newobjmass;
                 else {
-                        objs[i].phys.m = pow(fabs(objs[i].physMesh.boundingSphereRadius), 2)*0.75f*M_PI + 1.0f;
+                        objs[i].phys.m = pow(fabs(objs[i].physMesh.bsRadius), 2)*0.75f*M_PI + 1.0f;
                 }
-                objs[i].phys.I = objs[i].phys.m*objs[i].physMesh.boundingSphereRadius*objs[i].physMesh.boundingSphereRadius*0.3f;
+                objs[i].phys.I = objs[i].phys.m*objs[i].physMesh.bsRadius*objs[i].physMesh.bsRadius*0.3f;
 
-                if (objs[i].mesh.indexBufferData.size() > BATCH_SIZE * 0.1f)
+                if (objs[i].mesh.indexData.size() > BATCH_SIZE * 0.1f)
                         objs[i].ro = true;
         }
         else {
@@ -291,6 +292,7 @@ void load(Renderer *renderer)
         baked = false;
 }
 
+// are shadows 420
 bool baked = false;
 void bakeShadows();
 

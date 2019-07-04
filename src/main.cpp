@@ -1,5 +1,5 @@
-#include <game/game.h>
-#include <util/crmLang.h>
+#include "game/game.h"
+#include "util/crmLang.h"
 
 Game game;
 
@@ -25,7 +25,7 @@ void gameDrawLine(glm::vec3 l0, glm::vec3 l1)
         game.renderer.drawLine(l0, l1);
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
         game.init(); // initializes engine and loads game assets
         game.start(); // launches main game loop

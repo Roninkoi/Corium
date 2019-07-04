@@ -3,10 +3,10 @@
 //layout(location = 0) out vec4 gl_FragColor;
 
 in vec2 vTex;
-in vec4 v_col;
+in vec4 vCol;
 
 uniform sampler2D tex;
 
 void main() {
-    gl_FragColor = texture(tex, vTex) * v_col;
+    gl_FragColor = texture(tex, vTex) * vCol;
 }

@@ -1,9 +1,9 @@
 //
-// Created by Ronin748 on 18.12.2015.
+// Created by Roninkoi on 18.12.2015.
 //
 
 #include "player.h"
-#include <util/objParser.h>
+#include "util/objParser.h"
 
 // do this using quaternions
 bool camMoved = false;
@@ -218,16 +218,16 @@ void Player::collide(Sys *ps)
         float bouncyness = 0.01f;
 
         for (int i = 0; i < ps->objects.size(); ++i) {
-                if (clipMesh.bsi(&ps->objects[i]->physMesh)) {
-                        if (ps->objects[i]->physMesh.sphereIsect(&clipMesh, physMesh.boundingSphereCenter + normalize(ps->field)*2.2f, 0.8f)
-                            || ps->objects[i]->physMesh.sphereIsect(&clipMesh, physMesh.boundingSphereCenter + normalize(ps->field)*1.4f, 0.8f)) {
+                if (clipMesh.bsIsect(&ps->objects[i]->physMesh)) {
+                        if (ps->objects[i]->physMesh.sphereIsect(&clipMesh, physMesh.bsCenter + normalize(ps->field)*2.2f, 0.8f)
+                            || ps->objects[i]->physMesh.sphereIsect(&clipMesh, physMesh.bsCenter + normalize(ps->field)*1.4f, 0.8f)) {
                                 if (!(clipMesh.collisionNormal != clipMesh.collisionNormal)) {
                                         onGround = true;
                                 }
                         }
                 }
-                if (physMesh.bsi(&ps->objects[i]->physMesh)) {         // bounding sphere test
-                        if (ps->objects[i]->physMesh.sphereIsect(&physMesh, physMesh.boundingSphereCenter, 1.7f)) {
+                if (physMesh.bsIsect(&ps->objects[i]->physMesh)) {         // bounding sphere test
+                        if (ps->objects[i]->physMesh.sphereIsect(&physMesh, physMesh.bsCenter, 1.7f)) {
                                 if (ps->objects[i]->phys.isStatic && !ps->objects[i]->phys.isSemiStatic) { // map geometry only
                                         colliding = true;
 

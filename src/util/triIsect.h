@@ -589,7 +589,7 @@ int tri_tri_overlap_test_2d(real p1[2], real q1[2], real r1[2],
 };
 
 /*
-* Additional tests by Ronin748
+* Additional tests by Roninkoi
 */
 #define LENGTH(v) sqrt(pow(v[0], 2) + pow(v[1], 2) + pow(v[2], 2))
 

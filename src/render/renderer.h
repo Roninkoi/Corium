@@ -1,20 +1,20 @@
 //
-// Created by Ronin748 on 18.12.2015.
+// Created by Roninkoi on 18.12.2015.
 //
 
 #ifndef CORIUM_RENDERER_H
 #define CORIUM_RENDERER_H
 
-#include <crm.h>
-#include <render/shader/shader.h>
-#include <texture.h>
+#include "crm.h"
+#include "render/shader/shader.h"
+#include "texture.h"
 
 const int BATCH_SIZE = GL_MAX_ELEMENTS_VERTICES;
 
 class Light {
 public:
 glm::vec3 pos = glm::vec3(0.0f, 0.0f, 0.0f);
-glm::vec3 col = glm::vec3(0.0f, 0.0f, 0.0f);         // if col == (0, 0, 0) light is off
+glm::vec3 col = glm::vec3(0.0f, 0.0f, 0.0f); // if col == (0, 0, 0) light is off
 
 GLuint depthMapFBO = -1;
 GLuint depthCubemap;
@@ -30,7 +30,6 @@ void initShadows(GLuint new_w = 512, GLuint new_h = 512)
 
                 glGenFramebuffers(1, &depthMapFBO);
 
-                // Create depth cubemap texture
                 glGenTextures(1, &depthCubemap);
                 glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
 
@@ -42,7 +41,7 @@ void initShadows(GLuint new_w = 512, GLuint new_h = 512)
                 glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
                 glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                 glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-                // Attach cubemap as depth map FBO's color buffer
+
                 glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 
                 glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthCubemap, 0);
@@ -104,9 +103,9 @@ float SCREEN_SCALE = 1.0f;
 float farPlane = 200.0f;
 glm::vec3 clearCol = glm::vec3(0.0f, 0.0f, 0.0f);
 
-int rfbo = 0;     // render fbo, 0 internal, 1 screen
+int rfbo = 0; // render fbo, 0 internal, 1 screen
 
-bool shadows = true;     // enable shadows => col * ds
+bool shadows = true; // enable shadows => col * ds
 
 float amb = 0.5f;
 float lght = 0.5f;
@@ -145,17 +144,17 @@ glm::vec3 camPos = glm::vec3(0.0f);
 glm::vec3 camRot = glm::vec3(0.0f);
 float camZ = 7.0f;
 
-float vertexBufferArray[BATCH_SIZE];
-float texBufferArray[BATCH_SIZE];
-float colBufferArray[BATCH_SIZE];
-float normalBufferArray[BATCH_SIZE];
-int indexBufferArray[BATCH_SIZE];
+float vertexArray[BATCH_SIZE];
+float texArray[BATCH_SIZE];
+float colArray[BATCH_SIZE];
+float normalArray[BATCH_SIZE];
+int indexArray[BATCH_SIZE];
 
 int batchesPerCycle = 0;
 int drawsPerCycle = 0;
 
-int buffer_vertices = 0;
-int buffer_indices = 0;
+int bufferVertices = 0;
+int bufferIndices = 0;
 
 float xSpacing = 0.0f;
 
@@ -182,9 +181,9 @@ void update();
 
 void renderFBO();
 
-void batchAdd(Texture* tex, std::vector<float> *vertexData, std::vector<float> *normalData,
-              std::vector<float> *texData,
-              std::vector<float> *colData, std::vector<int> *indexData);
+void add(Texture* tex, std::vector<float> *vertexData, std::vector<float> *normalData,
+         std::vector<float> *texData,
+         std::vector<float> *colData, std::vector<int> *indexData);
 
 void draw(Texture* tex, std::vector<float> *vertexData, std::vector<float> *normalData, std::vector<float> *texData,
           std::vector<float> *colData, std::vector<int> *indexData);
@@ -193,7 +192,7 @@ void render(Texture* tex, glm::mat4 *objMatrix, std::vector<float> *vertexData, 
             std::vector<float> *texData,
             std::vector<float> *colData, std::vector<int> *indexData);
 
-void flush();     // FLUSH IT!
+void flush();
 
 void flushUpdate();
 

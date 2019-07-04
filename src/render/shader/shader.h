@@ -1,11 +1,11 @@
 //
-// Created by Ronin748 on 18.12.2015.
+// Created by Roninkoi on 18.12.2015.
 //
 
 #ifndef CORIUM_SHADER_H
 #define CORIUM_SHADER_H
 
-#include <crm.h>
+#include "crm.h"
 //#include "shadersrc.h" // this causes errors
 
 class Shader {
@@ -18,9 +18,9 @@ GLuint FragmentShaderID;
 
 int max_lights = 8;
 
-GLuint loadShaders(const char *vertex_file_path, const char *fragment_file_path, bool src);
+GLuint loadShaders(const char *vertPath, const char *fragPath, bool src);
 
-GLuint loadGS(const char *vertex_file_path, const char *fragment_file_path, const char *gs_file_path, bool src);
+GLuint loadGS(const char *vertPath, const char *fragPath, const char *gsPath, bool src);
 
 void init(const char *vertPath, const char *fragPath, bool ls)
 {

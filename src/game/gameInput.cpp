@@ -1,5 +1,5 @@
 //
-// Created by Ronin748 on 20.12.2015.
+// Created by Roninkoi on 20.12.2015.
 //
 
 #include "game.h"
@@ -19,7 +19,7 @@ bool console = true;
 int meshNo = 0;
 
 void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
-        dist += yoffset / 10.0f;
+        dist += -yoffset / 10.0f;
 }
 
 void Game::gameInput() {
@@ -54,7 +54,7 @@ void Game::gameInput() {
         if (input.keyDown[GLFW_KEY_M]) {
                 if (input.keyPressed[GLFW_KEY_M]) {
                         if (aud.playingMusic()) {
-                                aud.haltMusic();
+                                aud.stopMusic();
                         }
                         else {
                                 aud.playMusic();
@@ -226,11 +226,11 @@ void Game::gameInput() {
                         float g = random_range(0, 1000) / 1000.0f;
                         float b = random_range(0, 1000) / 1000.0f;
 
-                        for (int i = 0; i < map.objs[map.objs.size() - 1].mesh.colBufferData.size(); i += 4) {
-                                map.objs[map.objs.size() - 1].mesh.colBufferData[i] = r + random_range(0, 5) / 20.0f;
-                                map.objs[map.objs.size() - 1].mesh.colBufferData[i + 1] = g + random_range(0, 5) / 20.0f;
-                                map.objs[map.objs.size() - 1].mesh.colBufferData[i + 2] = b + random_range(0, 5) / 20.0f;
-                                map.objs[map.objs.size() - 1].mesh.colBufferData[i + 3] = 1.0f;
+                        for (int i = 0; i < map.objs[map.objs.size() - 1].mesh.colData.size(); i += 4) {
+                                map.objs[map.objs.size() - 1].mesh.colData[i] = r + random_range(0, 5) / 20.0f;
+                                map.objs[map.objs.size() - 1].mesh.colData[i + 1] = g + random_range(0, 5) / 20.0f;
+                                map.objs[map.objs.size() - 1].mesh.colData[i + 2] = b + random_range(0, 5) / 20.0f;
+                                map.objs[map.objs.size() - 1].mesh.colData[i + 3] = 1.0f;
                         }
                         map.objs[map.objs.size() - 1].phys.v = glm::vec3(dist * sin(-thisPlayer->phys.rot.y + M_PI),
                                                                          dist * sin(thisPlayer->phys.rot.x + M_PI),
@@ -252,14 +252,14 @@ void Game::gameInput() {
                 if (!rightPress && grabbed < map.objs.size() - 1) {
                         rightPress = true;
                         grabbed += 1;
-                        print("grabbed " + to_string(grabbed) + "\n");
+                        print("grabbed " + toString(grabbed) + "\n");
                 }
         }
         else if (glfwGetKey(wndw.window, GLFW_KEY_LEFT_CONTROL)) {
                 if (!rightPress && grabbed > 0) {
                         rightPress = true;
                         grabbed -= 1;
-                        print("grabbed " + to_string(grabbed) + "\n");
+                        print("grabbed " + toString(grabbed) + "\n");
                 }
         }
         else {

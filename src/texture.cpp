@@ -1,13 +1,13 @@
 //
-// Created by Ronin748 on 20.12.2015.
+// Created by Roninkoi on 20.12.2015.
 //
 
-#define STB_IMAGE_IMPLEMENTATION
-
 #include <texture.h>
-#include <stb_image.h>
 
-unsigned char* loadGLTex(std::string p, int* w, int* h)
+#define STB_IMAGE_IMPLEMENTATION
+#include "util/stb_image.h"
+
+unsigned char *loadGLTex(std::string p, int *w, int *h)
 {
         return stbi_load(p.c_str(), w, h, NULL, 4);
 }
@@ -23,7 +23,7 @@ GLuint Texture::loadTexture(std::string path)
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, tex);
 
-        unsigned char * image;
+        unsigned char *image;
 
         image = loadGLTex(path, &w, &h);
 

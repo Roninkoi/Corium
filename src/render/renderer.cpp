@@ -1,5 +1,5 @@
 //
-// Created by Ronin748 on 18.12.2015.
+// Created by Roninkoi on 18.12.2015.
 //
 
 #include "renderer.h"
@@ -66,7 +66,7 @@ void Renderer::init()
         for (int l = 0; l < MAX_LIGHTS; ++l)
                 lights[l].initShadows(SHADOW_WIDTH, SHADOW_HEIGHT);
 
-        printf("SCREEN WIDTH: %s%s%s%s", &to_string(SCREEN_WIDTH)[0], " SCREEN HEIGHT: ", &to_string(SCREEN_HEIGHT)[0],
+        printf("SCREEN WIDTH: %s%s%s%s", &toString(SCREEN_WIDTH)[0], " SCREEN HEIGHT: ", &toString(SCREEN_HEIGHT)[0],
                "\n");
 
         // SCREEN FBO
@@ -92,8 +92,8 @@ void Renderer::init()
         glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_DEPTH_COMPONENT,
                      GL_UNSIGNED_BYTE, 0);
 
-        gamePrint("st " + to_string(screenTex) + "\n");
-        gamePrint("sd t " + to_string(screenDepthTex) + "\n");
+        gamePrint("st " + toString(screenTex) + "\n");
+        gamePrint("sd t " + toString(screenDepthTex) + "\n");
 
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, screenTex, 0);
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, screenDepthTex, 0);
@@ -109,10 +109,10 @@ void Renderer::init()
 
         auto fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
         if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
-                gamePrint("Framebuffer not complete: " + to_string(fboStatus) + "\n");
+                gamePrint("Framebuffer not complete: " + toString(fboStatus) + "\n");
 
 
-        gamePrint("FBO id: " + to_string(screenFBO) + "\n");
+        gamePrint("FBO id: " + toString(screenFBO) + "\n");
 }
 
 void Renderer::clear()
@@ -146,28 +146,28 @@ void Renderer::update()
         cMatrix = glm::translate(cMatrix, camPos);
 }
 
-void Renderer::batchAdd(Texture *tex, std::vector<float> *vertexData, std::vector<float> *normalData,
-                        std::vector<float> *texData,
-                        std::vector<float> *colData, std::vector<int> *indexData)
+void Renderer::add(Texture *tex, std::vector<float> *vertexData, std::vector<float> *normalData,
+                   std::vector<float> *texData,
+                   std::vector<float> *colData, std::vector<int> *indexData)
 {
-        if (buffer_vertices + vertexData->size() >= BATCH_SIZE ||
-            buffer_indices + indexData->size() >= BATCH_SIZE || (tex->path != this->tex.path)) {
+        if (bufferVertices + vertexData->size() >= BATCH_SIZE ||
+            bufferIndices + indexData->size() >= BATCH_SIZE || (tex->path != this->tex.path)) {
                 flushBatch();
         }
 
-        vertices = buffer_vertices / 4;
+        vertices = bufferVertices / 4;
 
         for (unsigned int i = 0; i < vertexData->size(); ++i) {
-                vertexBufferArray[buffer_vertices] = (vertexData->at(i));
-                texBufferArray[buffer_vertices] = (texData->at(i));
-                colBufferArray[buffer_vertices] = (colData->at(i));
-                normalBufferArray[buffer_vertices] = (normalData->at(i));
-                ++buffer_vertices;
+                vertexArray[bufferVertices] = (vertexData->at(i));
+                texArray[bufferVertices] = (texData->at(i));
+                colArray[bufferVertices] = (colData->at(i));
+                normalArray[bufferVertices] = (normalData->at(i));
+                ++bufferVertices;
         }
 
         for (unsigned int i = 0; i < indexData->size(); ++i) {
-                indexBufferArray[buffer_indices] = indexData->at(i) + vertices;
-                ++buffer_indices;
+                indexArray[bufferIndices] = indexData->at(i) + vertices;
+                ++bufferIndices;
         }
 
         this->tex = *tex;
@@ -180,7 +180,7 @@ void Renderer::draw(Texture *tex, std::vector<float> *vertexData, std::vector<fl
         ++drawsPerCycle;
 
         if (vertexData->size() < BATCH_SIZE && indexData->size() < BATCH_SIZE) {
-                batchAdd(tex, vertexData, normalData, texData, colData, indexData);
+                add(tex, vertexData, normalData, texData, colData, indexData);
         }
         else {
                 //flushBatch();
@@ -238,12 +238,12 @@ void Renderer::flushUpdate()
 
 
         for (int l = 0; l < max_lights; ++l) {
-                glUniform3fv(glGetUniformLocation(psShader.program, ("lights[" + to_string(l) + "].pos").c_str()), 1,
+                glUniform3fv(glGetUniformLocation(psShader.program, ("lights[" + toString(l) + "].pos").c_str()), 1,
                              (const float *) glm::value_ptr(lights[l].pos));
-                glUniform3fv(glGetUniformLocation(psShader.program, ("lights[" + to_string(l) + "].col").c_str()), 1,
+                glUniform3fv(glGetUniformLocation(psShader.program, ("lights[" + toString(l) + "].col").c_str()), 1,
                              &(lights[l].col*((float)shadows))[0]);
 
-                GLuint depthTex = glGetUniformLocation(psShader.program, ("depthMap[" + to_string(l) + "]").c_str());
+                GLuint depthTex = glGetUniformLocation(psShader.program, ("depthMap[" + toString(l) + "]").c_str());
 
                 glActiveTexture((GLenum) (GL_TEXTURE1 + l));
                 glBindTexture(GL_TEXTURE_CUBE_MAP, lights[l].depthCubemap);
@@ -252,7 +252,7 @@ void Renderer::flushUpdate()
 
         glUniform1i(glGetUniformLocation(psShader.program, "max_lights"), max_lights);
 
-        glUniformMatrix4fv(glGetUniformLocation(psShader.program, "projection"), 1, GL_FALSE, glm::value_ptr(pMatrix));
+        glUniformMatrix4fv(glGetUniformLocation(psShader.program, "proj"), 1, GL_FALSE, glm::value_ptr(pMatrix));
         glUniformMatrix4fv(glGetUniformLocation(psShader.program, "view"), 1, GL_FALSE, glm::value_ptr(cMatrix));
         glUniformMatrix4fv(glGetUniformLocation(psShader.program, "model"), 1, GL_FALSE, glm::value_ptr(uMatrix));
 
@@ -264,7 +264,7 @@ void Renderer::flush()
 
         glBindVertexArray(vertexArrayID);
 
-        glBindAttribLocation(psShader.program, 0, "position");
+        glBindAttribLocation(psShader.program, 0, "pos");
         glEnableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
         glVertexAttribPointer(
@@ -276,7 +276,7 @@ void Renderer::flush()
                 (void *) 0
                 );
 
-        glBindAttribLocation(psShader.program, 1, "normal");
+        glBindAttribLocation(psShader.program, 1, "norm");
         glEnableVertexAttribArray(1);
         glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
         glVertexAttribPointer(
@@ -288,7 +288,7 @@ void Renderer::flush()
                 (void *) 0
                 );
 
-        glBindAttribLocation(psShader.program, 2, "texPos");
+        glBindAttribLocation(psShader.program, 2, "tex");
         glEnableVertexAttribArray(2);
         glBindBuffer(GL_ARRAY_BUFFER, texBuffer);
         glVertexAttribPointer(
@@ -316,7 +316,7 @@ void Renderer::flush()
 
 
         glDrawElements(GL_TRIANGLES,
-                       buffer_indices, GL_UNSIGNED_INT,
+                       bufferIndices, GL_UNSIGNED_INT,
                        (void *) 0);
 
         glDisableVertexAttribArray(0);
@@ -324,8 +324,8 @@ void Renderer::flush()
         glDisableVertexAttribArray(2);
         glDisableVertexAttribArray(3);
 
-        buffer_indices = 0;
-        buffer_vertices = 0;
+        bufferIndices = 0;
+        bufferVertices = 0;
 
         uMatrix = glm::mat4(1.0f);
 }
@@ -337,25 +337,25 @@ void Renderer::render(Texture *tex, glm::mat4 *objMatrix, std::vector<float> *ve
 {
         flushBatch();
 
-        buffer_vertices = vertexData->size();
-        buffer_indices = indexData->size();
+        bufferVertices = vertexData->size();
+        bufferIndices = indexData->size();
         uMatrix = *objMatrix;
         this->tex = *tex;
 
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-        glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), &(*vertexData)[0], GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, bufferVertices * sizeof(float), &(*vertexData)[0], GL_DYNAMIC_DRAW);
 
         glBindBuffer(GL_ARRAY_BUFFER, texBuffer);
-        glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), &(*texData)[0], GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, bufferVertices * sizeof(float), &(*texData)[0], GL_DYNAMIC_DRAW);
 
         glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
-        glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), &(*normalData)[0], GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, bufferVertices * sizeof(float), &(*normalData)[0], GL_DYNAMIC_DRAW);
 
         glBindBuffer(GL_ARRAY_BUFFER, colBuffer);
-        glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), &(*colData)[0], GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, bufferVertices * sizeof(float), &(*colData)[0], GL_DYNAMIC_DRAW);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer_indices * sizeof(int), &(*indexData)[0], GL_DYNAMIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, bufferIndices * sizeof(int), &(*indexData)[0], GL_DYNAMIC_DRAW);
 
         /*glActiveTexture(GL_TEXTURE0);
            glBindTexture(GL_TEXTURE_2D, this->tex.tex);*/
@@ -377,23 +377,23 @@ void Renderer::drawLine(glm::vec3 l0, glm::vec3 l1)
         std::vector<float> colData = {20.0f, 0.0f, 0.0f, 1.0f, 20.0f, 0.0f, 20.0f, 1.0f};
         std::vector<int> indexData = {0, 1, 0, 1, 0, 1};
         //render(&tex, &uMatrix, &vertexData, &normalData,&texData,&colData,&indexData);
-        buffer_vertices = vertexData.size();
-        buffer_indices = indexData.size();
+        bufferVertices = vertexData.size();
+        bufferIndices = indexData.size();
 
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-        glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), &(vertexData)[0], GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, bufferVertices * sizeof(float), &(vertexData)[0], GL_DYNAMIC_DRAW);
 
         glBindBuffer(GL_ARRAY_BUFFER, texBuffer);
-        glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), &(texData)[0], GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, bufferVertices * sizeof(float), &(texData)[0], GL_DYNAMIC_DRAW);
 
         glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
-        glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), &(normalData)[0], GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, bufferVertices * sizeof(float), &(normalData)[0], GL_DYNAMIC_DRAW);
 
         glBindBuffer(GL_ARRAY_BUFFER, colBuffer);
-        glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), &(colData)[0], GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, bufferVertices * sizeof(float), &(colData)[0], GL_DYNAMIC_DRAW);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer_indices * sizeof(int), &(indexData)[0], GL_DYNAMIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, bufferIndices * sizeof(int), &(indexData)[0], GL_DYNAMIC_DRAW);
 
         /*glActiveTexture(GL_TEXTURE0);
            glBindTexture(GL_TEXTURE_2D, this->tex.tex);*/
@@ -409,7 +409,7 @@ void Renderer::drawLine(glm::vec3 l0, glm::vec3 l1)
 
         glBindVertexArray(vertexArrayID);
 
-        glBindAttribLocation(psShader.program, 0, "position");
+        glBindAttribLocation(psShader.program, 0, "pos");
         glEnableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
         glVertexAttribPointer(
@@ -421,7 +421,7 @@ void Renderer::drawLine(glm::vec3 l0, glm::vec3 l1)
                 (void *) 0
                 );
 
-        glBindAttribLocation(psShader.program, 1, "normal");
+        glBindAttribLocation(psShader.program, 1, "norm");
         glEnableVertexAttribArray(1);
         glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
         glVertexAttribPointer(
@@ -433,7 +433,7 @@ void Renderer::drawLine(glm::vec3 l0, glm::vec3 l1)
                 (void *) 0
                 );
 
-        glBindAttribLocation(psShader.program, 2, "texPos");
+        glBindAttribLocation(psShader.program, 2, "tex");
         glEnableVertexAttribArray(2);
         glBindBuffer(GL_ARRAY_BUFFER, texBuffer);
         glVertexAttribPointer(
@@ -462,7 +462,7 @@ void Renderer::drawLine(glm::vec3 l0, glm::vec3 l1)
         glLineWidth(8.0f);
 
         glDrawElements(GL_LINES,
-                       buffer_indices, GL_UNSIGNED_INT,
+                       bufferIndices, GL_UNSIGNED_INT,
                        (void *) 0);
 
         glLineWidth(1.0f);
@@ -472,8 +472,8 @@ void Renderer::drawLine(glm::vec3 l0, glm::vec3 l1)
         glDisableVertexAttribArray(2);
         glDisableVertexAttribArray(3);
 
-        buffer_indices = 0;
-        buffer_vertices = 0;
+        bufferIndices = 0;
+        bufferVertices = 0;
 
         uMatrix = glm::mat4(1.0f);
 
@@ -490,23 +490,23 @@ void Renderer::drawLine(glm::vec3 l0, glm::vec3 l1)
 
 void Renderer::flushBatch()
 {
-        if (buffer_indices > 2) {
+        if (bufferIndices > 2) {
                 uMatrix = glm::mat4(1.0f);
 
                 glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-                glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), vertexBufferArray, GL_DYNAMIC_DRAW);
+                glBufferData(GL_ARRAY_BUFFER, bufferVertices * sizeof(float), vertexArray, GL_DYNAMIC_DRAW);
 
                 glBindBuffer(GL_ARRAY_BUFFER, texBuffer);
-                glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), texBufferArray, GL_DYNAMIC_DRAW);
+                glBufferData(GL_ARRAY_BUFFER, bufferVertices * sizeof(float), texArray, GL_DYNAMIC_DRAW);
 
                 glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
-                glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), normalBufferArray, GL_DYNAMIC_DRAW);
+                glBufferData(GL_ARRAY_BUFFER, bufferVertices * sizeof(float), normalArray, GL_DYNAMIC_DRAW);
 
                 glBindBuffer(GL_ARRAY_BUFFER, colBuffer);
-                glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), colBufferArray, GL_DYNAMIC_DRAW);
+                glBufferData(GL_ARRAY_BUFFER, bufferVertices * sizeof(float), colArray, GL_DYNAMIC_DRAW);
 
                 glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-                glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer_indices * sizeof(int), indexBufferArray, GL_DYNAMIC_DRAW);
+                glBufferData(GL_ELEMENT_ARRAY_BUFFER, bufferIndices * sizeof(int), indexArray, GL_DYNAMIC_DRAW);
 
                 glActiveTexture(GL_TEXTURE0);
                 glBindTexture(GL_TEXTURE_2D, this->tex.tex);
@@ -515,21 +515,21 @@ void Renderer::flushBatch()
                 //        flushUpdate(); //dont
 
                 glm::mat4 oldum = uMatrix;
-                int bv = buffer_vertices;
-                int bi = buffer_indices;
+                int bv = bufferVertices;
+                int bi = bufferIndices;
 
                 flush();
 
                 if (drawLines) {
                         uMatrix = oldum;
-                        buffer_vertices = bv;
-                        buffer_indices = bi;
+                        bufferVertices = bv;
+                        bufferIndices = bi;
 
                         glBindBuffer(GL_ARRAY_BUFFER, colBuffer);
-                        for (int i = 0; i < buffer_vertices; i += 1) {
-                                colBufferArray[i] = 0.0f;
+                        for (int i = 0; i < bufferVertices; i += 1) {
+                                colArray[i] = 0.0f;
                         }
-                        glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), colBufferArray, GL_DYNAMIC_DRAW);
+                        glBufferData(GL_ARRAY_BUFFER, bufferVertices * sizeof(float), colArray, GL_DYNAMIC_DRAW);
 
                         glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
 
@@ -560,21 +560,21 @@ void Renderer::drawShadows(std::vector<float> *vertexData, std::vector<int> *ind
 
 void Renderer::addShadows(std::vector<float> *vertexData, std::vector<int> *indexData)
 {
-        if ((buffer_vertices + vertexData->size() >= BATCH_SIZE ||
-             buffer_indices + indexData->size() >= BATCH_SIZE)) {
+        if ((bufferVertices + vertexData->size() >= BATCH_SIZE ||
+             bufferIndices + indexData->size() >= BATCH_SIZE)) {
                 flushShadows();
         }
 
-        int vertices = buffer_vertices / 4;
+        int vertices = bufferVertices / 4;
 
         for (unsigned int i = 0; i < vertexData->size(); ++i) {
-                vertexBufferArray[buffer_vertices] = (vertexData->at(i));
-                ++buffer_vertices;
+                vertexArray[bufferVertices] = (vertexData->at(i));
+                ++bufferVertices;
         }
 
         for (unsigned int i = 0; i < indexData->size(); ++i) {
-                indexBufferArray[buffer_indices] = indexData->at(i) + vertices;
-                ++buffer_indices;
+                indexArray[bufferIndices] = indexData->at(i) + vertices;
+                ++bufferIndices;
         }
 }
 
@@ -582,10 +582,10 @@ void Renderer::flushShadows()
 {
         uMatrix = glm::mat4(1.0f);
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-        glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), vertexBufferArray, GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, bufferVertices * sizeof(float), vertexArray, GL_DYNAMIC_DRAW);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer_indices * sizeof(int), indexBufferArray, GL_DYNAMIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, bufferIndices * sizeof(int), indexArray, GL_DYNAMIC_DRAW);
 
         drawShadowMap();
 }
@@ -594,15 +594,15 @@ void Renderer::renderShadows(glm::mat4 *objMatrix, std::vector<float> *vertexDat
 {
         flushShadows();
 
-        buffer_vertices = vertexData->size();
-        buffer_indices = indexData->size();
+        bufferVertices = vertexData->size();
+        bufferIndices = indexData->size();
         uMatrix = *objMatrix;
 
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-        glBufferData(GL_ARRAY_BUFFER, buffer_vertices * sizeof(float), &(*vertexData)[0], GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, bufferVertices * sizeof(float), &(*vertexData)[0], GL_DYNAMIC_DRAW);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer_indices * sizeof(int), &(*indexData)[0], GL_DYNAMIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, bufferIndices * sizeof(int), &(*indexData)[0], GL_DYNAMIC_DRAW);
 
         drawShadowMap();
 }
@@ -667,24 +667,24 @@ void Renderer::drawShadowMap()
                 for (GLuint i = 0; i < 6; ++i)
                         glUniformMatrix4fv(
                                 glGetUniformLocation(psShaderDepth.program,
-                                                     ("shadowTransforms[" + to_string(i) + "]").c_str()), 1,
+                                                     ("shadowTransforms[" + toString(i) + "]").c_str()), 1,
                                 GL_FALSE, glm::value_ptr(shadowTransforms[i]));
 
                 glUniform3fv(glGetUniformLocation(psShaderDepth.program, "lightPos"), 1,
                              (const float *) glm::value_ptr(lights[light_i].pos));
 /*
-        glDrawRangeElements(GL_TRIANGLES, 0, buffer_vertices - 1, buffer_indices, GL_UNSIGNED_INT,
+        glDrawRangeElements(GL_TRIANGLES, 0, bufferVertices - 1, bufferIndices, GL_UNSIGNED_INT,
                             (void *) 0);*/
 
                 glDrawElements(GL_TRIANGLES,
-                               buffer_indices, GL_UNSIGNED_INT,
+                               bufferIndices, GL_UNSIGNED_INT,
                                (void *) 0);
         }
 
         glDisableVertexAttribArray(0);
 
-        buffer_indices = 0;
-        buffer_vertices = 0;
+        bufferIndices = 0;
+        bufferVertices = 0;
 }
 int screenshots = 0;
 void Renderer::renderFBO()
@@ -708,7 +708,7 @@ void Renderer::renderFBO()
         float w0 = 0.0f;
         float w1 = 0.0f;
 
-        float texcoords[32] = {
+        float texes[32] = {
                 (0.0f + 1.0f) / 2.0f + x0, (-1.0f + 1.0f) / 2.0f, 1.0f + w0, 1.0f,
                 (1.0f + 1.0f) / 2.0f + x0, (-1.0f + 1.0f) / 2.0f, 1.0f + w0, 1.0f,
                 (1.0f + 1.0f) / 2.0f + x0, (1.0f + 1.0f) / 2.0f, 1.0f + w0, 1.0f,
@@ -754,12 +754,12 @@ void Renderer::renderFBO()
         glBufferData(GL_ARRAY_BUFFER, 4 * 4 * 2 * sizeof(float), verts, GL_DYNAMIC_DRAW);
 
         glBindBuffer(GL_ARRAY_BUFFER, texBuffer);
-        glBufferData(GL_ARRAY_BUFFER, 4 * 4 * 2 * sizeof(float), texcoords, GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, 4 * 4 * 2 * sizeof(float), texes, GL_DYNAMIC_DRAW);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indBuf);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * 2 * sizeof(int), indices, GL_DYNAMIC_DRAW);
 
-        glBindAttribLocation(quadShader.program, 0, "aPos");
+        glBindAttribLocation(quadShader.program, 0, "pos");
         glEnableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, quadBuf);
         glVertexAttribPointer(
@@ -770,7 +770,7 @@ void Renderer::renderFBO()
                 0,
                 (void *) 0
                 );
-        glBindAttribLocation(quadShader.program, 1, "aTex");
+        glBindAttribLocation(quadShader.program, 1, "tex");
         glEnableVertexAttribArray(1);
         glBindBuffer(GL_ARRAY_BUFFER, texBuffer);
         glVertexAttribPointer(
@@ -794,8 +794,8 @@ void Renderer::renderFBO()
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
 
-        buffer_indices = 0;
-        buffer_vertices = 0;
+        bufferIndices = 0;
+        bufferVertices = 0;
 
         uMatrix = glm::mat4(1.0f);
 }

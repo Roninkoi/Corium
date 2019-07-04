@@ -3,10 +3,10 @@
 precision lowp int;
 precision lowp float;
 
-in vec3 fragPos;
-in vec3 fnormal;
-in vec2 ftexPos;
-in vec4 fragCol;
+in vec3 fPos;
+in vec3 fNorm;
+in vec2 fTex;
+in vec4 fCol;
 
 //layout(location = 0) out vec4 gl_FragColor;
 
@@ -41,9 +41,9 @@ uniform float dither;
 
 float lightAngle = 1.0f;
 
-float ShadowCalculation(vec3 fragPos, int light_i)
+float ShadowCalculation(vec3 fPos, int light_i)
 {
-    vec3 fragToLight = fragPos - lights[light_i].pos;
+    vec3 fragToLight = fPos - lights[light_i].pos;
 
     float closestDepth = 0.0f;
 
@@ -168,9 +168,9 @@ void main()
     float amb = al.x;
     float lght = al.y; // a + l = 1.0f
 
-    vec3 color = texture(diffuseTexture, ftexPos).rgb * fragCol.rgb;
-    //color = fragCol.rgb * vec3(0.5f, 0.8f, 1.0f);
-    vec3 normal = normalize(fnormal);
+    vec3 color = texture(diffuseTexture, fTex).rgb * fCol.rgb;
+    //color = fCol.rgb * vec3(0.5f, 0.8f, 1.0f);
+    vec3 normal = normalize(fNorm);
     vec3 lighting = vec3(0.0f);
     vec3 bloomLighting = vec3(0.0f);
 
@@ -185,11 +185,11 @@ void main()
         if (length(lights[l].col) > 0.0f) {
             vec3 lightColor = lights[l].col;
             // DIFFUSE
-            vec3 lightDir = normalize(lights[l].pos - fragPos);
+            vec3 lightDir = normalize(lights[l].pos - fPos);
             float diff = max(dot(lightDir, normal), 0.0);
             vec3 diffuse = diff * lightColor;
             // SPEC
-            vec3 viewDir = normalize(-viewPos - fragPos);
+            vec3 viewDir = normalize(-viewPos - fPos);
             vec3 reflectDir = reflect(-lightDir, normal);
             float spec = 0.0;
             vec3 halfwayDir = normalize(lightDir + viewDir);
@@ -199,21 +199,21 @@ void main()
 
             lightAngle = abs(dot(lightDir, normal));
             // SHADOW CHECK
-            shadow = ShadowCalculation(fragPos, l);
+            shadow = ShadowCalculation(fPos, l);
 
             // distance fading, inverse square law
-            vec3 fadeDist = (fragPos - lights[l].pos)/length(lightColor);
+            vec3 fadeDist = (fPos - lights[l].pos)/length(lightColor);
             float fade = length(fadeDist)*length(fadeDist)*0.001f;
 
             lighting += (1.0 - min(shadow+(1.0f-min(lightAngle,1.0f)), 1.0f)) *((((diffuse + specular)) * color))/max(fade, 1.0f);
         }
     }
 
-    float depth = length(viewPos+fragPos)/(farPlane);
+    float depth = length(viewPos+fPos)/(farPlane);
 
     vec3 sigma = ambient;
     sigma += lighting*lght;
-    gl_FragColor = vec4(sigma,fragCol.a);
+    gl_FragColor = vec4(sigma,fCol.a);
 
     //downsample color (16-bit, apparently? rgb 12-bit)
     float s = 16.0f;
@@ -231,6 +231,6 @@ void main()
     float fg = max(min((((1.0f - pow(2.7f, -depth- 0.1f)))*1.67f-0.2f)*1.2f, 1.0f), 0.0f);
     gl_FragColor.rgb = fogCol*fg + gl_FragColor.rgb*(1.0f - fg); // FOG
 
-    if (texture(diffuseTexture, ftexPos).a == 0.0f)
+    if (texture(diffuseTexture, fTex).a == 0.0f)
         discard;
 }

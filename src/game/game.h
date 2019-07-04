@@ -1,19 +1,20 @@
 //
-// Created by Ronin748 on 18.12.2015.
+// Created by Roninkoi on 18.12.2015.
 //
 
 #ifndef CORIUM_GAME_H
 #define CORIUM_GAME_H
 
-#include <crm.h>
-#include <window.h>
-#include <input.h>
-#include <render/renderer.h>
-#include "world/map.h"
-#include <gui/screen.h>
 #include <audio.h>
 #include <cstdio>
 #include <ctime>
+
+#include "crm.h"
+#include "window.h"
+#include "input.h"
+#include "render/renderer.h"
+#include "world/map.h"
+#include "gui/screen.h"
 
 class Game {
 public:
@@ -30,8 +31,8 @@ Screen scr;
 Window wndw;
 Input input;
 
-Player* thisPlayer;
-Camera* thisCamera;
+Player *thisPlayer;
+Camera *thisCamera;
 
 Renderer renderer;
 
@@ -58,7 +59,7 @@ bool loadShaders = true;
 
 bool fileoutput = true;
 
-FILE* outputfile;
+FILE *outputfile;
 
 bool music = true;
 
@@ -96,8 +97,8 @@ void gameQuit();
 Game();
 };
 
-void loadSettings(std::string path, Game* game);
+void loadSettings(std::string path, Game *game);
 
-void runScript(std::string path, Game* game);
+void runScript(std::string path, Game *game);
 
 #endif //CORIUM_GAME_H

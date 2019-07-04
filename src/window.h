@@ -1,11 +1,11 @@
 //
-// Created by Ronin748 on 18.12.2015.
+// Created by Roninkoi on 18.12.2015.
 //
 
 #ifndef CORIUM_WINDOW_H
 #define CORIUM_WINDOW_H
 
-#include <crm.h>
+#include "crm.h"
 
 class Window {
 public:
@@ -27,8 +27,8 @@ int screen_w = 1920, screen_h = 1080;
 
 bool fullscreen = false;
 
-const GLFWvidmode* mode;
-GLFWmonitor* monitor;
+const GLFWvidmode *mode;
+GLFWmonitor *monitor;
 
 void createWindow()
 {

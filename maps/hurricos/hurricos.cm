@@ -13,7 +13,7 @@ _CAM_START (40.0f, 30.0f, -30.0f);
 _GRAVITY (0.0f, -0.008f, 0.0f);
 
 _AMB 0.7f;
-_LGHT 0.7f;
+_LIT 0.7f;
 
 _SKY "gfx/models/sky2.obj" "gfx/bluesky.png" 100.0f 2.0f;
 
