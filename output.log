@@ -1,13 +1,13 @@
 ===========================================================================
 --------------------- CORIUM ENGINE v1.40 BY RONINKOI ---------------------
---------------------------- 2019-07-04.20:43:49 ---------------------------
+--------------------------- 2019-09-18.23:06:36 ---------------------------
 ===========================================================================
 
 max vertices: 33000
 max indices: 33001
 batch size: 33000
 max tex size: 34040
-OpenGL version: 3.1.0 NVIDIA 430.26
+OpenGL version: 3.1.0 NVIDIA 435.21
 GL_RENDERER: GeForce GTX 1070/PCIe/SSE2
 0(19) : warning C7533: global variable gl_FragColor is deprecated after version 120
 
@@ -178,6 +178,6 @@ loading chunk 131
 loading chunk 132
 loading chunk 133
 loading chunk 134
-FPS: 1537, rt: 0.530254 ms, draws: 66, batches: 5, tt: 1.18182 ms
+FPS: 1651, rt: 0.49788 ms, draws: 66, batches: 5, tt: 1.04545 ms
 lights: 3
 Player pos: 40, 10.3203, -30
