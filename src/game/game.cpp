@@ -85,21 +85,17 @@ void Game::refresh()
 
 void Game::init()
 {
-	printf("CORIUM %s RONINKOI %s\n", CORIUM_VERSION, CORIUM_YEAR);
-
 	thisPlayer = map.getPlayer();
 	thisCamera = map.getCamera();
 
 	loadGameCfg();
 
 	if (fileOutput) {
-		outputFile = freopen("output.log", "current_w", stdout);
+		outputFile = freopen("output.log", "w", stdout);
 	}
-
-	print("===========================================================================\n");
-	print("---------------------- CORIUM ENGINE " + toString(CORIUM_VERSION) + " BY RONINKOI ----------------------\n");
-	print("--------------------------- " + toString(currentDateTime()) + " ---------------------------\n");
-	print("===========================================================================\n\n");
+	
+	print("CORIUM " + toString(CORIUM_VERSION) + " RONINKOI " + toString(CORIUM_YEAR) + "\n");
+	print(toString(currentDateTime()) + "\n");
 
 	int glfw_err = glfwInit();
 	if (!glfw_err) {

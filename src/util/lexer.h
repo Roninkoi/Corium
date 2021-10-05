@@ -1,5 +1,5 @@
-#ifndef CRMLEXER_H
-#define CRMLEXER_H
+#ifndef CORIUMLEXER_H
+#define CORIUMLEXER_H
 
 #include <corium.h>
 

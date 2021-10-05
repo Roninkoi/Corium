@@ -1,6 +1,6 @@
 # Corium Engine
 
-<img src="https://raw.githubusercontent.com/Roninkoi/Corium/master/gfx/misc/Corium_logo.png" width="256" height="256">
+<img src="https://raw.githubusercontent.com/Roninkoi/Corium/master/gfx/misc/Corium_logo.png" width="128" height="128">
 
 Corium game engine, written in C++ using OpenGL,
 GLEW, GLFW, GLM, stb_image, pthreads

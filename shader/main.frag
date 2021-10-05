@@ -59,7 +59,6 @@ void main()
     vec3 color = texture(diffuseTexture, fTex).rgb * fCol.rgb;
     vec3 normal = normalize(fNorm);
     vec3 lighting = vec3(0.0f);
-    vec3 bloomLighting = vec3(0.0f);
 
     vec3 viewPos = -inverse(view)[3].xyz;
 

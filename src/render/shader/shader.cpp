@@ -45,8 +45,8 @@ GLuint Shader::loadShaders(std::string vp, std::string fp)
 		printf("%s\n", &VertexShaderErrorMessage[0]);
 	}
 
-	std::cout << "Compiling shader:" << vp << std::endl;
-	std::cout << "Compiling shader:" << fp << std::endl;
+	std::cout << "Compiling shader: " << vp << std::endl;
+	std::cout << "Compiling shader: " << fp << std::endl;
 
 	char const *fsp = fsCode.c_str();
 	glShaderSource(fragmentShaderID, 1, &fsp, nullptr);
@@ -92,9 +92,9 @@ GLuint Shader::loadGS(std::string vp, std::string gp, std::string fp)
 	std::string gsCode = readShaderSource(gp);
 	std::string fsCode = readShaderSource(fp);
 
-	std::cout << "Compiling shader:" << vp << std::endl;
-	std::cout << "Compiling shader:" << fp << std::endl;
-	std::cout << "Compiling shader:" << gp << std::endl;
+	std::cout << "Compiling shader: " << vp << std::endl;
+	std::cout << "Compiling shader: " << fp << std::endl;
+	std::cout << "Compiling shader: " << gp << std::endl;
 
 	GLint Result = GL_FALSE;
 	int InfoLogLength;

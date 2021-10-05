@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 ./clean.sh
 mingw32-cmake .
 make

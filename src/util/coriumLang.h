@@ -122,7 +122,7 @@ void getCmd(std::vector<std::string> words, int *i, Game *game)
 					*i = loopstart;
 			}
 		}
-		--*i; // correction
+		--*i;
 	}
 	if (expr(words, *i, 2, "_SET_MAP")) {
 		game->map.mapPath = words[*i + 1].c_str();

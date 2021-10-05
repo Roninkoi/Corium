@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 ./clean.sh
 cmake .
 make
